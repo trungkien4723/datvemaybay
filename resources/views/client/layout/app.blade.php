@@ -4,13 +4,13 @@
     <meta charset="utf-8"/>
     <title>  @yield('title') </title>
     <!--CSS-->
-    @include('manage.layout.style')
+    @include('client.layout.style')
 </head>
 <body>
     <div class="wrapper">
-        
+        @yield('content')
     </div>
     <!--JS-->
-    @include('manage.layout.javascript')
+    @include('client.layout.js')
 </body>
 </html>
