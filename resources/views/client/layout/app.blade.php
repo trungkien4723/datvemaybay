@@ -8,8 +8,17 @@
 </head>
 <body>
     <div class="wrapper">
-        @yield('content')
-    </div>
+        <div class="content">
+
+                <!--Navbar-->
+                @include('client.layout.navbar')
+                
+                <!--content-->
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
     <!--JS-->
     @include('client.layout.js')
 </body>
