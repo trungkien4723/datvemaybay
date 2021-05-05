@@ -4,13 +4,22 @@
     <meta charset="utf-8"/>
     <title>  @yield('title') </title>
     <!--CSS-->
-    @include('manage.layout.style')
+    @include('client.layout.style')
 </head>
 <body>
     <div class="wrapper">
-        
-    </div>
+        <div class="content">
+
+                <!--Navbar-->
+                @include('client.layout.navbar')
+                
+                <!--content-->
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
     <!--JS-->
-    @include('manage.layout.javascript')
+    @include('client.layout.js')
 </body>
 </html>
