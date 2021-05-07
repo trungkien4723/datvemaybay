@@ -5,3 +5,12 @@
 .col-form-label{
     text-align: right;
 }
+
+#find-flight .card-body .col-md-12 .row{
+    margin-top: 1rem;
+}
+
+#passengers-count input{
+    width: 15%;
+    height: 100%;
+}
