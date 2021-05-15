@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
-
+    
 });
 
