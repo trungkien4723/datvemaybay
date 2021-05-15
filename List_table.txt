@@ -1,0 +1,65 @@
+db đặt vé máy bay:
+-Thành phố (City)
++ID
++Tên
+
+-Khu vuc
++ID
++Ten
+
+-Hạng ghế (Seat_class)
++ID
++Tên
+
+-Người dùng (User)
++ID
++Email
++Số điện thoại
++Password
++Họ tên
++Giới tính (Gender)
++Ngày sinh
++Địa chỉ
+
+-Hãng hàng không (Airline)
++ID
++Tên
++Tên ngắn (Viết tắt)
++Logo
+
+-Máy bay (Aircraft)
++ID
++ID hãng hàng không
+
+-Số chỗ ngồi (Capacity)
++ID máy bay
++ID hạng ghế
++Số lượng
+
+-Chuyến bay(Flight)
++ID
++ID máy bay
++Điểm khởi hành (thành phố)
++Thời gian khởi hành
++Điểm đến (thành phố)
++Thời gian đến
++Giá
+
+-Thông tin vé đặt (Booking)
++ID
++Thời điểm đặt
++ID chuyến bay
++ID người dùng
++Số người đi (người lớn, trẻ em, trẻ sơ sinh)
++ID hạng ghế
++Trạng thái (có thể đặt / đã được đặt)
+
+-Du khách (Passenger)
++ID vé đặt
++Họ tên
++Tuổi
+
+-Ghế đã đặt (Seats_booked)
++ID chuyến bay
++ID hạng ghế
++Số ghế đã đặt
