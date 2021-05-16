@@ -1,14 +1,14 @@
-@extends('client.layout.app')
+@extends('manage'.layout.app')
 
-@section('title', 'Home')
+@section('title', 'Dashboard')
 
 @section('content')
     <div class="row justify-content-center" style="background-color: #B0E0E6; padding: 2rem;">
         <div class="card" id="find-flight" style="width: 50rem;">
             <div class="card-header">Tìm chuyến bay</div>
-            <div class="card-body">                
+            <div class="card-body">
+                <!---->
                 <div class="col-md-12">
-                <!--Địa điểm-->
                     <div class="row">
                         <label for="flight-from" class="col-md-2 col-form-label ">{{ __('Bay từ') }}</label>
                         <div class="col-md-3">
@@ -23,8 +23,6 @@
                             </select>
                         </div>
                     </div>
-
-                <!--Ngày-->
                     <div class="row">
                         <label for="date-from" class="col-md-2 col-form-label ">{{ __('Ngày đi') }}</label>
                         <div class="col-md-3">
@@ -39,19 +37,6 @@
                             <input name="check-date-back" class="form-check-input @error('date-to') is-invalid @enderror autofocus" type="checkbox" value="" id="flexCheckDefault">                            
                         </div>
                     </div>
-
-                <!--Hạng ghế-->
-                    <div class="row">
-                        <label for="seat-class" class="col-md-2 col-form-label ">{{ __('Hạng ghế') }}</label>
-                        <div class="col-md-6">
-                            <select name="seat-class" class="form-control bootstrap-select ">
-                                <option value="0">Tiết kiệm</option>
-                                <option value="1">Doanh nhân</option>
-                            </select>
-                        </div>
-                    </div>    
-
-                <!--Hành khách-->    
                     <div class="row">
                         <label for="passengers" class="col-md-2 col-form-label ">{{ __('Hành khách') }}</label>
                         <div class="col-md-6 dropdown">
