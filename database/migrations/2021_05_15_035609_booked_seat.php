@@ -29,6 +29,6 @@ class BookedSeat extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('Booked_seat');
     }
 }
