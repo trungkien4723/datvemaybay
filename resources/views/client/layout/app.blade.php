@@ -8,10 +8,12 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="content">
 
-                <!--Navbar-->
-                @include('client.layout.navbar')
+        <!--Navbar-->
+        @include('client.layout.navbar')
+        
+        <div class="content">
+                
                 
                 <!--content-->
                 <div class="container-fluid">

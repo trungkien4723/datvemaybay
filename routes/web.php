@@ -13,9 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['namespace'=>'Manage',],function(){
+
+    Route::get('/admin', function (){
+        return view('manage.layout.app');
+    });
+
+    Route::resource('users', 'userController');
+
+});
+
+
 Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
     
 });
 
+Auth::routes();
