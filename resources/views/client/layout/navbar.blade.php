@@ -25,7 +25,7 @@
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">KHUYẾN MÃI</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{route('home')}}">ĐĂNG NHẬP/ĐĂNG KÝ</a>
+          <a class="nav-link active" aria-current="page" href="/login">ĐĂNG NHẬP/ĐĂNG KÝ</a>
         </li>
         <!--<li class="nav-item">
           <a class="nav-link" href="#">Link</a>
