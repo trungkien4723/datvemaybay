@@ -104,6 +104,12 @@
                             <div class="col-md-6">
                                 <input name="image" type="file"/>
 
+                                <div class="col-md-6 col-lg-6 col-sm 12 ">
+                                    <img src="{{asset('storage/'.$user->photo)}}" alt="{{asset('/images/user/Sample_User_Icon.png')}}" width="100px" height="100px"
+                                        style="max-height: 100%;max-width: 100%" class="image-show student-image">
+
+                                </div>
+
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -8,9 +8,11 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\handleImageTrait;
 
 class RegisterController extends Controller
 {
+    use handleImageTrait;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -62,7 +64,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data, Request $request)
     {
         return User::create([
             'name' => $data['name'],
@@ -71,28 +73,11 @@ class RegisterController extends Controller
             'birthday' => $data['birthday'],
             'address' => $data['address'],
             'phone' => $data['phone'],
-            'image' => $data['image'],
             'password' => Hash::make($data['password']),
         ]);
-    }
-
-    public function update_image(Request $request){
-
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $user = Auth::user();
-
-        $imageName = $user->id.'image'.time().'.'.request()->image->getClientOriginalExtension();
-
-        $request->image->storeAs('images',$imageName);
-
-        $user->image = $imageName;
-        $user->save();
-
-        return back()
-            ->with('success','You have successfully upload image.');
-
+        $image = $request->file('image');
+        $dataCreate['image'] = $this->saveImage($image, 'image/user');
+        $user = User::create($dataCreate);
+        return redirect()->route('Client.home')->with('message', 'dang ky thanh cong');
     }
 }
