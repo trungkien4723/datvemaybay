@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace'=>'Manage', 'middleware'=>['auth',]],function(){
+Route::group(['namespace'=>'Manage', 'middleware'=>['auth','role:super-admin','role:admin']],function(){
 
     Route::get('/admin', function (){
         return view('manage.layout.app');
@@ -32,3 +32,4 @@ Route::group(['namespace'=>'Client'],function(){
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/home', 'Client\homeController@index')->name('home');
