@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-//use App\Traits\ImageTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -12,9 +11,9 @@ use Hash;
 
 class User extends Authenticatable
 {
-    use Notifiable,/*ImageTrait,*/HasRoles;
+    use Notifiable,HasRoles;
 
-    public $table = "User";
+    protected $table = "user";
 
     protected $fillable = [
         'name',
