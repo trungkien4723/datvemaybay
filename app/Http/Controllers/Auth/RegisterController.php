@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -60,14 +60,39 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'gender' => $data['gender'],
+            'birthday' => $data['birthday'],
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+            'image' => $data['image'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function update_image(Request $request){
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        $imageName = $user->id.'image'.time().'.'.request()->image->getClientOriginalExtension();
+
+        $request->image->storeAs('images',$imageName);
+
+        $user->image = $imageName;
+        $user->save();
+
+        return back()
+            ->with('success','You have successfully upload image.');
+
     }
 }
