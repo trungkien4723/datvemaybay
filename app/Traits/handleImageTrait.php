@@ -5,7 +5,7 @@ namespace App\Traits;
 
 use Intervention\Image\Facades\Image;
 
-trait HandleImageTrait
+trait handleImageTrait
 {
     public function verifyImage($image)
     {
@@ -19,8 +19,8 @@ trait HandleImageTrait
     {
         if ($this->verifyImage($image)) {
             $name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move($path.$name);
-//            Image::make($image)->resize(300, 300)->save($path . $name);
+            $image->move('image',$name);
+            //Image::make($image)->resize(300, 300)->save($path . $name);
             return $name;
         }
     }
@@ -28,7 +28,7 @@ trait HandleImageTrait
     public function deleteImage($name, $path)
     {
         if (file_exists($path . $name) && $name != 'default.jpg') {
-            unlink($path . $name);
+            if(isset($name)){unlink($path . $name);}
         }
     }
 
