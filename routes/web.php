@@ -32,6 +32,7 @@ Route::group(['namespace'=>'Client'],function(){
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
 Route::get('/home', 'homeController@index')->name('home');
 
 Route::post('update-image', 'RegisterController@update_image');
