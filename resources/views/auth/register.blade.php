@@ -102,12 +102,11 @@
                             <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Ảnh đại diện') }}</label>
 
                             <div class="col-md-6">
-                                <input name="image" type="file"/>
+                                <input name="image" type="file" id="image"/>
 
                                 <div class="col-md-6 col-lg-6 col-sm 12 ">
-                                    <img src="{{asset('storage/'.$user->photo)}}" alt="{{asset('/images/user/Sample_User_Icon.png')}}" width="100px" height="100px"
-                                        style="max-height: 100%;max-width: 100%" class="image-show student-image">
-
+                                    <img src="{{asset('/images/user/Sample_User_Icon.png')}}" alt="{{asset('/images/user/Sample_User_Icon.png')}}" width="100px" height="100px"
+                                        style="max-height: 100%;max-width: 100%" class="image-show student-image"  id="profile_image">
                                 </div>
 
                                 @error('image')
@@ -118,7 +117,17 @@
                             </div>
                         </div>
 
-                        
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+  <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+  <div>
+    <span class="btn btn-outline-secondary btn-file">
+      <span class="fileinput-new">Select image</span>
+      <span class="fileinput-exists">Change</span>
+      <input type="file" name="...">
+    </span>
+    <a href="#" class="btn btn-outline-secondary fileinput-exists" data-dismiss="fileinput">Remove</a>
+  </div>
+</div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Mật khẩu') }}</label>
