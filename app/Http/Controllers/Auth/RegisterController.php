@@ -64,7 +64,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data, Request $request)
+    protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
@@ -75,9 +75,5 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
-        $image = $request->file('image');
-        $dataCreate['image'] = $this->saveImage($image, 'image/user');
-        $user = User::create($dataCreate);
-        return redirect()->route('Client.home')->with('message', 'dang ky thanh cong');
     }
 }
