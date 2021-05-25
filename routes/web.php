@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace'=>'Manage',],function(){
+Route::group(['namespace'=>'Manage', 'middleware'=>['auth','role:super-admin|admin']],function(){
 
     Route::get('/admin', function (){
         return view('manage.layout.app');
@@ -31,3 +31,8 @@ Route::group(['namespace'=>'Client'],function(){
 });
 
 Auth::routes();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::get('/home', 'homeController@index')->name('home');
+
+Route::post('update-image', 'RegisterController@update_image');
