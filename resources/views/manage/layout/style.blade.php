@@ -4,5 +4,5 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <!-- CSS Files -->
-<!--<link href="{{asset('client\asset\css\style.css')}}" rel="stylesheet"/>-->
+<link href="{{asset('manage\asset\css\style.css')}}" rel="stylesheet"/>
 @yield('style')

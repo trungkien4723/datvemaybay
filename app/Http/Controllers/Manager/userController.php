@@ -1,12 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Traits\handleImageTrait;
+use App\Models\User;
+use Auth;
 
 class userController extends Controller
 {
+
+    use handleImageTrait;
+
+    protected $path;
+
+    protected $userModel;
+    protected $roleModel;
+
+    public function __construct(User $user, Role $role)
+    {
+        $this->userModel = $user;
+        $this->path = 'images/user/';
+        $this->roleModel = $role;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +34,11 @@ class userController extends Controller
      */
     public function index()
     {
-        return view('manager.layout.app');
+        
+        $users = $this->userModel->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','admin');
+        })->latest('id')->paginate(10);
+        return view('manage.user.index')->with('users', $users);
     }
 
     /**
@@ -24,7 +48,7 @@ class userController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -57,7 +81,7 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
