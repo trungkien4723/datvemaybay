@@ -6,12 +6,13 @@
     <!--CSS-->
     @include('manage.layout.style')
 </head>
-<body>
-    <div class="wrapper">
-
+<body class="container-fluid" style="padding:0px;">
+    <div class="wrapper row flex-nowrap">
         <!--sidebar-->
-        @include('manage.layout.sidebar')
-        <div class="main-panel">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
+            @include('manage.layout.sidebar')
+        </div>
+        <div class="main-panel col-auto col-xl-10 col-md-9 p-4">
 
             <div class="content">                
                     <!--content-->
