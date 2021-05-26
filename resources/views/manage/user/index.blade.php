@@ -8,9 +8,9 @@
         <h1>{{session('message')}} </h1>
     @endif
 
-    <a class="btn btn-primary mb-4" href="{{route('users.create')}}">Tạo người dùng mới</a>
+    <a class="btn btn-primary mb-4" href="{{route('users.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Tạo người dùng mới</span></a>
 
-    <h1>Danh sách người dùng</h1>
+    <h3>Danh sách người dùng</h3>
     <div class="row justify-content-center">
     <table  class="table table-bordered">
         <tr>
