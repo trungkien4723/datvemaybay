@@ -9,9 +9,8 @@ use App\Traits\handleImageTrait;
 use App\Models\User;
 use Auth;
 
-class userController extends Controller
+class adminController extends Controller
 {
-
     use handleImageTrait;
 
     protected $path;
@@ -26,26 +25,17 @@ class userController extends Controller
         $this->roleModel = $role;
     }
 
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
-        $users = $this->userModel->whereHas('roles', function($q){
-            $q->where('name','!=','super-admin')->where('name','!=','admin');
-        })->latest('id')->paginate(10);
-        return view('manage.user.index')->with('users', $users);
-    }
-
-    public function index_admin()
     {
         $users = $this->userModel->whereHas('roles', function($q){
             $q->where('name','!=','super-admin')->where('name','!=','user');
         })->latest('id')->paginate(10);
-        return view('manage.user.admin_index')->with('users', $users);
+        return view('manage.admin_user.index')->with('users', $users);
     }
 
     /**
@@ -55,8 +45,7 @@ class userController extends Controller
      */
     public function create()
     {
-        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
-        return view('manage.user.create', compact('roles'));
+        return view('manage.admin_user.create');
     }
 
     /**
@@ -73,9 +62,9 @@ class userController extends Controller
 
         $user = $this->userModel->create($dataCreate);
 
-        $user->syncRoles($request->roles);
+        $user->syncRoles('admin');
 
-        return redirect()->route('users.index')->with('message', 'Thêm thành công');
+        return redirect()->route('manage.admin_user.index')->with('message', 'Đã thêm quản trị viên');
     }
 
     /**
@@ -98,10 +87,7 @@ class userController extends Controller
     public function edit($id)
     {
         $user = $this->userModel->with('roles')->findOrFail($id);
-        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
-        $listRoleIds = $user->roles->pluck('id')->toArray();
-
-        return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles, 'listRoleIds' =>$listRoleIds]);
+        return view('manage.admin_user.edit')->with('user', $user);
     }
 
     /**
@@ -121,8 +107,8 @@ class userController extends Controller
         $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
 
         $user->update($dataUpdate);
-        $user->syncRoles($request->roles);
-        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
+        $user->syncRoles('admin');
+        return redirect()->route('admins.index')->with('message', 'Cập nhật thông tin người dùng thành công');
     }
 
     /**
@@ -133,7 +119,6 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        $user=$this->userModel->destroy($id);
-        return redirect()->route('users.index')->with('message', 'Xóa thành công');
+        //
     }
 }

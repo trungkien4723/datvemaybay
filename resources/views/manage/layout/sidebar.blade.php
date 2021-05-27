@@ -21,10 +21,12 @@
                 </li>
 
 
+                @hasrole('super-admin')
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle ">
-                        <i class="fs-4 bi-file-person-fill"></i> <span class="ms-1 d-none d-sm-inline">Nhân viên</span></a>
+                    <a href="{{route('index-admin')}}" class="nav-link px-0 align-middle ">
+                        <i class="fs-4 bi-file-person-fill"></i> <span class="ms-1 d-none d-sm-inline">Quản trị viên</span></a>
                 </li>
+                @endhasrole
 
 
                 <li>

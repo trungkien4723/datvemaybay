@@ -19,7 +19,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
         return view('manage.layout.app');
     });
 
+    Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
+    Route::resource('admins', 'adminController')->middleware(['role:super-admin']);
 
 });
 
