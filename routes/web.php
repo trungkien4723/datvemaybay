@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace'=>'Manage', 'middleware'=>['auth','role:super-admin|admin']],function(){
+Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','role:super-admin|admin']],function(){
 
-    Route::get('/admin', function (){
+    Route::get('/dashboard', function (){
         return view('manage.layout.app');
     });
 
+    Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
+    Route::resource('admins', 'adminController')->middleware(['role:super-admin']);
 
 });
 
@@ -34,5 +36,4 @@ Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/home', 'homeController@index')->name('home');
-
-Route::post('update-image', 'RegisterController@update_image');
+Route::redirect('/admin', 'admin/dashboard')->name('admin');

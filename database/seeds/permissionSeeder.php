@@ -39,11 +39,32 @@ $role2 = Role::create(['name' => 'admin']);
 $role2->givePermissionTo('edit articles');
 $role2->givePermissionTo('delete articles');
 $role2->givePermissionTo('create articles');
+
+$role3 = Role::create(['name' => 'user']);
  
-$role3 = Role::create(['name' => 'normal-user']);
 // gets all permissions via Gate::before rule; see AuthServiceProvider
  
 // create demo users
+$superAdminUser = \App\Models\User::create([
+    'name' => 'Example Super-Admin User',
+    'email' => 'superadmin@example.com',
+    'birthday' => '1991/1/1',
+    'address' => 'test address',
+    'phone' => '987654321',
+    'password' => '12345678',
+    ]);
+$superAdminUser->assignRole($role1);
+
+$adminUser = \App\Models\User::create([
+    'name' => 'Example Admin User',
+    'email' => 'admin@example.com',
+    'birthday' => '1991/1/1',
+    'address' => 'test address',
+    'phone' => '987654321',
+    'password' => '12345678',
+    ]);
+$adminUser->assignRole($role2);
+
 $user = \App\Models\User::create([
 'name' => 'Example User',
 'email' => 'test@example.com',
@@ -51,27 +72,7 @@ $user = \App\Models\User::create([
 'address' => 'test address',
 'phone' => '987654321',
 'password' => '12345678',
-]);
-$user->assignRole($role3);
- 
-$user = \App\Models\User::create([
-'name' => 'Example Admin User',
-'email' => 'admin@example.com',
-'birthday' => '1991/1/1',
-'address' => 'test address',
-'phone' => '987654321',
-'password' => '12345678',
-]);
-$user->assignRole($role2);
- 
-$user = \App\Models\User::create([
-'name' => 'Example Super-Admin User',
-'email' => 'superadmin@example.com',
-'birthday' => '1991/1/1',
-'address' => 'test address',
-'phone' => '987654321',
-'password' => '12345678',
-]);
-$user->assignRole($role1);
+    ]);
+$user->assignRole($role3); 
 }
 }

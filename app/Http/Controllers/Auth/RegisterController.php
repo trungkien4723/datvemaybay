@@ -8,11 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Traits\handleImageTrait;
 
 class RegisterController extends Controller
 {
-    use handleImageTrait;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
