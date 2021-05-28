@@ -33,7 +33,9 @@ Route::group(['namespace'=>'Client'],function(){
 });
 
 Auth::routes();
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
-Route::get('/home', 'homeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');

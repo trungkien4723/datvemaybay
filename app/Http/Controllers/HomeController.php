@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Auth;
+use App\Models\User;
 
 class HomeController extends Controller
 {
+    protected $userModel;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->userModel = $user;
         $this->middleware('auth');
     }
 
@@ -24,5 +30,40 @@ class HomeController extends Controller
     public function index()
     {
         return view('client.home.index');
+    }
+
+    public function showChangePasswordForm()
+    {
+        return view('auth.passwords.changepassword');
+    }
+    
+    public function changePassword(Request $request){
+
+        if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error","Nhập sai mật khẩu hiện tại.");
+        }
+
+        if(strcmp($request->get('current_password'), $request->get('new_password')) == 0){
+            //Current password and new password are same
+            return redirect()->back()->with("error","Mật khẩu mới không được trùng với mật khẩu cũ.");
+        }
+
+        $customValidationMessages = [
+            'new_password.confirmed' => 'Nhập lại mật khẩu chưa chính xác'
+            ];
+
+        $validatedData = $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:6|confirmed',            
+        ], $customValidationMessages);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = $request->new_password;
+        $user->save();
+
+        return redirect()->back()->with("success","Đổi mật khẩu thành công !");
+
     }
 }
