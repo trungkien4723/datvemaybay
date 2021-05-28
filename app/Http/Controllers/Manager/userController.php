@@ -33,12 +33,19 @@ class userController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
+    {        
         $users = $this->userModel->whereHas('roles', function($q){
             $q->where('name','!=','super-admin')->where('name','!=','admin');
         })->latest('id')->paginate(10);
         return view('manage.user.index')->with('users', $users);
+    }
+
+    public function index_admin()
+    {
+        $users = $this->userModel->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','user');
+        })->latest('id')->paginate(10);
+        return view('manage.user.admin_index')->with('users', $users);
     }
 
     /**
@@ -48,7 +55,8 @@ class userController extends Controller
      */
     public function create()
     {
-        
+        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
+        return view('manage.user.create', compact('roles'));
     }
 
     /**
@@ -59,7 +67,15 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image');
+        $dataCreate = $request->all();
+        $dataCreate['image'] = $this->saveImage($image, $this->path);
+
+        $user = $this->userModel->create($dataCreate);
+
+        $user->syncRoles($request->roles);
+
+        return redirect()->route('users.index')->with('message', 'Thêm thành công');
     }
 
     /**
@@ -81,7 +97,11 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        
+        $user = $this->userModel->with('roles')->findOrFail($id);
+        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
+        $listRoleIds = $user->roles->pluck('id')->toArray();
+
+        return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles, 'listRoleIds' =>$listRoleIds]);
     }
 
     /**
@@ -93,7 +113,16 @@ class userController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->userModel->findOrFail($id);
+        $image = $request->file('image');
+
+        $dataUpdate = $request->all();
+
+        $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
+
+        $user->update($dataUpdate);
+        $user->syncRoles($request->roles);
+        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
     }
 
     /**
@@ -104,6 +133,7 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user=$this->userModel->destroy($id);
+        return redirect()->route('users.index')->with('message', 'Xóa thành công');
     }
 }

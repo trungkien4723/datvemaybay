@@ -1,18 +1,18 @@
 @extends('manage.layout.app')
 
-@section('title', 'Users')
+@section('title', 'Admins')
 
 @section('content')
 
     @if(session('message'))
         <h1>{{session('message')}} </h1>
     @endif
-    
-    @can('create articles')
+
+    @can('create admin-user')
     <a class="btn btn-primary mb-4" href="{{route('users.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Tạo người dùng mới</span></a>
     @endcan
 
-    <h3>Danh sách người dùng</h3>
+    <h3>Danh sách quản trị viên</h3>
     <div class="row justify-content-center">
     <table  class="table table-bordered">
         <tr>
@@ -24,6 +24,7 @@
             <th>Địa chỉ</th>
             <th>Số điện thoại</th>
             <th>Ảnh</th>
+            <!-- <th>Chức vụ</th> -->
         </tr>
         @foreach($users as $user)
             <tr>
@@ -44,15 +45,18 @@
                     @if($user->image == NULL)
                         Trống
                         @else
-                        <img width="100px" height="100px" src="{{asset('images/user/'.$user->image)}}" alt="" >
+                        <img width="100px" height="100px" src="{{asset('images/user/'.$user->image)}}" alt="">
                     @endif
                 </td>
-                @can('edit articles')
-                <td><a href="{{route('users.edit',$user->id)}}"><i class="bi bi-pencil"></i></a></td>
+                <!-- <td>
+                    {{  $user->roles()->pluck('name')->implode(' ') }}
+                </td> -->
+                @can('edit admin-user')
+                <td><a href="{{route('admins.edit',$user->id)}}"><i class="bi bi-pencil"></i></a></td>
                 @endcan
-                @can('delete articles')
+                @can('delete admin-user')
                 <td>
-                    <form action="{{route('users.destroy', $user->id)}}"  method="post">
+                    <form action="{{route('admins.destroy', $user->id)}}"  method="post">
                         <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        

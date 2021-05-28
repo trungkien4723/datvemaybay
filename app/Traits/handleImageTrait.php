@@ -19,7 +19,7 @@ trait handleImageTrait
     {
         if ($this->verifyImage($image)) {
             $name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move('image',$name);
+            $image->move($path,$name);
             //Image::make($image)->resize(300, 300)->save($path . $name);
             return $name;
         }
