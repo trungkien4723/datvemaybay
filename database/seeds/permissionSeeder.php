@@ -51,7 +51,7 @@ $superAdminUser = \App\Models\User::create([
     'email' => 'superadmin@example.com',
     'birthday' => '1991/1/1',
     'address' => 'test address',
-    'phone' => '987654321',
+    'phone' => '0987654321',
     'password' => Hash::make('12345678'),
     ]);
 $superAdminUser->assignRole($role1);
@@ -61,7 +61,7 @@ $adminUser = \App\Models\User::create([
     'email' => 'admin@example.com',
     'birthday' => '1991/1/1',
     'address' => 'test address',
-    'phone' => '987654321',
+    'phone' => '0987654321',
     'password' => Hash::make('12345678'),
     ]);
 $adminUser->assignRole($role2);
@@ -71,7 +71,7 @@ $user = \App\Models\User::create([
 'email' => 'test@example.com',
 'birthday' => '1991/1/1',
 'address' => 'test address',
-'phone' => '987654321',
+'phone' => '0987654321',
 'password' => Hash::make('12345678'),
     ]);
 $user->assignRole($role3); 
