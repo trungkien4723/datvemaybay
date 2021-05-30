@@ -16,7 +16,7 @@
         <div class="card-header">Chỉnh sửa thông tin người dùng</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
-                    <form method="POST" action="{{ route('users.update',$user->id) }}"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('home.update',$user->id) }}"  enctype="multipart/form-data" >
                     @csrf
                     @method('put')
                         <div class="form-group row">
