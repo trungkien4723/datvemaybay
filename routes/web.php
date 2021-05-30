@@ -21,7 +21,6 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
 
     Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
-    Route::resource('admins', 'adminController')->middleware(['role:super-admin']);
 
 });
 
@@ -29,11 +28,14 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
 Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
+    Route::resource('home', 'homeController');
     
 });
 
 Auth::routes();
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
-Route::get('/home', 'homeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');

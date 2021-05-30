@@ -52,11 +52,11 @@
                     {{  $user->roles()->pluck('name')->implode(' ') }}
                 </td> -->
                 @can('edit admin-user')
-                <td><a href="{{route('admins.edit',$user->id)}}"><i class="bi bi-pencil"></i></a></td>
+                <td><a href="{{route('users.edit',$user->id)}}"><i class="bi bi-pencil"></i></a></td>
                 @endcan
                 @can('delete admin-user')
                 <td>
-                    <form action="{{route('admins.destroy', $user->id)}}"  method="post">
+                    <form action="{{route('users.destroy', $user->id)}}"  method="post">
                         <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        

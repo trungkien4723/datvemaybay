@@ -4,9 +4,27 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Traits\handleImageTrait;
+use App\Models\User;
+use Auth;
 
 class homeController extends Controller
 {
+    use handleImageTrait;
+
+    protected $path;
+
+    protected $userModel;
+    protected $roleModel;
+
+    public function __construct(User $user, Role $role)
+    {
+        $this->userModel = $user;
+        $this->path = 'images/user/';
+        $this->roleModel = $role;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +75,9 @@ class homeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->userModel->with('roles')->findOrFail($id);
+
+        return view('client.home.edit')->with('user', $user);
     }
 
     /**
@@ -69,7 +89,15 @@ class homeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->userModel->findOrFail($id);
+        $image = $request->file('image');
+
+        $dataUpdate = $request->all();
+
+        $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
+
+        $user->update($dataUpdate);
+        return redirect()->back()->with('message', 'Cập nhật thành công');
     }
 
     /**
