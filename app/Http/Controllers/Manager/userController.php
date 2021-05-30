@@ -77,6 +77,10 @@ class userController extends Controller
         {
             $user->syncRoles($request->roles);
         }
+        else
+        {
+            $user->syncRoles('user');
+        } 
 
         return redirect()->route('users.index')->with('message', 'Thêm thành công');
     }
@@ -127,8 +131,12 @@ class userController extends Controller
         if(Auth::user()->hasRole('super-admin'))
         {
             $user->syncRoles($request->roles);
+        }
+        else
+        {
+            $user->syncRoles('user');
         }   
-        return redirect()->back()->with('message', 'Cập nhật thành công');
+        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
     }
 
     /**
