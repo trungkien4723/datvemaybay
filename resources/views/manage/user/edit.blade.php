@@ -67,9 +67,9 @@
                             <label for="gender" class="col-md-2 col-form-label text-md-right">{{ __('Giới tính') }}</label>
 
                             <div class="col-md-4">
-                                <select id="gender" class="form-control" name="gender" value="{{$user->gender}}">
-                                    <option value="0">Nam</option>
-                                    <option value="1">Nữ</option>
+                                <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender">
+                                    <option {{ ($user->gender) == '0' ? 'selected' : '' }} value="0">Nam</option>
+                                    <option {{ ($user->gender) == '1' ? 'selected' : '' }} value="1">Nữ</option>
                                 </select>
 
                                 @error('gender')
@@ -129,7 +129,7 @@
                             <div class="col-md-4">
                                     <select id="roles" class="form-control @error('role') is-invalid @enderror" name="roles">
                                         @foreach($roles as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option {{ ($user->hasRole($item->name)) == '$item->name' ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
                                     </select>
 

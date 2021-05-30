@@ -67,9 +67,9 @@
                             <label for="gender" class="col-md-2 col-form-label text-md-right">{{ __('Giới tính') }}</label>
 
                             <div class="col-md-4">
-                                <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ old('gender')??$user->gender }}" required autocomplete="gender">
-                                    <option value="0">Nam</option>
-                                    <option value="1">Nữ</option>
+                                <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender">
+                                    <option {{ ($user->gender) == '0' ? 'selected' : '' }} value="0">Nam</option>
+                                    <option {{ ($user->gender) == '1' ? 'selected' : '' }} value="1">Nữ</option>
                                 </select>
 
                                 @error('gender')
