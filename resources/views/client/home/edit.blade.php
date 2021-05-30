@@ -1,4 +1,4 @@
-@extends('manage.layout.app')
+@extends('client.layout.app')
 
 @section('title', 'Edit users')
 
@@ -16,7 +16,7 @@
         <div class="card-header">Chỉnh sửa thông tin người dùng</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
-                    <form method="POST" action="{{ route('users.update',$user->id) }}"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('home.update',$user->id) }}"  enctype="multipart/form-data" >
                     @csrf
                     @method('put')
                         <div class="form-group row">
@@ -121,26 +121,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        @hasrole('super-admin')
-                        <div class="form-group row">
-                            <label for="roles" class="col-md-2 col-form-label text-md-right">{{ __('Chức vụ') }}</label>
-
-                            <div class="col-md-4">
-                                    <select id="roles" class="form-control @error('role') is-invalid @enderror" name="roles">
-                                        @foreach($roles as $item)
-                                            <option {{ ($user->hasRole($item->name)) == '$item->name' ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                    </select>
-
-                                @error('role')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        @endhasrole
                             
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
