@@ -21,7 +21,6 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
 
     Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
-    Route::resource('admins', 'adminController')->middleware(['role:super-admin']);
 
 });
 
@@ -29,6 +28,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
 Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
+    Route::resource('home', 'homeController');
     
 });
 

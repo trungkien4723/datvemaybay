@@ -14,3 +14,11 @@
     width: 15%;
     height: 100%;
 }
+
+.card .row{
+    margin-top: 1rem;
+}
+
+.card label{
+    text-align: end;
+}
