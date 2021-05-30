@@ -73,7 +73,10 @@ class userController extends Controller
 
         $user = $this->userModel->create($dataCreate);
 
-        $user->syncRoles($request->roles);
+        if(Auth::user()->hasRole('super-admin'))
+        {
+            $user->syncRoles($request->roles);
+        }
 
         return redirect()->route('users.index')->with('message', 'Thêm thành công');
     }
@@ -98,7 +101,7 @@ class userController extends Controller
     public function edit($id)
     {
         $user = $this->userModel->with('roles')->findOrFail($id);
-        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
+        $roles = $this->roleModel->get();
         $listRoleIds = $user->roles->pluck('id')->toArray();
 
         return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles, 'listRoleIds' =>$listRoleIds]);
@@ -121,8 +124,11 @@ class userController extends Controller
         $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
 
         $user->update($dataUpdate);
-        $user->syncRoles($request->roles);
-        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
+        if(Auth::user()->hasRole('super-admin'))
+        {
+            $user->syncRoles($request->roles);
+        }   
+        return redirect()->back()->with('message', 'Cập nhật thành công');
     }
 
     /**
