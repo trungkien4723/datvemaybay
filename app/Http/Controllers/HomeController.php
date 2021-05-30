@@ -60,7 +60,7 @@ class HomeController extends Controller
 
         //Change Password
         $user = Auth::user();
-        $user->password = $request->new_password;
+        $user->password = Hash::make($request->new_password);
         $user->save();
 
         return redirect()->back()->with("success","Đổi mật khẩu thành công !");
