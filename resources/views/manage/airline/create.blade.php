@@ -19,7 +19,7 @@
         <div class="card-header">Thêm hãng hàng không</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
-                    <form method="POST" action="{{ route('users.store') }}"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('airlines.store') }}"  enctype="multipart/form-data" >
                         @csrf
                         <div class="form-group row">
                             <label for="image" class="col-md-2 col-form-label text-md-right">{{ __('LOGO') }}</label>
