@@ -51,7 +51,7 @@
     </table>
 
     <div>
-        {{ $users->links() }}
+        {{ $airlines->links() }}
     </div>
 
     </div>
