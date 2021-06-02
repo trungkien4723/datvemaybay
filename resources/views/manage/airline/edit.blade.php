@@ -24,7 +24,7 @@
 
                             <div class="col-md-4">
                                 <input  type="file" class="image_input form-control @error('image') is-invalid @enderror" name="image" accept="image/*">
-                                <image class="image_preview" src="{{asset('images/user/'.$airline->image)}}" name="preview-image" alt="..." style="margin-top:1rem; width:180px; height:180px;"/>
+                                <image class="image_preview" src="{{asset('images/airline/'.$airline->logo)}}" name="preview-image" alt="..." style="margin-top:1rem; width:180px; height:180px;"/>
                                 <br><a class="image_input_clear btn btn-danger disabled">Xóa ảnh</a>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">

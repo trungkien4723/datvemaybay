@@ -13,7 +13,7 @@ class SeatClass extends Migration
      */
     public function up()
     {
-        Schema::create('Seat_class', function (Blueprint $table) {
+        Schema::create('seat_class', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->rememberToken();

@@ -13,7 +13,7 @@ class Sector extends Migration
      */
     public function up()
     {
-        Schema::create('Sector', function (Blueprint $table) {
+        Schema::create('sector', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->rememberToken();
