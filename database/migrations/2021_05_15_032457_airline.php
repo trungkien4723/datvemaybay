@@ -13,7 +13,7 @@ class Airline extends Migration
      */
     public function up()
     {
-        Schema::create('Airline', function (Blueprint $table) {
+        Schema::create('airline', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('short_name');

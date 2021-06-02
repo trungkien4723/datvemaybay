@@ -13,7 +13,7 @@ class Passenger extends Migration
      */
     public function up()
     {
-        Schema::create('Passenger', function (Blueprint $table) {
+        Schema::create('passenger', function (Blueprint $table) {
             $table->integer("booking_ID");
             $table->string("name");
             $table->integer("age");

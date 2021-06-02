@@ -13,7 +13,7 @@ class BookedSeat extends Migration
      */
     public function up()
     {
-        Schema::create('Booked_seat', function (Blueprint $table) {
+        Schema::create('booked_seat', function (Blueprint $table) {
             $table->integer("flight_ID");
             $table->integer("seat_class_ID");
             $table->integer("booked_seat");
