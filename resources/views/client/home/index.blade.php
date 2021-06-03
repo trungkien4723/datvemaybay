@@ -30,13 +30,16 @@
                         <div class="col-md-3">
                             <input name="date-from" type="date" class="form-control @error('date-from') is-invalid @enderror autofocus"/>
                         </div>
-                        <label for="date-to" class="col-md-2 col-form-label ">{{ __('Ngày về') }}</label>
+
+                        <label for="date-to" class="col-md-2 col-form-label container_date_to">{{ __('Ngày về') }}</label>
                         <div class="col-md-3">
-                            <input name="date-to" type="date" class="form-control @error('date-to') is-invalid @enderror autofocus"/>
+                            <input name="date-to" type="date" class="form-control @error('date-to') is-invalid @enderror autofocus container_date_to"/>
                         </div>
+
+                        
                         <div class="form-check col-md-2">
                             <label class="form-check-label" for="check-date-back">{{__('Khứ hồi')}}</label>
-                            <input name="check-date-back" class="form-check-input @error('date-to') is-invalid @enderror autofocus" type="checkbox" value="" id="flexCheckDefault">                            
+                            <input name="check-date-back" class="form-check-input @error('date-to') is-invalid @enderror autofocus chk_date_to" type="checkbox" value="" id="flexCheckDefault">                            
                         </div>
                     </div>
 

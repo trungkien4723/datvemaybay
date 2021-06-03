@@ -23,14 +23,24 @@
                             <label for="image" class="col-md-2 col-form-label text-md-right">{{ __('Ảnh đại diện') }}</label>
 
                             <div class="col-md-4">
-                                <input  type="file" class="image_input form-control @error('image') is-invalid @enderror" name="image" accept="image/*">
-                                <image class="image_preview" src="{{asset('images/user/'.$user->image)}}" name="preview-image" alt="..." style="margin-top:1rem; width:180px; height:180px;"/>
-                                <br><a class="image_input_clear btn btn-danger disabled">Xóa ảnh</a>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;">
+                                        <img src="{{asset('images/user/'.$user->image)}}" alt="...">
+                                    </div>
+                                    <div>
+                                        <span class="btn btn-outline-primary btn-file">
+                                            <span class="fileinput-new">Select image</span>
+                                            <span class="fileinput-exists">Change</span>
+                                        <input type="file" name="image">
+                                        </span>
+                                        <a href="#" class="btn btn-outline-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                    </div>
+                                </div>
+                                    @error('image')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                             </div>
                         </div>
                         
