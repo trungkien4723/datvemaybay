@@ -29,11 +29,11 @@
                                     </div>
                                     <div>
                                         <span class="btn btn-outline-primary btn-file">
-                                            <span class="fileinput-new">Select image</span>
-                                            <span class="fileinput-exists">Change</span>
+                                            <span class="fileinput-new">Chọn ảnh</span>
+                                            <span class="fileinput-exists">Thay đổi</span>
                                         <input type="file" name="image">
                                         </span>
-                                        <a href="#" class="btn btn-outline-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        <a href="#" class="btn btn-outline-danger fileinput-exists" data-dismiss="fileinput">Xóa ảnh</a>
                                     </div>
                                 </div>
                                     @error('image')
