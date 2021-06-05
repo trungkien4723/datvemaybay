@@ -30,7 +30,7 @@
 
 
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle">
+                    <a href="{{route('aircrafts.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 fa fa-plane"></i> <span class="ms-1 d-none d-sm-inline">Máy bay</span></a>
                 </li>
 
