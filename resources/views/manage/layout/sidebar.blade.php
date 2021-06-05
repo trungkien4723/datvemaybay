@@ -36,12 +36,6 @@
 
 
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle">
-                        <i class="fs-4 fa fa-adjust"></i> <span class="ms-1 d-none d-sm-inline">Hạng ghế</span></a>
-                </li>
-
-
-                <li>
                     <a href="{{route('airlines.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 fa fa-paper-plane"></i> <span class="ms-1 d-none d-sm-inline">Hãng hàng không</span></a>
                 </li>
