@@ -9,4 +9,6 @@
 
 <!-- CSS Files -->
 <link href="{{asset('auth\asset\css\style.css')}}" rel="stylesheet"/>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
 @yield('style')

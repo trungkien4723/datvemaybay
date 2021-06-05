@@ -5,4 +5,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <!-- CSS Files -->
 <link href="{{asset('manage\asset\css\style.css')}}" rel="stylesheet"/>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
 @yield('style')
