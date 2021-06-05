@@ -48,8 +48,9 @@
                         <label for="seat-class" class="col-md-2 col-form-label ">{{ __('Hạng ghế') }}</label>
                         <div class="col-md-6">
                             <select name="seat-class" class="form-control bootstrap-select ">
-                                <option value="0">Tiết kiệm</option>
-                                <option value="1">Doanh nhân</option>
+                                @foreach($seatClasses as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>    

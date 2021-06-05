@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Traits\handleImageTrait;
 use App\Models\User;
+use App\Models\Seat_class;
 use Auth;
 
 class homeController extends Controller
@@ -17,12 +18,14 @@ class homeController extends Controller
 
     protected $userModel;
     protected $roleModel;
+    protected $seatClassModel;
 
-    public function __construct(User $user, Role $role)
+    public function __construct(User $user, Role $role, Seat_class $seatClass)
     {
         $this->userModel = $user;
         $this->path = 'images/user/';
         $this->roleModel = $role;
+        $this->seatClassModel = $seatClass;
     }
 
     /**
@@ -32,7 +35,8 @@ class homeController extends Controller
      */
     public function index()
     {
-        return view('client.home.index');
+        $seatClasses = $this->seatClassModel->get();
+        return view('client.home.index')->with('seatClasses', $seatClasses);
     }
 
     /**
