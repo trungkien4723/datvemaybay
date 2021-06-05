@@ -17,12 +17,12 @@
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
-            <th>Hãng hàng không</th>
+            <th>Thuộc hãng hàng không</th>
         </tr>
         @foreach($aircrafts as $aircraft)
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$aircraft->name}}</td>
+                <td>{{$aircraft->airline->name}}</td>
                 @can('edit articles')
                 <td><a href="{{route('aircrafts.edit',$aircraft->id)}}"><i class="bi bi-pencil"></i></a></td>
                 @endcan

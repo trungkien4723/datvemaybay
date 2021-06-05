@@ -22,6 +22,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
     Route::resource('airlines', 'airlineController');
+    Route::resource('aircrafts', 'aircraftController');
 
 });
 

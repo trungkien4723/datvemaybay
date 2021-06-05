@@ -13,4 +13,9 @@ class Airline extends Model
         'short_name',
         'logo',
     ];
+
+    public function aircrafts()
+    {
+        return $this->belongsToMany("App\Models\Aircraft");
+    }
 }

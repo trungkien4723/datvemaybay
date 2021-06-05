@@ -19,52 +19,19 @@
         <div class="card-header">Thêm hãng hàng không</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
-                    <form method="POST" action="{{ route('airlines.store') }}"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('aircrafts.store') }}"  enctype="multipart/form-data" >
                         @csrf
                         <div class="form-group row">
-                            <label for="image" class="col-md-2 col-form-label text-md-right">{{ __('Logo') }}</label>
+                            <label for="airline_ID" class="col-md-2 col-form-label text-md-right">{{ __('Thuộc hãng hàng không') }}</label>
 
                             <div class="col-md-4">
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;"></div>
-                                <div>
-                                    <span class="btn btn-outline-primary btn-file">
-                                        <span class="fileinput-new">Chọn ảnh</span>
-                                        <span class="fileinput-exists">Thay đổi</span>
-                                    <input type="file" name="image">
-                                    </span>
-                                    <a href="#" class="btn btn-outline-danger fileinput-exists" data-dismiss="fileinput">Xóa ảnh</a>
-                                </div>
-                                </div>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                <select id="airline_ID" class="form-control @error('airline_ID') is-invalid @enderror" name="airline_ID">
+                                        @foreach($airlines as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('Tên') }}</label>
-
-                            <div class="col-md-4">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="short_name" class="col-md-2 col-form-label text-md-right">{{ __('Tên viết tắt') }}</label>
-
-                            <div class="col-md-4">
-                                <input id="short_name" type="text" class="form-control @error('short_name') is-invalid @enderror" name="short_name" value="{{ old('short_name') }}" required autocomplete="short_name">
-
-                                @error('short_name')
+                                @error('airline_ID')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

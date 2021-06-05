@@ -106,9 +106,8 @@ class userController extends Controller
     {
         $user = $this->userModel->with('roles')->findOrFail($id);
         $roles = $this->roleModel->get();
-        $listRoleIds = $user->roles->pluck('id')->toArray();
 
-        return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles, 'listRoleIds' =>$listRoleIds]);
+        return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles]);
     }
 
     /**
