@@ -6,19 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use App\Models\User;
+use App\Models\Seat_class;
 
 class HomeController extends Controller
 {
     protected $userModel;
+    protected $seatClassModel;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Seat_class $seatClass)
     {
         $this->userModel = $user;
+        $this->seatClassModel = $seatClass;
         $this->middleware('auth');
     }
 
@@ -29,7 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('client.home.index');
+        $seatClasses = $this->seatClassModel->get();
+        return view('client.home.index')->with('seatClasses', $seatClasses);
     }
 
     public function showChangePasswordForm()

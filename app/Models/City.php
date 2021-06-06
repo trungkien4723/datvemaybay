@@ -17,4 +17,9 @@ class City extends Model
     {
         return $this->hasOne("App\Models\Sector", "id", "sector_ID");
     }
+
+    public function airports()
+    {
+        return $this->belongsToMany("App\Models\Airport");
+    }
 }
