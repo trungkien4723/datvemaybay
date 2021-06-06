@@ -52,17 +52,6 @@
                         <i class="fs-4 bi-bookmark-star-fill"></i> <span class="ms-1 d-none d-sm-inline">Đặt vé</span></a>
                 </li>
 
-
-                <li>
-                    <a href="#" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Thành phố</span></a>
-                </li>
-
-
-                <li>
-                    <a href="#" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-globe"></i> <span class="ms-1 d-none d-sm-inline">Khu vực</span></a>
-                </li>
                     
             <!--Drop down-->
                 <!-- <li>
