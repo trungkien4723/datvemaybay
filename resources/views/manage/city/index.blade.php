@@ -1,6 +1,6 @@
 @extends('manage.layout.app')
 
-@section('title', 'Aircrafts')
+@section('title', 'Cities')
 
 @section('content')
 
@@ -9,7 +9,7 @@
     @endif
     
     @can('create articles')
-    <a class="btn btn-primary mb-4" href="{{route('aircrafts.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Thêm hãng hàng không</span></a>
+    <a class="btn btn-primary mb-4" href="{{route('cities.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Thêm hãng hàng không</span></a>
     @endcan
 
     <h3>Danh sách hãng hàng không</h3>
@@ -17,18 +17,20 @@
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
-            <th>Thuộc hãng hàng không</th>
+            <th>Thành phố</th>
+            <th>Thuộc khu vực</th>
         </tr>
-        @foreach($aircrafts as $aircraft)
+        @foreach($cities as $city)
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$aircraft->airline->name}}</td>
+                <td>{{$city->name}}</td>
+                <td>{{$city->name}}</td>
                 @can('edit articles')
-                <td><a href="{{route('aircrafts.edit',$aircraft->id)}}"><i class="bi bi-pencil"></i></a></td>
+                <td><a href="{{route('cities.edit',$city->id)}}"><i class="bi bi-pencil"></i></a></td>
                 @endcan
                 @can('delete articles')
                 <td>
-                    <form action="{{route('aircrafts.destroy', $aircraft->id)}}"  method="post">
+                    <form action="{{route('cities.destroy', $city->id)}}"  method="post">
                         <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        
@@ -41,7 +43,7 @@
     </table>
 
     <div>
-        {{ $aircrafts->links() }}
+        {{ $cities->links() }}
     </div>
 
     </div>

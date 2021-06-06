@@ -1,6 +1,6 @@
 @extends('manage.layout.app')
 
-@section('title', 'Edit airlines')
+@section('title', 'Edit aircrafts')
 
 @section('content')
 
