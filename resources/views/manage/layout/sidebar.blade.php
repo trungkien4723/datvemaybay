@@ -30,6 +30,12 @@
 
 
                 <li>
+                    <a href="{{route('airports.index')}}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi bi-signpost-fill"></i> <span class="ms-1 d-none d-sm-inline">Sân bay</span></a>
+                </li>
+
+
+                <li>
                     <a href="{{route('aircrafts.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 fa fa-plane"></i> <span class="ms-1 d-none d-sm-inline">Máy bay</span></a>
                 </li>
