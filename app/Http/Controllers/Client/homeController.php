@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Traits\handleImageTrait;
 use App\Models\User;
 use App\Models\Seat_class;
+use App\Models\City;
 use Auth;
 
 class homeController extends Controller
@@ -19,13 +20,15 @@ class homeController extends Controller
     protected $userModel;
     protected $roleModel;
     protected $seatClassModel;
+    protected $cityModel;
 
-    public function __construct(User $user, Role $role, Seat_class $seatClass)
+    public function __construct(User $user, Role $role, Seat_class $seatClass, City $city)
     {
         $this->userModel = $user;
         $this->path = 'images/user/';
         $this->roleModel = $role;
         $this->seatClassModel = $seatClass;
+        $this->cityModel = $city;
     }
 
     /**
@@ -36,7 +39,8 @@ class homeController extends Controller
     public function index()
     {
         $seatClasses = $this->seatClassModel->get();
-        return view('client.home.index')->with('seatClasses', $seatClasses);
+        $cities = $this->cityModel->get();
+        return view('client.home.index')->with(['seatClasses' => $seatClasses, "cities" => $cities]);
     }
 
     /**
