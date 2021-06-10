@@ -87,4 +87,19 @@ $('.input-number').change(function() {
     
 });
 
+
+
+passengersCount();
+$('#adult').change(passengersCount);
+$('#children').change(passengersCount);
+$('#infant').change(passengersCount);
+function passengersCount(){
+    var adults = $('#adult').val();
+    var childrens = $('#children').val();
+    var infants = $('#infant').val();
+    var passengerInfo = adults + ' người lớn, ' + childrens + ' trẻ em, ' + infants + ' em bé.';
+    $('#passenger_collapse').val(passengerInfo);
+}
+
+
 });

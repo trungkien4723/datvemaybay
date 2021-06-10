@@ -65,21 +65,21 @@
                         <div class="col-md-6 dropdown">
                             <input readonly name="passengers" type="textbox" class="form-control" id="passenger_collapse" role="button" data-bs-toggle="dropdown" aria-expanded="false"/>
                             <div class="p-3 dropdown-menu stopPropagation-dropdown-menu" id="passengers_count">
-                            <form class="px-4 py-3">
+                            <form>
                                 <div class="row">
                                     <div class="form-floating col-md-6">
                                         <span>Người lớn</span>
-                                        <label for="adults">(12 tuổi trở lên)</label>
+                                        <label for="adult">(12 tuổi trở lên)</label>
                                     </div>
                                     <div class="col-md-6">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="adults">
+                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="adult">
                                                 <span class="bi bi-dash"></span>
                                             </button>
                                         </span>
-                                        <input type="text" name="adults" class="input-number" value="1" min="1" max="100">
+                                        <input type="text" name="adult" id="adult" class="input-number" value="1" min="1" max="100">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="adults">
+                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="adult">
                                                 <span class="bi bi-plus"></span>
                                             </button>
                                         </span>
@@ -89,17 +89,17 @@
                                 <div class="row">
                                     <div class="form-floating col-md-6">
                                         <span>Trẻ em</span>
-                                        <label for="childrens">(từ 2-11 tuổi)</label>
+                                        <label for="children">(từ 2-11 tuổi)</label>
                                     </div>
                                     <div class="col-md-6">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="childrens">
+                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="children">
                                                 <span class="bi bi-dash"></span>
                                             </button>
                                         </span>
-                                        <input type="text" name="childrens" class="input-number" value="0" min="0" max="100">
+                                        <input type="text" name="children" id="children" class="input-number" value="0" min="0" max="100">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="childrens">
+                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="children">
                                                 <span class="bi bi-plus"></span>
                                             </button>
                                         </span>
@@ -109,17 +109,17 @@
                                 <div class="row">
                                     <div class="form-floating col-md-6">
                                         <span>Em bé</span>
-                                        <label for="infants">(dưới 2 tuổi)</label>
+                                        <label for="infant">(dưới 2 tuổi)</label>
                                     </div>
                                     <div class="col-md-6">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="infants">
+                                            <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="infant">
                                                 <span class="bi bi-dash"></span>
                                             </button>
                                         </span>
-                                        <input type="text" name="infants" class="input-number" value="0" min="0" max="100">
+                                        <input type="text" name="infant" id="infant" class="input-number" value="0" min="0" max="100">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="infants">
+                                            <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="infant">
                                                 <span class="bi bi-plus"></span>
                                             </button>
                                         </span>
