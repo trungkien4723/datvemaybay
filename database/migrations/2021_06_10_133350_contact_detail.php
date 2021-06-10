@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Passenger extends Migration
+class ContactDetail extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class Passenger extends Migration
      */
     public function up()
     {
-        Schema::create('passenger', function (Blueprint $table) {
-            $table->id();
-            $table->integer("booking_ID");
+        Schema::create('contact_detail', function (Blueprint $table) {
+            $table->integer("passenger_ID");
             $table->string("first_name");
             $table->string("last_name");
-            $table->tinyInteger('gender')->default('0');
+            $table->string("email");
             $table->rememberToken();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class Passenger extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Passenger');
+        Schema::dropIfExists('contact__detail');
     }
 }

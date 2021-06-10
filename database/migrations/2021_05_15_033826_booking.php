@@ -17,7 +17,6 @@ class Booking extends Migration
             $table->id();
             $table->timestamp("booked_time")->useCurrent();
             $table->integer("flight_ID");
-            $table->integer("user_ID");
             $table->integer("adult");
             $table->integer("children");
             $table->integer("infant");
