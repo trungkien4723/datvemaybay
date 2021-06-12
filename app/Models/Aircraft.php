@@ -16,4 +16,9 @@ class Aircraft extends Model
     {
         return $this->hasOne("App\Models\Airline", "id", "airline_ID");
     }
+
+    public function flights()
+    {
+        return $this->belongsToMany("App\Models\Flight");
+    }
 }
