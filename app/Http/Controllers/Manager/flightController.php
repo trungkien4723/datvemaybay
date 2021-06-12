@@ -56,6 +56,7 @@ class flightController extends Controller
     {
         $validatedData = $request->validate([
             'start_time' => 'before:arrive_time',
+            'start_airport_ID' => 'different:arrive_airport_ID',
         ]);
         $dataCreate = $request->all();
 
@@ -81,9 +82,13 @@ class flightController extends Controller
      * @param  \App\Models\Flight  $flight
      * @return \Illuminate\Http\Response
      */
-    public function edit(Flight $flight)
+    public function edit($id)
     {
-        //
+        $flight = $this->flightModel->findOrFail($id);
+        $aircrafts = $this->aircraftModel->get();
+        $airports = $this->airportModel->get();
+
+        return view('manage.flight.edit')->with(['flight' => $flight, 'aircrafts' => $aircrafts, 'airports' => $airports]);
     }
 
     /**
@@ -93,9 +98,15 @@ class flightController extends Controller
      * @param  \App\Models\Flight  $flight
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Flight $flight)
+    public function update(Request $request, $id)
     {
-        //
+        $flight = $this->flightModel->findOrFail($id);
+
+        $dataUpdate = $request->all();
+
+        $flight->update($dataUpdate);
+
+        return redirect()->route('flights.index')->with('message', 'Cập nhật thành công');
     }
 
     /**
@@ -104,8 +115,9 @@ class flightController extends Controller
      * @param  \App\Models\Flight  $flight
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Flight $flight)
+    public function destroy($id)
     {
-        //
+        $flight=$this->flightModel->destroy($id);
+        return redirect()->route('flights.index')->with('message', 'Xóa thành công');
     }
 }

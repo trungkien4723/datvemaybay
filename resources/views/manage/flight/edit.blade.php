@@ -16,7 +16,7 @@
         <div class="card-header">Chỉnh sửa thông tin chuyến bay</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
-                    <form method="POST" action="{{ route('users.update',$user->id) }}"  enctype="multipart/form-data" >
+                    <form method="POST" action="{{ route('flights.update',$flight->id) }}"  enctype="multipart/form-data" >
                     @csrf
                     @method('put')
                     <div class="form-group row">
@@ -25,7 +25,7 @@
                             <div class="col-md-4">
                                     <select id="aircraft_ID" class="form-control @error('aircraft_ID') is-invalid @enderror" name="aircraft_ID">
                                         @foreach($aircrafts as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{$flight->aircraft_ID == $item->id ? 'selected' : ''}}>{{$item->id}}</option>
                                         @endforeach
                                     </select>
 
@@ -43,7 +43,7 @@
                             <div class="col-md-4">
                                     <select id="start_airport_ID" class="form-control @error('start_airport_ID') is-invalid @enderror" name="start_airport_ID">
                                         @foreach($airports as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}"{{$flight->start_airport_ID == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -59,7 +59,7 @@
                             <label for="start_time" class="col-md-2 col-form-label text-md-right">{{ __('Thời gian khởi hành') }}</label>
 
                             <div class="col-md-4">
-                                <input id="start_time" type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time') }}" required autocomplete="start_time">
+                                <input id="start_time" type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time') ?? $flight->start_time }}" required autocomplete="start_time">
 
                                 @error('start_time')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +75,7 @@
                             <div class="col-md-4">
                                     <select id="arrive_airport_ID" class="form-control @error('arrive_airport_ID') is-invalid @enderror" name="arrive_airport_ID">
                                         @foreach($airports as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{$flight->arrive_airport_ID == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
                                         @endforeach
                                     </select>
 
@@ -91,7 +91,7 @@
                             <label for="arrive_time" class="col-md-2 col-form-label text-md-right">{{ __('Thời gian đến') }}</label>
 
                             <div class="col-md-4">
-                                <input id="arrive_time" type="datetime-local" class="form-control @error('arrive_time') is-invalid @enderror" name="arrive_time" value="{{ old('arrive_time') }}" required autocomplete="arrive_time">
+                                <input id="arrive_time" type="datetime-local" class="form-control @error('arrive_time') is-invalid @enderror" name="arrive_time" value="{{ old('arrive_time') ?? $flight->arrive_time }}" required autocomplete="arrive_time">
 
                                 @error('arrive_time')
                                     <span class="invalid-feedback" role="alert">
@@ -106,7 +106,7 @@
                             <label for="price" class="col-md-2 col-form-label text-md-right">{{ __('giá vé') }}</label>
 
                             <div class="col-md-4">
-                                <input id="price" type="text" pattern="[0-9]+" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required autocomplete="price" autofocus>
+                                <input id="price" type="text" pattern="[0-9]+" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') ?? $flight->price }}" required autocomplete="price" autofocus>
 
                                 @error('price')
                                     <span class="invalid-feedback" role="alert">
