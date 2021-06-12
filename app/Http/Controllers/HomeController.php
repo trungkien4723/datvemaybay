@@ -7,22 +7,25 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use App\Models\User;
 use App\Models\Seat_class;
+use App\Models\City;
 
 class HomeController extends Controller
 {
     protected $userModel;
     protected $seatClassModel;
+    protected $cityModel;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Seat_class $seatClass)
+    public function __construct(User $user, Seat_class $seatClass, City $city)
     {
         $this->userModel = $user;
         $this->seatClassModel = $seatClass;
         $this->middleware('auth');
+        $this->cityModel = $city;
     }
 
     /**
@@ -33,7 +36,8 @@ class HomeController extends Controller
     public function index()
     {
         $seatClasses = $this->seatClassModel->get();
-        return view('client.home.index')->with('seatClasses', $seatClasses);
+        $cities = $this->cityModel->get();
+        return view('client.home.index')->with(['seatClasses' => $seatClasses, "cities" => $cities]);
     }
 
     public function showChangePasswordForm()
