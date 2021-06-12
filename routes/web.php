@@ -13,13 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace'=>'Manage', 'middleware'=>['auth','role:super-admin|admin']],function(){
+Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','role:super-admin|admin']],function(){
 
-    Route::get('/admin', function (){
+    Route::get('/dashboard', function (){
         return view('manage.layout.app');
     });
 
+    Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
+    Route::resource('airlines', 'airlineController');
+    Route::resource('aircrafts', 'aircraftController');
+    Route::resource('airports', 'airportController');
 
 });
 
@@ -27,12 +31,14 @@ Route::group(['namespace'=>'Manage', 'middleware'=>['auth','role:super-admin|adm
 Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
+    Route::resource('home', 'homeController');
     
 });
 
 Auth::routes();
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('logout', 'Auth\LoginController@logout');
+Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
-Route::get('/home', 'homeController@index')->name('home');
-
-Route::post('update-image', 'RegisterController@update_image');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::redirect('/admin', 'admin/dashboard')->name('admin');

@@ -4,9 +4,33 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Traits\handleImageTrait;
+use App\Models\User;
+use App\Models\Seat_class;
+use App\Models\City;
+use Auth;
 
 class homeController extends Controller
 {
+    use handleImageTrait;
+
+    protected $path;
+
+    protected $userModel;
+    protected $roleModel;
+    protected $seatClassModel;
+    protected $cityModel;
+
+    public function __construct(User $user, Role $role, Seat_class $seatClass, City $city)
+    {
+        $this->userModel = $user;
+        $this->path = 'images/user/';
+        $this->roleModel = $role;
+        $this->seatClassModel = $seatClass;
+        $this->cityModel = $city;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +38,9 @@ class homeController extends Controller
      */
     public function index()
     {
-        return view('client.home.index');
+        $seatClasses = $this->seatClassModel->get();
+        $cities = $this->cityModel->get();
+        return view('client.home.index')->with(['seatClasses' => $seatClasses, "cities" => $cities]);
     }
 
     /**
@@ -57,7 +83,9 @@ class homeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->userModel->with('roles')->findOrFail($id);
+
+        return view('client.home.edit')->with('user', $user);
     }
 
     /**
@@ -69,7 +97,15 @@ class homeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->userModel->findOrFail($id);
+        $image = $request->file('image');
+
+        $dataUpdate = $request->all();
+
+        $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
+
+        $user->update($dataUpdate);
+        return redirect()->back()->with('message', 'Cập nhật thành công');
     }
 
     /**

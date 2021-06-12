@@ -13,7 +13,7 @@ class Aircraft extends Migration
      */
     public function up()
     {
-        Schema::create('Aircraft', function (Blueprint $table) {
+        Schema::create('aircraft', function (Blueprint $table) {
             $table->id();
             $table->integer('airline_ID');
             $table->rememberToken();

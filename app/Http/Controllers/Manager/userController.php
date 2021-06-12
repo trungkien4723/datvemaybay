@@ -1,20 +1,51 @@
 <?php
 
-namespace App\Http\Controllers\Manage;
+namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Traits\handleImageTrait;
+use App\Models\User;
+use Auth;
 
 class userController extends Controller
 {
+
+    use handleImageTrait;
+
+    protected $path;
+
+    protected $userModel;
+    protected $roleModel;
+
+    public function __construct(User $user, Role $role)
+    {
+        $this->userModel = $user;
+        $this->path = 'images/user/';
+        $this->roleModel = $role;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {        
+        $users = $this->userModel->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','admin');
+        })->latest('id')->paginate(10);
+        return view('manage.user.index')->with('users', $users);
+    }
+
+    public function index_admin()
     {
-        return view('manager.layout.app');
+        $users = $this->userModel->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','user');
+        })->latest('id')->paginate(10);
+        return view('manage.user.admin_index')->with('users', $users);
     }
 
     /**
@@ -24,7 +55,8 @@ class userController extends Controller
      */
     public function create()
     {
-        //
+        $roles = $this->roleModel->where('name', '!=', 'super-admin')->get();
+        return view('manage.user.create', compact('roles'));
     }
 
     /**
@@ -35,7 +67,22 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image');
+        $dataCreate = $request->all();
+        $dataCreate['image'] = $this->saveImage($image, $this->path);
+
+        $user = $this->userModel->create($dataCreate);
+
+        if(Auth::user()->hasRole('super-admin'))
+        {
+            $user->syncRoles($request->roles);
+        }
+        else
+        {
+            $user->syncRoles('user');
+        } 
+
+        return redirect()->route('users.index')->with('message', 'Thêm thành công');
     }
 
     /**
@@ -57,7 +104,10 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->userModel->with('roles')->findOrFail($id);
+        $roles = $this->roleModel->get();
+
+        return view('manage.user.edit')->with(['user'=> $user, 'roles' =>$roles]);
     }
 
     /**
@@ -69,7 +119,23 @@ class userController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->userModel->findOrFail($id);
+        $image = $request->file('image');
+
+        $dataUpdate = $request->all();
+
+        $dataUpdate['image'] = $this->updateImage($image, $this->path, $user->image);
+
+        $user->update($dataUpdate);
+        if(Auth::user()->hasRole('super-admin'))
+        {
+            $user->syncRoles($request->roles);
+        }
+        else
+        {
+            $user->syncRoles('user');
+        }   
+        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
     }
 
     /**
@@ -80,6 +146,7 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user=$this->userModel->destroy($id);
+        return redirect()->route('users.index')->with('message', 'Xóa thành công');
     }
 }

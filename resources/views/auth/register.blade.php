@@ -99,28 +99,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Ảnh đại diện') }}</label>
-
-                            <div class="col-md-6">
-                                <input name="image" type="file"/>
-
-                                <div class="col-md-6 col-lg-6 col-sm 12 ">
-                                    <img src="{{asset('storage/'.$user->photo)}}" alt="{{asset('/images/user/Sample_User_Icon.png')}}" width="100px" height="100px"
-                                        style="max-height: 100%;max-width: 100%" class="image-show student-image">
-
-                                </div>
-
-                                @error('image')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        
-
-                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Mật khẩu') }}</label>
 
                             <div class="col-md-6">

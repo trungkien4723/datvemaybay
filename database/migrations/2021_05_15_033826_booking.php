@@ -13,11 +13,10 @@ class Booking extends Migration
      */
     public function up()
     {
-        Schema::create('Booking', function (Blueprint $table) {
+        Schema::create('booking', function (Blueprint $table) {
             $table->id();
             $table->timestamp("booked_time")->useCurrent();
             $table->integer("flight_ID");
-            $table->integer("user_ID");
             $table->integer("adult");
             $table->integer("children");
             $table->integer("infant");

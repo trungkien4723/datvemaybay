@@ -25,7 +25,26 @@
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">KHUYẾN MÃI</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/login">ĐĂNG NHẬP/ĐĂNG KÝ</a>
+          @if(auth()->check())
+            <div class="dropdown">
+                <a href="#" class="nav-link align-items-center text-decoration-none" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">          
+                    <span class="d-none d-sm-inline mx-1" style="color:#fff;">{{auth()->user()->name}}</span>
+                    @if(auth()->user()->image == null)   
+                      <img src="{{asset('images/user/Sample_User_Icon.png')}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                    @else
+                      <img src="{{asset('images/user/'.auth()->user()->image)}}" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                    @endif                           
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    <li><a class="dropdown-item" href="{{route('home.edit',auth()->user()->id)}}">Tài khoản của tôi</a></li>
+                    <li><a class="dropdown-item" href="{{route('change-password')}}">Đổi mật khẩu</a></li>
+                    <li><hr></li>
+                    <li><a class="dropdown-item" href="{{route('logout')}}">Đăng xuất</a></li>
+                </ul>                
+            </div>
+          @else
+            <a class="nav-link active" aria-current="page" href="/login">ĐĂNG NHẬP/ĐĂNG KÝ</a>
+          @endif
         </li>
         <!--<li class="nav-item">
           <a class="nav-link" href="#">Link</a>

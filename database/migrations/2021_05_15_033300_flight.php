@@ -13,12 +13,12 @@ class Flight extends Migration
      */
     public function up()
     {
-        Schema::create('Flight', function (Blueprint $table) {
+        Schema::create('flight', function (Blueprint $table) {
             $table->id();
             $table->integer("aircraft_ID");
-            $table->integer("start_city_ID");
+            $table->integer("start_airport_ID");
             $table->dateTime("start_time");
-            $table->integer("arrive_city_ID");
+            $table->integer("arrive_airport_ID");
             $table->dateTime("arrive_time");
             $table->integer("price");
             $table->rememberToken();

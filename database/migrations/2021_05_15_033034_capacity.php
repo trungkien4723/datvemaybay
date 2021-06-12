@@ -13,7 +13,7 @@ class Capacity extends Migration
      */
     public function up()
     {
-        Schema::create('Capacity', function (Blueprint $table) {
+        Schema::create('capacity', function (Blueprint $table) {
             $table->integer("aircraft_ID");
             $table->integer("seat_class_ID");
             $table->integer("capacity");
