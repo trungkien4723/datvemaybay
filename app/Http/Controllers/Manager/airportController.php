@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 class airportController extends Controller
 {
     protected $airportModel;
-    protected $cityModels;
+    protected $cityModel;
 
     public function __construct(Airport $airport, City $city)
     {
         $this->airportModel = $airport;
-        $this->cityModels = $city;
+        $this->cityModel = $city;
     }
 
     /**
@@ -36,7 +36,7 @@ class airportController extends Controller
      */
     public function create()
     {
-        $cities = $this->cityModels->get();
+        $cities = $this->cityModel->get();
         $airports = $this->airportModel->get();
         return view('manage.airport.create')->with(["airports" => $airports, "cities" => $cities]);
     }
@@ -75,7 +75,7 @@ class airportController extends Controller
      */
     public function edit($id)
     {
-        $cities = $this->cityModels->get();
+        $cities = $this->cityModel->get();
         $airport = $this->airportModel->findOrFail($id);
 
         return view('manage.airport.edit')->with(["airport" => $airport, "cities" => $cities]);
