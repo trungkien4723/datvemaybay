@@ -146,6 +146,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'arrive_time' => 'thời gian đến'
+    ],
 
 ];

@@ -18,14 +18,14 @@
         <tr>
             <th>STT</th>
             <th>Tên</th>
-            <th>Tên viết tắt</th>
+            <!-- <th>Tên viết tắt</th> -->
             <th>Logo</th>
         </tr>
         @foreach($airlines as $airline)
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$airline->name}}</td>
-                <td>{{$airline->short_name}}</td>
+                <!-- <td>{{$airline->short_name}}</td> -->
                 <td>
                     @if($airline->logo == NULL)
                         Trống

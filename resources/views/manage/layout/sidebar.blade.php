@@ -48,7 +48,7 @@
 
 
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle">
+                    <a href="{{route('flights.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 bi-diagram-3-fill"></i> <span class="ms-1 d-none d-sm-inline">Các chuyến bay</span></a>
                 </li>
 

@@ -24,6 +24,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::resource('airlines', 'airlineController');
     Route::resource('aircrafts', 'aircraftController');
     Route::resource('airports', 'airportController');
+    Route::resource('flights', 'flightController');
 
 });
 
