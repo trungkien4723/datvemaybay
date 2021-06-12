@@ -25,7 +25,7 @@
                             <div class="col-md-4">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px;">
-                                        <img src="{{asset('images/user/'.$user->image)}}" alt="...">
+                                        <img src="{{asset('images/airline/'.$airline->image)}}" alt="...">
                                     </div>
                                     <div>
                                         <span class="btn btn-outline-primary btn-file">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="short_name" class="col-md-2 col-form-label text-md-right">{{ __('Tên viết tắt') }}</label>
 
                             <div class="col-md-4">
@@ -71,7 +71,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> -->
                             
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
