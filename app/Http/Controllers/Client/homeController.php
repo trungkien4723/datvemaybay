@@ -72,7 +72,7 @@ class homeController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

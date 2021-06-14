@@ -59,7 +59,7 @@
                             <label for="start_time" class="col-md-2 col-form-label text-md-right">{{ __('Thời gian khởi hành') }}</label>
 
                             <div class="col-md-4">
-                                <input id="start_time" type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time') ?? $flight->start_time }}" required autocomplete="start_time">
+                                <input id="start_time" type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" name="start_time" value="{{ old('start_time') ?? date('Y-m-d\TH:i:s', strtotime($flight->start_time)) }}" required autocomplete="start_time">
 
                                 @error('start_time')
                                     <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
                             <label for="arrive_time" class="col-md-2 col-form-label text-md-right">{{ __('Thời gian đến') }}</label>
 
                             <div class="col-md-4">
-                                <input id="arrive_time" type="datetime-local" class="form-control @error('arrive_time') is-invalid @enderror" name="arrive_time" value="{{ old('arrive_time') ?? $flight->arrive_time }}" required autocomplete="arrive_time">
+                                <input id="arrive_time" type="datetime-local" class="form-control @error('arrive_time') is-invalid @enderror" name="arrive_time" value="{{ old('arrive_time') ?? date('Y-m-d\TH:i:s', strtotime($flight->arrive_time)) }}" required autocomplete="arrive_time">
 
                                 @error('arrive_time')
                                     <span class="invalid-feedback" role="alert">
