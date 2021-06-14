@@ -42,6 +42,7 @@ Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
-
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
+Route::get('/booking/add-flight/{id}', 'HomeController@addFlight')->name('addFlight');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');

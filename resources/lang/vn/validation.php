@@ -147,7 +147,9 @@ return [
     */
 
     'attributes' => [
-        'arrive_time' => 'thời gian đến'
+        'arrive_time' => 'thời gian đến',
+        'start_airport_ID' => 'Điểm đi',
+        'arrive_airport_ID' => 'Điểm đến'
     ],
 
 ];

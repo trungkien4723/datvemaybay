@@ -27,7 +27,7 @@
                             <div class="col-md-4">
                                     <select id="aircraft_ID" class="form-control @error('aircraft_ID') is-invalid @enderror" name="aircraft_ID">
                                         @foreach($aircrafts as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}">{{$item->id}}</option>
                                         @endforeach
                                     </select>
 

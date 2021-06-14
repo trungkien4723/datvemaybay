@@ -10,9 +10,9 @@ class Flight extends Model
 
     protected $fillable = [
         'aircraft_ID',
-        'start_airport_id',
+        'start_airport_ID',
         'start_time',
-        'arrive_airport_id',
+        'arrive_airport_ID',
         'arrive_time',
         'price',
     ];
@@ -25,5 +25,10 @@ class Flight extends Model
     public function arriveAirport()
     {
         return $this->hasOne("App\Models\Airport", "id", "arrive_airport_ID");
+    }
+
+    public function aircraft()
+    {
+        return $this->hasOne("App\Models\Aircraft", "id", "aircraft_ID");
     }
 }

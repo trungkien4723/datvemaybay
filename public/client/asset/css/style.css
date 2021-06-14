@@ -6,11 +6,11 @@
     text-align: right;
 }
 
-#find-flight .card-body .col-md-12 .row{
+#find_flight .card-body .col-md-12 .row{
     margin-top: 1rem;
 }
 
-#passengers_count input, button{
+#passengers_count input, #passengers_count button{
     width: 25%;
     height: 100%;
 }
