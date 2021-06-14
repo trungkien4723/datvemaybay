@@ -100,6 +100,10 @@ class flightController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'start_time' => 'before:arrive_time',
+            'start_airport_ID' => 'different:arrive_airport_ID',
+        ]);
         $flight = $this->flightModel->findOrFail($id);
 
         $dataUpdate = $request->all();
