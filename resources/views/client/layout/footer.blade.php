@@ -8,10 +8,12 @@
       <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
           <!-- Content -->
           <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>Company name
+            <i class="fas fa-gem me-3"></i>Website đặt vé máy bay hnKair
           </h6>
           <p>
-           dcm thang hieu
+          <p>     <i class="bi bi-house-door-fill"></i> Trang chủ </p>
+                  <i class="bi bi-info"></i> Câu hỏi thường gặp </p>
+                  hnKair an toàn trên mọi chuyến bay
           </p>
         </div>
         <!-- Grid column -->

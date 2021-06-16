@@ -13,7 +13,7 @@ class SliderController extends Controller
 {
     use handleImageTrait;
 
-    protected $path;
+    protected $path;                   
     protected $sliderModel;
 
     public function __construct(Slider $slider)

@@ -19,7 +19,8 @@
                         <div class="panel-body">
 
                             <div class="position-center">
-                                <form role="form" action="{{route('insert_slider')}}" method="get" enctype="multipart/form-data">
+                                <form role="form" action="{{route('insert_slider')}}" method="post" enctype="multipart/form-data">
+                                
                                     {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên slide</label>
