@@ -25,7 +25,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::resource('aircrafts', 'aircraftController');
     Route::resource('airports', 'airportController');
     Route::resource('flights', 'flightController');
-
+    Route::get('/slider', 'SliderController@manage_slider')->name('slider');
+    Route::get('/slider/create', 'SliderController@add_slider')->name('add_slider');
+    Route::post('/slider/insert', 'SliderController@insert_slider')->name('insert_slider');
 });
 
 
@@ -40,7 +42,6 @@ Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
 Route::get('/booking/add-flight/{id}', 'HomeController@addFlight')->name('addFlight');
