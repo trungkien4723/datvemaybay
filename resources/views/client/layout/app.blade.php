@@ -11,6 +11,7 @@
 
         <!--Navbar-->
         @include('client.layout.navbar')
+        @include('client.layout.slider')
         
         <div class="content">
                 
@@ -21,6 +22,7 @@
                 </div>
             </div>
         </div>
+        @include('client.layout.footer')
     <!--JS-->
     @include('client.layout.js')
 </body>
