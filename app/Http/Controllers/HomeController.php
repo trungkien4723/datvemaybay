@@ -11,6 +11,7 @@ use App\Models\City;
 use App\Models\Flight;
 use App\Models\Airport;
 use App\Models\Aircraft;
+use App\Models\Slider;
 
 class HomeController extends Controller
 {
@@ -86,6 +87,8 @@ class HomeController extends Controller
 
     public function showBookingPage(Request $request)
     {
+        $cities = $this->cityModel->get();
+        $seatClasses = $this->seatClassModel->get();
         $startCity = $this->cityModel->find($request->flight_from);
         $arriveCity = $this->cityModel->find($request->flight_to);
         $seatClass = $this->seatClassModel->find($request->seat_class);
@@ -101,6 +104,9 @@ class HomeController extends Controller
         ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($date)))
         ->get();
         if($request->has('check_date_back')){
+            $validatedData = $request->validate([
+                'date_from' => 'before:date_to',
+            ]);
             if(count(session()->get('ticket')) <= 0){
                 $date = $startDate;
             }
@@ -115,22 +121,28 @@ class HomeController extends Controller
         
 
         return view('client.home.booking')->with([
+            'cities' => $cities,
+            'seatClasses' => $seatClasses,
             'startCity' => $startCity,
             'arriveCity' => $arriveCity,
             'seatClass' => $seatClass,
             'startDate' => $startDate,
             'backDate' => $backDate,
             'totalPassenger' => $totalPassenger,
+            'adult' => $request->adult,
+            'children' => $request->children,
+            'infant' => $request->infant,
             'flights' => $flights,
         ]);
     }
 
-    public function addFlight(Request $request, $id)
+    public function addFlight($id)
     {
         $flight = $this->flightModel->find($id);
         $ticket = array();
 
         $ticket[$id] = [
+            'flight_ID' => $id,
             'aircraft_ID' => $flight->aircraft_ID,
             'start_airport_ID' => $flight->start_airport_ID,
             'start_time' => $flight->start_time,

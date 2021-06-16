@@ -3,6 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-
-    @include('client.layout.booking_form')
+    <div class="row justify-content-center" style="background-color: #B0E0E6; padding: 2rem;">
+        @include('client.layout.booking_form')
+    </div>
 @endsection

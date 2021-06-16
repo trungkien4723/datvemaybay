@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 class passengerController extends Controller
 {
 
     protected $passengerModel;
+    protected $bookingModel;
 
-    public function __construct(Passenger $passenger)
+    public function __construct(Passenger $passenger, Booking $booking)
     {
         $this->passengerModel = $passenger;
+        $this->bookingModel = $booking;
     }
     /**
      * Display a listing of the resource.
@@ -44,6 +47,7 @@ class passengerController extends Controller
     public function store(Request $request)
     {
         $checkExist = $this->passengerModel->where('email', '=', $request->email)->first();
+        //$checkRelative = $checkExist->where('')->get;
         if($checkExist == null){
             $dataCreate = $request->all();
             if(auth()->check())
@@ -57,7 +61,27 @@ class passengerController extends Controller
             $passenger = $checkExist;
         }
 
-        return redirect()->route('bookings.store')->with(["passenger" => $passenger]);
+        $ticketData = session()->get('ticket');
+        $dataCreate = array();
+        foreach($ticketData as $item)
+        {
+            $dataCreate = [
+                'booked_time' => now(),
+                'flight_ID' => $item['flight_ID'],
+                'passenger_ID' => $passenger->id,        
+                'adult' => $request->adult,
+                'children' => $request->children,
+                'infant' => $request->infant,
+                'seat_class_ID' => $request->seatClass,
+                'status' => 'Đang kích hoạt',
+            ];
+            
+        }
+        
+        $booking = $this->bookingModel->create($dataCreate);
+
+        session()->flush('ticket');
+        return redirect()->route('home');
     }
 
     /**

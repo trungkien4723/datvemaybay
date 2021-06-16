@@ -36,7 +36,6 @@ Route::group(['namespace'=>'Client'],function(){
     Route::get('/', 'homeController@index')->name('home');
     Route::resource('home', 'homeController');
     Route::resource('passengers', 'passengerController');
-    Route::resource('bookings', 'bookingController');
     
 });
 
