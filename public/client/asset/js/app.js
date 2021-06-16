@@ -6,24 +6,26 @@ const containerDateTo = document.querySelectorAll('.container_date_to');
 
 $(containerDateTo).css("display","none");
 
-checkboxDateTo.addEventListener('change',function(){
+if(checkboxDateTo)
+{
+    checkboxDateTo.addEventListener('change',function(){
 
-    if(containerDateTo){
-
-        if($(this).is(":checked")){
-
-            $(containerDateTo).css("display","block");
+        if(containerDateTo){
     
-        }else{
+            if($(this).is(":checked")){
     
-            $(containerDateTo).css("display","none");    
+                $(containerDateTo).css("display","block");
+        
+            }else{
+        
+                $(containerDateTo).css("display","none");    
+        
+            }
     
         }
-
-    }
-
-});
-
+    
+    });
+}
 
 
 $('.btn-number').click(function(e){
@@ -101,5 +103,38 @@ function passengersCount(){
     $('#passenger_collapse').val(passengerInfo);
 }
 
+
+function addFlight(event){
+    event.preventDefault();
+    let urlFlight = $(this).data('url');
+    $.ajax({
+        type:"GET",
+        url: urlFlight,
+        dataType:'json',
+        success: function($data){
+            $.each(data, function () {
+            $.each(this, function (index, value) {
+                console.log(value);
+                lastId = value.id; //Change lastId when we get responce from ajax
+                $('#choosed_flight').append('' +
+                '<span class="fa-stack text-primary">'+
+                    '<span class="fa fa-circle-o fa-stack-2x"></span>'+
+                    '<strong class="fa-stack-1x">'+
+                        "{{count(session()->get('ticket'))}}"+    
+                    "</strong>"+
+                "</span>"+                                
+                "<div>{{$item['aircraft_ID']}}</div>"+
+                "<div>{{$item['start_time']}}</div>");
+
+            });
+        });
+        },
+        error: function(){
+
+        }
+    });
+}
+
+$('.add_flight').on('click', addFlight);
 
 });

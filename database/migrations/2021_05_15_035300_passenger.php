@@ -15,10 +15,12 @@ class Passenger extends Migration
     {
         Schema::create('passenger', function (Blueprint $table) {
             $table->id();
-            $table->integer("booking_ID");
+            $table->integer("user_ID")->nullable();
             $table->string("first_name");
             $table->string("last_name");
             $table->tinyInteger('gender')->default('0');
+            $table->string("email");
+            $table->string("phone");
             $table->rememberToken();
             $table->timestamps();
         });
