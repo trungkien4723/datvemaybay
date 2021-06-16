@@ -30,7 +30,6 @@ class HomeController extends Controller
     {
         $this->userModel = $user;
         $this->seatClassModel = $seatClass;
-        $this->middleware('auth');
         $this->cityModel = $city;
         $this->airportModel = $airport;
         $this->aircraftModel = $aircraft;
@@ -93,15 +92,20 @@ class HomeController extends Controller
         $backDate = date("d-m-y", strtotime($request->date_to));
         $date = $startDate;
         $flights = $this->flightModel
-        ->leftJoin('airport AS start', 'start.id', '=', 'flight.start_airport_ID')
+        ->join('airport AS start', 'start.id', '=', 'flight.start_airport_ID')
+        ->join('airport AS arrive', 'arrive.id', '=', 'flight.arrive_airport_ID')
+        ->select('flight.*')
         ->where('start.city_ID', '=', $startCity->id)
-        ->leftJoin('airport AS arrive', 'arrive.id', '=', 'flight.arrive_airport_ID')
         ->where('arrive.city_ID', '=', $arriveCity->id)
         ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($date)))
         ->get();
-        $aircrafts = $this->aircraftModel->get();
         if($request->has('check_date_back')){
-            //
+            if(count(session()->get('ticket')) <= 0){
+                $date = $startDate;
+            }
+            else{
+                $date = $backDate;
+            }
         }
         else{
             $backDate = null;
@@ -117,8 +121,26 @@ class HomeController extends Controller
             'backDate' => $backDate,
             'totalPassenger' => $totalPassenger,
             'flights' => $flights,
-            'aircrafts' => $aircrafts,
         ]);
+    }
+
+    public function addFlight(Request $request, $id)
+    {
+        $flight = $this->flightModel->find($id);
+        $ticket = array();
+
+        $ticket[$id] = [
+            'aircraft_ID' => $flight->aircraft_ID,
+            'start_airport_ID' => $flight->start_airport_ID,
+            'start_time' => $flight->start_time,
+            'arrive_airport_ID' => $flight->arrive_airport_ID,
+            'arrive_time' => $flight->arrive_time,
+            'price' => $flight->price,
+        ];
+
+        session()->put('ticket', $ticket);
+        print_r(session()->get('ticket'));
+        //session()->flush('ticket');
     }
     
 }

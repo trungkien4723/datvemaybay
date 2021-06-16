@@ -33,13 +33,15 @@ Route::group(['namespace'=>'Client'],function(){
 
     Route::get('/', 'homeController@index')->name('home');
     Route::resource('home', 'homeController');
+    Route::resource('passengers', 'passengerController');
+    Route::resource('bookings', 'bookingController');
     
 });
 
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
-Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password');
-Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+Route::get('/changePassword','HomeController@showChangePasswordForm')->name('change-password')->middleware('auth');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
