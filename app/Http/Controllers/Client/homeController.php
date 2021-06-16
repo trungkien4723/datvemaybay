@@ -9,7 +9,9 @@ use App\Traits\handleImageTrait;
 use App\Models\User;
 use App\Models\Seat_class;
 use App\Models\City;
+use App\Models\Slider;
 use Auth;
+
 
 class homeController extends Controller
 {
@@ -38,9 +40,10 @@ class homeController extends Controller
      */
     public function index()
     {
+        $slider = Slider::orderBy('id','DESC')->where('status','1')->take(4)->get();
         $seatClasses = $this->seatClassModel->get();
         $cities = $this->cityModel->get();
-        return view('client.home.index')->with(['seatClasses' => $seatClasses, "cities" => $cities]);
+        return view('client.home.index')->with(['seatClasses' => $seatClasses, "cities" => $cities, "slider" => $slider]);
     }
 
     /**
