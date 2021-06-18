@@ -75,10 +75,9 @@ class passengerController extends Controller
                 'seat_class_ID' => $request->seatClass,
                 'status' => 'Đang kích hoạt',
             ];
-            
+         
+            $booking = $this->bookingModel->create($dataCreate);
         }
-        
-        $booking = $this->bookingModel->create($dataCreate);
 
         session()->flush('ticket');
         return redirect()->route('home');

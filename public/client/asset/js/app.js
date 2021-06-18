@@ -104,37 +104,24 @@ function passengersCount(){
 }
 
 
-function addFlight(event){
-    event.preventDefault();
-    let urlFlight = $(this).data('url');
+$('.add_flight').click(function(e){
+    e.preventDefault();
+    let url = $(this).data('url');
     $.ajax({
-        type:"GET",
-        url: urlFlight,
+        type:'GET',
+        url:url,
         dataType:'json',
-        success: function($data){
-            $.each(data, function () {
-            $.each(this, function (index, value) {
-                console.log(value);
-                lastId = value.id; //Change lastId when we get responce from ajax
-                $('#choosed_flight').append('' +
-                '<span class="fa-stack text-primary">'+
-                    '<span class="fa fa-circle-o fa-stack-2x"></span>'+
-                    '<strong class="fa-stack-1x">'+
-                        "{{count(session()->get('ticket'))}}"+    
-                    "</strong>"+
-                "</span>"+                                
-                "<div>{{$item['aircraft_ID']}}</div>"+
-                "<div>{{$item['start_time']}}</div>");
-
-            });
-        });
+        success:function(data){
+            console.log(data);
+            if(data.code === 200){
+                $('.booking_list').html(data.component);
+            }
         },
         error: function(){
-
+            alert('Đã có lỗi xảy ra!');
         }
     });
-}
+});
 
-$('.add_flight').on('click', addFlight);
 
 });
