@@ -12,6 +12,7 @@ use App\Models\Flight;
 use App\Models\Airport;
 use App\Models\Aircraft;
 use App\Models\Slider;
+use App\Models\Ticket;
 
 class HomeController extends Controller
 {
@@ -87,6 +88,7 @@ class HomeController extends Controller
 
     public function showBookingPage(Request $request)
     {
+        $slider = Slider::orderBy('id','DESC')->where('status','1')->take(4)->get();
         $cities = $this->cityModel->get();
         $seatClasses = $this->seatClassModel->get();
         $startCity = $this->cityModel->find($request->flight_from);
@@ -95,6 +97,16 @@ class HomeController extends Controller
         $startDate = date("d-m-Y", strtotime($request->date_from));
         $backDate = date("d-m-y", strtotime($request->date_to));
         $date = $startDate;
+
+        if($request->has('check_date_back')){
+            $validatedData = $request->validate([
+                'date_from' => 'before:date_to',
+            ]);
+        }
+        else{
+            $backDate = null;
+        }
+        
         $flights = $this->flightModel
         ->join('airport AS start', 'start.id', '=', 'flight.start_airport_ID')
         ->join('airport AS arrive', 'arrive.id', '=', 'flight.arrive_airport_ID')
@@ -103,24 +115,12 @@ class HomeController extends Controller
         ->where('arrive.city_ID', '=', $arriveCity->id)
         ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($date)))
         ->get();
-        if($request->has('check_date_back')){
-            $validatedData = $request->validate([
-                'date_from' => 'before:date_to',
-            ]);
-            if(count(session()->get('ticket')) <= 0){
-                $date = $startDate;
-            }
-            else{
-                $date = $backDate;
-            }
-        }
-        else{
-            $backDate = null;
-        }
+        
         $totalPassenger = $request->adult + $request->children + $request->infant;
         
 
         return view('client.home.booking')->with([
+            'slider' => $slider,
             'cities' => $cities,
             'seatClasses' => $seatClasses,
             'startCity' => $startCity,
@@ -138,9 +138,14 @@ class HomeController extends Controller
 
     public function addFlight($id)
     {
+        
+        if(session()->get('ticket')){
+            if(count(session()->get('ticket')) > 2){session()->forget('ticket');}
+        }
+        
         $flight = $this->flightModel->find($id);
-        $ticket = array();
 
+        $ticket = session()->get('ticket');
         $ticket[$id] = [
             'flight_ID' => $id,
             'aircraft_ID' => $flight->aircraft_ID,
@@ -152,8 +157,10 @@ class HomeController extends Controller
         ];
 
         session()->put('ticket', $ticket);
-        print_r(session()->get('ticket'));
-        //session()->flush('ticket');
+        return response()->json([
+            'code' => 200,
+            'component' => view('client.layout.booking_list')->render(),
+        ],200);
     }
     
 }
