@@ -25,6 +25,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::resource('aircrafts', 'aircraftController');
     Route::resource('airports', 'airportController');
     Route::resource('flights', 'flightController');
+    Route::resource('bookings', 'bookingController');
     Route::get('/slider', 'SliderController@manage_slider')->name('slider');
     Route::get('/slider/create', 'SliderController@add_slider')->name('add_slider');
     Route::post('/slider/insert', 'SliderController@insert_slider')->name('insert_slider');

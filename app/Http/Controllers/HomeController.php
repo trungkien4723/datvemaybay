@@ -88,6 +88,8 @@ class HomeController extends Controller
 
     public function showBookingPage(Request $request)
     {
+        session()->forget('ticket');
+        session()->forget('maxChoose');
         $slider = Slider::orderBy('id','DESC')->where('status','1')->take(4)->get();
         $cities = $this->cityModel->get();
         $seatClasses = $this->seatClassModel->get();
@@ -95,16 +97,17 @@ class HomeController extends Controller
         $arriveCity = $this->cityModel->find($request->flight_to);
         $seatClass = $this->seatClassModel->find($request->seat_class);
         $startDate = date("d-m-Y", strtotime($request->date_from));
-        $backDate = date("d-m-y", strtotime($request->date_to));
-        $date = $startDate;
+        $backDate = date("d-m-Y", strtotime($request->date_to));
 
         if($request->has('check_date_back')){
             $validatedData = $request->validate([
                 'date_from' => 'before:date_to',
             ]);
+            session()->put('maxChoose', 2);
         }
         else{
             $backDate = null;
+            session()->put('maxChoose', 1);
         }
         
         $flights = $this->flightModel
@@ -113,37 +116,60 @@ class HomeController extends Controller
         ->select('flight.*')
         ->where('start.city_ID', '=', $startCity->id)
         ->where('arrive.city_ID', '=', $arriveCity->id)
-        ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($date)))
+        ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($startDate)))
         ->get();
         
         $totalPassenger = $request->adult + $request->children + $request->infant;
-        
-
-        return view('client.home.booking')->with([
-            'slider' => $slider,
-            'cities' => $cities,
-            'seatClasses' => $seatClasses,
+        $flightInfo = [
             'startCity' => $startCity,
             'arriveCity' => $arriveCity,
             'seatClass' => $seatClass,
             'startDate' => $startDate,
             'backDate' => $backDate,
-            'totalPassenger' => $totalPassenger,
             'adult' => $request->adult,
             'children' => $request->children,
             'infant' => $request->infant,
             'flights' => $flights,
+        ];
+
+        session()->put('flightInfo', $flightInfo);
+
+        return view('client.home.booking')->with([
+            'slider' => $slider,            
+            'cities' => $cities,
+            'seatClasses' => $seatClasses,
         ]);
     }
 
     public function addFlight($id)
     {
+        $cities = $this->cityModel->get();
+        $seatClasses = $this->seatClassModel->get();
         
         if(session()->get('ticket')){
-            if(count(session()->get('ticket')) > 2){session()->forget('ticket');}
+            if(count(session()->get('ticket')) >= session()->get('maxChoose')){session()->forget('ticket');}
         }
         
         $flight = $this->flightModel->find($id);
+
+        $flightInfo = session()->get('flightInfo');
+        $price = $flight->price;
+        if($flightInfo['seatClass']->id == 1){$price = $price * 5;}
+        else if($flightInfo['seatClass']->id == 2){$price = $price * 4;}
+        else if($flightInfo['seatClass']->id == 4){$price = $price * 2;}
+        $price = ($price * $flightInfo['adult']) 
+        + (($price - ($price * 30 / 100)) * $flightInfo['children'])
+        + (($price - ($price * 50 / 100)) * $flightInfo['infant']);
+
+        if(now()->diffInDays($flightInfo['startDate']) < 2){
+            $price = $price * 5;
+        }
+        else if(now()->diffInDays($flightInfo['startDate']) < 10){
+            $price = $price * 3;
+        }
+        else if(now()->diffInDays($flightInfo['startDate']) < 30){
+            $price = $price * 2;
+        }
 
         $ticket = session()->get('ticket');
         $ticket[$id] = [
@@ -153,13 +179,49 @@ class HomeController extends Controller
             'start_time' => $flight->start_time,
             'arrive_airport_ID' => $flight->arrive_airport_ID,
             'arrive_time' => $flight->arrive_time,
-            'price' => $flight->price,
+            'price' => $price,
         ];
 
+        $flights = session()->get('flightInfo');
+
+        if(session()->get('maxChoose') >= 2)
+        {
+            $startCity = session()->get('flightInfo')['arriveCity'];
+            $arriveCity = session()->get('flightInfo')['startCity'];
+            $seatClass = session()->get('flightInfo')['seatClass'];
+            $startDate = date("d-m-Y", strtotime(session()->get('flightInfo')['startDate']));
+            $backDate = date("d-m-Y", strtotime(session()->get('flightInfo')['backDate']));
+            $adult = session()->get('flightInfo')['adult'];
+            $children = session()->get('flightInfo')['children'];
+            $infant = session()->get('flightInfo')['infant'];
+            $flights = $this->flightModel
+            ->join('airport AS start', 'start.id', '=', 'flight.start_airport_ID')
+            ->join('airport AS arrive', 'arrive.id', '=', 'flight.arrive_airport_ID')
+            ->select('flight.*')
+            ->where('start.city_ID', '=', $startCity->id)
+            ->where('arrive.city_ID', '=', $arriveCity->id)
+            ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($backDate)))
+            ->get();
+
+            $flightInfo = [
+                'startCity' => $startCity,
+                'arriveCity' => $arriveCity,
+                'seatClass' => $seatClass,
+                'startDate' => $startDate,
+                'backDate' => $backDate,
+                'adult' => $adult,
+                'children' => $children,
+                'infant' => $infant,
+                'flights' => $flights,
+            ];
+
+            session()->put('flightInfo', $flightInfo);
+        }
+        
         session()->put('ticket', $ticket);
         return response()->json([
             'code' => 200,
-            'component' => view('client.layout.booking_list')->render(),
+            'component' => view('client.layout.booking_list')->with(['cities' => $cities, 'seatClasses' => $seatClasses,])->render(),
         ],200);
     }
     

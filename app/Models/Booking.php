@@ -16,6 +16,7 @@ class Booking extends Model
         'children',
         'infant',
         'seat_class_ID',
+        'total_price',
         'status',
     ];
 

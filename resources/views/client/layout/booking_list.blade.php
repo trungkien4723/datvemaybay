@@ -1,3 +1,5 @@
+<!-- <div>{{empty(session('maxChoose')) ? '' : session('maxChoose')}} ||||| {{empty(session('ticket')) ? '' : count(session('ticket')) }}</div> -->
+<div></div>
 <div class="position-sticky container-fluid">
         <div class="row justify-content-center" style="padding: 2rem;">
             <div class="card" id="find-flight" style="width: 80rem;">
@@ -5,13 +7,15 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-6">
-                                <div class="my-2">Bay từ --> {{ $startCity->name }} --> đến --> {{ $arriveCity->name }}</div>
-                                <div class="my-2">Ngày {{ $startDate }} @if($backDate)>> Ngày {{ $backDate }}@endif | {{ $totalPassenger }} du khách | {{ $seatClass->name }}</div>
+                            @php $totalPassenger = session('flightInfo')['adult'] + session('flightInfo')['children'] + session('flightInfo')['infant'] @endphp
+                                <div class="my-2">Bay từ --> {{ session('flightInfo')['startCity']->name }} --> đến --> {{ session('flightInfo')['arriveCity']->name }}</div>
+                                <div class="my-2">Ngày {{ session('flightInfo')['startDate'] }} @if(session('flightInfo')['backDate'])>> Ngày {{ session('flightInfo')['backDate'] }}@endif | {{ $totalPassenger }} du khách | {{ session('flightInfo')['seatClass']->name }}</div>
                             </div>
                             <div class="col-4" id="choosed_flight">
                                 @if(session('ticket'))
                                     @foreach(session('ticket') as $id => $item)
-                                        <div>{{ $item['start_time'] }}</div>
+                                        <div>Mã chuyến bay: {{$item['flight_ID']}}</div>
+                                        <div>Ngày khởi hành: {{ $item['start_time'] }}</div>
                                     @endforeach 
                                 @endif
                             </div>
@@ -24,11 +28,19 @@
                 </div>
             </div>
         </div>
+        <strong><span class="text-danger">
+        *</span> Quy tắc giá vé: 
+            <div>+ vé cho <span class="text-danger">trẻ em </span>sẽ được giảm <span class="text-danger">30%</span></div> 
+            <div>+ vé cho <span class="text-danger">em bé </span>sẽ được giảm <span class="text-danger">50%</span></div>
+            <div>+ vé đặt tính từ bây giờ cho đến <span class="text-danger">ngày khởi hành</span> nếu < 1 ngày sẽ có giá <span class="text-danger"> gấp 5 lần</span></div>
+            <div>+ vé đặt tính từ bây giờ cho đến <span class="text-danger">ngày khởi hành</span> nếu < 10 ngày sẽ có giá <span class="text-danger"> gấp 3 lần</span></div>
+            <div>+ vé đặt tính từ bây giờ cho đến <span class="text-danger">ngày khởi hành</span> nếu < 1 tháng sẽ có giá <span class="text-danger"> gấp 2 lần</span></div>  
+        </strong>
         <hr class="my-5">
     </div>
 
     <div class="justify-content-center container-fluid">
-        @foreach($flights as $flight)
+        @foreach(session('flightInfo')['flights'] as $flight)
         <div class="card my-1" id="find-flight" style="width: 80rem;">
             <div class="card-body">
                        
@@ -36,21 +48,29 @@
                     <div class="row">
                         <div class="col-4">
                             <div>{{date("d-m-Y H:i", strtotime($flight->start_time))}}</div>
-                            <div>Từ - {{$flight->startAirport->name}} ( {{ $startCity->name }} ) </div>
+                            <div>Từ - {{$flight->startAirport->name}} ( {{ session('flightInfo')['startCity']->name }} ) </div>
                         </div>
                         <div class="col-4">
                             <div>{{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</div>
-                            <div>Đến - {{$flight->arriveAirport->name}} ( {{ $arriveCity->name }} ) </div>
+                            <div>Đến - {{$flight->arriveAirport->name}} ( {{ session('flightInfo')['arriveCity']->name }} ) </div>
                         </div>
                         <div class="col-2">
-                           <div>Máy bay: {{$flight->aircraft_ID}} | {{$flight->id}}</div>
-                           <div>{{$flight->aircraft->airline->name}}</div>
+                           <div>Máy bay: {{$flight->aircraft_ID}}-{{$flight->aircraft->airline->name}}</div>
+                           <div>mã chuyến bay: {{$flight->id}}</div>
+                           @php
+                                $price = $flight->price;
+                                if(session('flightInfo')['seatClass']->id == 1){$price = $price * 5;}
+                                else if(session('flightInfo')['seatClass']->id == 2){$price = $price * 4;}
+                                else if(session('flightInfo')['seatClass']->id == 4){$price = $price * 2;}
+                           @endphp
+                           <div>giá: {{number_format($price)}}</div>
                         </div>
-                        <div class="col-2">
-                            <a class="btn btn-warning btn-block text-center add_flight" 
+                        <div class="col-2 ">
+                            <a href="#"
+                                class="btn btn-warning btn-block text-center add_flight" 
                                 role="button"
-                                href="{{route('addFlight', $flight->id)}}"
-                                data-bs-toggle="modal" data-bs-target="#book_modal">
+                                data-url="{{route('addFlight', $flight->id)}}"
+                                >
                                 Chọn
                             </a>
                         </div>
@@ -62,7 +82,13 @@
         @endforeach
     </div>
 
-
+    @if(!empty(session()->get('ticket')))
+        @if(count(session('ticket')) >= session()->get('maxChoose'))
+            <script>
+                $('#book_modal').modal('show');
+            </script>
+        @endif
+    @endif
     <!-- modal Dat ve -->
     <div class="modal fade" id="book_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -81,11 +107,11 @@
                     </div>
                     <div class="row">
                         <div class="col-6"> 
-                            <div class="row">Điểm khởi hành: {{$startCity->name}}</div>
-                            <div class="row">Điểm đến: {{$arriveCity->name}}</div>
+                            <div class="row">Điểm khởi hành: {{session('flightInfo')['startCity']->name}}</div>
+                            <div class="row">Điểm đến: {{session('flightInfo')['arriveCity']->name}}</div>
                         </div>
                         <div class="col-6">
-                            giá vé = {{$item['price']}} x {{$totalPassenger}} du khách = {{$item['price']*$totalPassenger}}
+                            giá vé = {{number_format($item['price'])}} ({{$totalPassenger}} du khách)
                         </div>
                     </div>
                 @endforeach
@@ -105,7 +131,13 @@
             <h5 class="modal-title" id="exampleModalToggleLabel2">Xác nhận thông tin</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="POST" action="{{route('passengers.store',['adult' => $adult, 'children' => $children, 'infant' => $infant, 'seatClass' => $seatClass])}}"  enctype="multipart/form-data">
+        <form method="POST" action="{{route('passengers.store',[
+                                                                'adult' => session('flightInfo')['adult'], 
+                                                                'children' => session('flightInfo')['children'], 
+                                                                'infant' => session('flightInfo')['infant'], 
+                                                                'seatClass' => session('flightInfo')['seatClass'],
+                                                                ])}}"  
+        enctype="multipart/form-data">
             @csrf
         <div class="modal-body">
             <div class="row mb-2">
