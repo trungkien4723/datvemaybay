@@ -104,7 +104,7 @@ function passengersCount(){
 }
 
 
-$('.add_flight').click(function(e){
+$(document).on('click','.add_flight',function(e){
     e.preventDefault();
     let url = $(this).data('url');
     $.ajax({
@@ -117,11 +117,13 @@ $('.add_flight').click(function(e){
                 $('.booking_list').html(data.component);
             }
         },
-        error: function(){
-            alert('Đã có lỗi xảy ra!');
+        error: function(xhr){
+            var err = xhr.responseText;
+            alert(err.error);
         }
     });
 });
+
 
 
 });

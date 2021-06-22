@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
 use App\Models\Booking;
+use App\Models\Flight;
 use Illuminate\Http\Request;
+use App\Jobs\sendMail;
 
 class passengerController extends Controller
 {
 
     protected $passengerModel;
     protected $bookingModel;
+    protected $flightModel;
 
-    public function __construct(Passenger $passenger, Booking $booking)
+    public function __construct(Passenger $passenger, Booking $booking, Flight $flight)
     {
         $this->passengerModel = $passenger;
         $this->bookingModel = $booking;
+        $this->flightModel = $flight;
     }
     /**
      * Display a listing of the resource.
@@ -73,13 +77,29 @@ class passengerController extends Controller
                 'children' => $request->children,
                 'infant' => $request->infant,
                 'seat_class_ID' => $request->seatClass,
+                'total_price' => $item['price'],
                 'status' => 'Đang kích hoạt',
             ];
          
             $booking = $this->bookingModel->create($dataCreate);
         }
 
-        session()->flush('ticket');
+        if($passenger){
+            $flightIDs = array();
+            foreach(session()->get('ticket') as $item)
+            {
+                array_push($flightIDs,$item['flight_ID']);
+            }
+            $flights = $this->flightModel->select('flight.*')->whereIn('id', $flightIDs)->get();
+            $data = [
+                'flights' => $flights,
+                'booking' => $booking,
+                'passenger' => $passenger,
+            ];
+            sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
+        }
+        
+        session()->forget('ticket');
         return redirect()->route('home');
     }
 

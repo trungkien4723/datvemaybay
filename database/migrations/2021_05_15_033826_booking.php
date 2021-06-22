@@ -22,7 +22,8 @@ class Booking extends Migration
             $table->integer("children");
             $table->integer("infant");
             $table->integer("seat_class_ID");
-            $table->string("status");
+            $table->integer("total_price");
+            $table->string("status")->default('Đang kích hoạt');
             $table->rememberToken();
             $table->timestamps();
         });
