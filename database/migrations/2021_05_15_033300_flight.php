@@ -33,6 +33,6 @@ class Flight extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Flight');
+        Schema::dropIfExists('flight');
     }
 }

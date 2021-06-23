@@ -13,6 +13,7 @@ class flightSeeder extends Seeder
     public function run()
     {
         $testFlight1 = App\Models\Flight::create([
+            //'flight_code' => 'TEST000001',
             'aircraft_ID' => 1,
             'start_airport_ID' => 1,
             'start_time' => Carbon::parse('2021-09-12'),
@@ -22,6 +23,7 @@ class flightSeeder extends Seeder
         ]);
 
         $testFlight2 = App\Models\Flight::create([
+            //'flight_code' => 'TEST000002',
             'aircraft_ID' => 2,
             'start_airport_ID' => 2,
             'start_time' => Carbon::parse('2021-09-30'),

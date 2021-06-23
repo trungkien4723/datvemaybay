@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','role:super-admin|admin']],function(){
 
     Route::get('/dashboard', function (){
-        return view('manage.layout.app');
+        return view('manage.dashboard.index');
     });
 
     Route::get('user/index-admin','userController@index_admin')->name("index-admin");
