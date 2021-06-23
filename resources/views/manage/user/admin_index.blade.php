@@ -57,7 +57,7 @@
                 @can('delete admin-user')
                 <td>
                     <form action="{{route('users.destroy', $user->id)}}"  method="post">
-                        <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-link" type="submit" onclick="return confirm('Bạn có chắc là muốn xóa?')"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        
                     </form>    
