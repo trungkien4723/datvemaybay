@@ -1,61 +1,119 @@
 <?php
 
 namespace App\Http\Controllers\Manager;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Slider;
-use Session;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Traits\handleImageTrait;
-use Illuminate\Support\Facades\Redirect;
-use DB;
-class SliderController extends Controller
+
+class sliderController extends Controller
 {
     use handleImageTrait;
 
-    protected $path;                   
+    protected $path;
     protected $sliderModel;
 
     public function __construct(Slider $slider)
     {
+        $this->path = "images/slider/";
         $this->sliderModel = $slider;
-        $this->path = 'images/slider/';
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $sliders = $this->sliderModel->latest('id')->paginate(10);
+        return view('manage.slider.index')->with(['sliders' => $sliders]);
     }
 
-    public function manage_slider(){
-    	$all_slide = Slider::orderBy('id','DESC')->get();
-    	return view('manage.slider.list_slider')->with(compact('all_slide'));
-    }
-    public function add_slider(){
-    	return view('manage.slider.add_slider');
-    }
-    public function unactive_slide($slide_id){
-        $this->AuthLogin();
-        DB::table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>0]);
-        Session::put('message','Không kích hoạt slider thành công');
-        return Redirect::to('manage-slider');
-
-    }
-    public function active_slide($slide_id){
-        $this->AuthLogin();
-        DB::table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>1]);
-        Session::put('message','Kích hoạt slider thành công');
-        return Redirect::to('manage-slider');
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('manage.slider.create');
     }
 
-    public function insert_slider(Request $request){
-    	
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $image = $request->file('image');
-        $data = $request->all();
-        $data['image'] = $this->saveImage($image, $this->path);
-      
-        if($image){
-            $slider = $this->sliderModel->create($data);
-            return redirect()->route('add_slider')->with('message', 'Thêm thành công');
-        }else{
-        	return redirect()->route('add_slider')->with('message', 'Hãy chèn hình ảnh');
-        }
-       	
+        $dataCreate = $request->all();
+        $dataCreate['image'] = $this->saveImage($image, $this->path);
+
+        $slider = $this->sliderModel->create($dataCreate);
+
+        return redirect()->route('sliders.index')->with('message', 'Thêm thành công');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Slider  $slider
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Slider $slider)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Slider  $slider
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Slider $slider)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Slider  $slider
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Slider $slider)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Slider  $slider
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $slider=$this->sliderModel->destroy($id);
+        return redirect()->route('sliders.index')->with('message', 'Xóa thành công');
+    }
+
+    public function active($id)
+    {
+        $slider = $this->sliderModel->findOrFail($id);
+        $slider->update(['status'=>1]);
+        return redirect()->route('sliders.index')->with('message', 'Kích hoạt thành công');
+    }
+
+    public function unActive($id)
+    {
+        $slider = $this->sliderModel->findOrFail($id);
+        $slider->update(['status'=>0]);
+        return redirect()->route('sliders.index')->with('message', 'Ẩn thành công');
     }
 }

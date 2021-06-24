@@ -64,10 +64,10 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>-->
       </ul>
-      <form class="d-flex">
+      <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
         <button class="btn btn-warning" type="submit">Tìm</button>
-      </form>
+      </form> -->
     </div>
   </div>
 </nav>
