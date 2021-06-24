@@ -15,7 +15,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('slider')}}" class="nav-link px-0 align-middle">
+                    <a href="{{route('sliders.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 bi-sliders"></i> <span class="ms-1 d-none d-sm-inline">Quản lý Slider</span></a>
                 </li>
 
