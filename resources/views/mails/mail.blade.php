@@ -36,7 +36,7 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
             <th>Tổng giá</th>
         </tr>
          @php $total = 0; @endphp
-         @foreach(session('ticket') as $item)
+         @foreach($data['ticket'] as $item)
          @php $total += $item['price']; @endphp @endforeach
             @foreach($data['flights'] as $flight)   
             <tr>

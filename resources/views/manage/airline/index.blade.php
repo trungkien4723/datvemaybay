@@ -13,7 +13,7 @@
     @endcan
 
     <h3>Danh sách hãng hàng không</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
