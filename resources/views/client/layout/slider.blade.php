@@ -1,3 +1,4 @@
+@if(!$slider->isEmpty())
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
   <div class="carousel-inner">
       @foreach($slider as $key => $slide)
@@ -18,3 +19,4 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+@endif

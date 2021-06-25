@@ -13,7 +13,7 @@
     @endcan
 
     <h3>Danh sách sân bay</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>

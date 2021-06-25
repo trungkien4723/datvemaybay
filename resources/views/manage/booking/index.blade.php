@@ -13,7 +13,7 @@
     @endcan
 
     <h3>Danh sách vé đặt</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
@@ -34,7 +34,15 @@
                 </td>
                 <td>{{$booking->seatClass->name}}</td>
                 <td>{{number_format($booking->total_price)}} VND</td>
-                <td>{{$booking->status}}</td>
+                @can('edit articles')
+                <td>
+                    @if($booking->status == 0)
+                        <a href="{{route('active_booking', $booking->id)}}" style="text-decoration:none;"><i class="bi bi-hand-thumbs-down"></i> - Đang tạm ngưng</a>
+                        @else
+                        <a href="{{route('unactive_booking', $booking->id)}}" style="text-decoration:none;"><i class="bi bi-hand-thumbs-up"></i> - Đang kích hoạt</a>
+                    @endif
+                </td>
+                @endcan
                 @can('edit articles')
                 <td><a href="{{route('bookings.edit',$booking->id)}}"><i class="bi bi-pencil"></i></a></td>
                 @endcan

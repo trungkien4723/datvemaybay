@@ -13,7 +13,7 @@
     @endcan
 
     <h3>Danh sách chuyến bay</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
@@ -28,10 +28,10 @@
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$flight->aircraft->id}}</td>
-                <td>{{$flight->startAirport->name}}</td>
+                <td>{{date("d-m-Y H:i", strtotime($flight->start_time))}}</td>
                 <td>{{$flight->start_time}}</td>
                 <td>{{$flight->arriveAirport->name}}</td>
-                <td>{{$flight->arrive_time}}</td>
+                <td>{{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</td>
                 <td>{{$flight->price}}</td>
                 @can('edit articles')
                 <td><a href="{{route('flights.edit',$flight->id)}}"><i class="bi bi-pencil"></i></a></td>

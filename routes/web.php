@@ -22,13 +22,16 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::get('user/index-admin','userController@index_admin')->name("index-admin");
     Route::resource('users', 'userController');
     Route::resource('sliders','sliderController');
+    Route::get('sliders/active/{id}', 'sliderController@active')->name('active_slider');
+    Route::get('sliders/unactive/{id}', 'sliderController@unActive')->name('unactive_slider');
     Route::resource('airlines', 'airlineController');
     Route::resource('aircrafts', 'aircraftController');
     Route::resource('airports', 'airportController');
     Route::resource('flights', 'flightController');
     Route::resource('bookings', 'bookingController');
-    Route::get('sliders/active/{id}', 'sliderController@active')->name('active_slider');
-    Route::get('sliders/unactive/{id}', 'sliderController@unActive')->name('unactive_slider');
+    Route::get('bookings/active/{id}', 'bookingController@active')->name('active_booking');
+    Route::get('bookings/unactive/{id}', 'bookingController@unActive')->name('unactive_booking');
+    
 });
 
 

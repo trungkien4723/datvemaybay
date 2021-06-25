@@ -78,7 +78,6 @@ class passengerController extends Controller
                 'infant' => $request->infant,
                 'seat_class_ID' => $request->seatClass,
                 'total_price' => $item['price'],
-                'status' => 'Đang kích hoạt',
             ];
          
             $booking = $this->bookingModel->create($dataCreate);
@@ -86,7 +85,7 @@ class passengerController extends Controller
 
         if($passenger){
             $flightIDs = array();
-            foreach(session()->get('ticket') as $item)
+            foreach($ticketData as $item)
             {
                 array_push($flightIDs,$item['flight_ID']);
             }
@@ -95,6 +94,7 @@ class passengerController extends Controller
                 'flights' => $flights,
                 'booking' => $booking,
                 'passenger' => $passenger,
+                'ticket' => $ticketData,
             ];
             sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
         }

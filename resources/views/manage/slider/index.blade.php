@@ -1,6 +1,6 @@
 @extends('manage.layout.app')
 
-@section('title', 'Admins')
+@section('title', 'Sliders')
 
 @section('content')
 
@@ -12,7 +12,7 @@
     <a class="btn btn-primary mb-4" href="{{route('sliders.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Thêm slider</span></a>
     @endcan
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
