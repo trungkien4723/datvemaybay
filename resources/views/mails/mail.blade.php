@@ -29,6 +29,7 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
     <table style="text-align:center; width:100%;" border="2px" cellspacing="0">
          <tr>
             <th>STT</th>
+            <th>Mã đặt chỗ</th>
             <th>Máy bay</th>
             <th>Thời điểm đặt vé</th>
             <th>Thời gian bay</th>
@@ -41,6 +42,7 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
             @foreach($data['flights'] as $flight)   
             <tr>
                   <td>{{$loop->iteration}}</td>
+                  <td>{{$flight->booking_key}}</td>
                   <td>{{$flight->aircraft_ID}}-{{$flight->aircraft->airline->name}}</td>
                   <td>{{$data['booking']->booked_time}}</td>
                   <td>{{date("d-m-Y H:i", strtotime($flight->start_time))}} --> {{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</td>

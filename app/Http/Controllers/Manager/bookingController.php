@@ -10,6 +10,7 @@ use App\Models\Seat_class;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Jobs\sendMail;
+use Illuminate\Support\Str;
 
 class bookingController extends Controller
 {
@@ -93,12 +94,19 @@ class bookingController extends Controller
         else if(now()->diffInDays($flight->start_time) < 30){
             $price = $price * 2;
         }
-
+        
         // $ticketData = session()->get('ticket');
         // $dataCreate = array();
+        $bookingIDs = array();
         // foreach($ticketData as $item)
         // {
+            $key = "HNK".Str::random(6);
+            while($this->bookingModel->where('booking_key', $key)->exists()) {
+                $key = "HNK".Str::random(6);
+            }
+
             $dataCreate = [
+                'booking_key' => $key,
                 'booked_time' => now(),
                 'flight_ID' => $request->flight_ID,
                 'passenger_ID' => $passenger->id,        
@@ -110,6 +118,7 @@ class bookingController extends Controller
             ];
          
             $booking = $this->bookingModel->create($dataCreate);
+            array_push($bookingIDs,$booking->id);
         // }
 
         if($passenger){
@@ -118,7 +127,10 @@ class bookingController extends Controller
             // {
             //     array_push($flightIDs,$item['flight_ID']);
             // }
-            $flights = $this->flightModel->select('flight.*')->where('id', '=', $request->flight_ID)->get();
+            $flights = $this->flightModel->select('flight.*', 'booking.*')
+            ->leftJoin('booking', 'booking.flight_ID', '=', 'flight.id')
+            ->where('flight.id', '=', $request->flight_ID)
+            ->whereIn('booking.id', $bookingIDs)->get();
             $ticketData[$request->flight_ID] = ['price' => $price];
             $data = [
                 'flights' => $flights,

@@ -17,7 +17,7 @@
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
-            <th>Mã vé đặt</th>
+            <th>Mã đặt chỗ</th>
             <th>Mã chuyến bay</th>
             <th>Du khách</th>
             <th>Hạng ghế</th>
@@ -27,7 +27,7 @@
         @foreach($bookings as $booking)
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$booking->id}}</td>
+                <td>{{$booking->booking_key}}</td>
                 <td>{{$booking->flight_ID}}</td>
                 <td>
                     {{$booking->adult}} người lớn, {{$booking->children}} trẻ em, {{$booking->infant}} em bé.

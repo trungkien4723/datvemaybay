@@ -9,6 +9,7 @@ class Booking extends Model
     protected $table = "booking";
 
     protected $fillable = [
+        'booking_key',
         'booked_time',       
         'flight_ID',
         'passenger_ID',
@@ -22,7 +23,7 @@ class Booking extends Model
 
     public function flight()
     {
-        return $this->hasMany("App\Models\Booking", "id", "Flight_ID");
+        return $this->hasOne("App\Models\Booking", "id", "Flight_ID");
     }
 
     public function seatClass()
