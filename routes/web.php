@@ -56,7 +56,7 @@ Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
 Route::get('/booking/add-flight/{id}', 'HomeController@addFlight')->name('addFlight');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');
 Route::get('/popular-destination', function () {
-    return view('client.home.popular_destination', [
+    return view('client.popular_destination.index', [
         'cities' => City::get(),
         'slider' => Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get(),
     ]);

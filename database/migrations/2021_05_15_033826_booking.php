@@ -15,6 +15,7 @@ class Booking extends Migration
     {
         Schema::create('booking', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_key');
             $table->timestamp("booked_time")->useCurrent();
             $table->integer("flight_ID");
             $table->integer("passenger_ID");
