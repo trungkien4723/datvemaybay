@@ -9,7 +9,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">TRANG CHỦ</a>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#fff;">
             VÉ MÁY BAY
           </a>
@@ -17,12 +17,15 @@
             <li><a class="dropdown-item" href="#">VÉ NỘI ĐỊA</a></li>
             <li><a class="dropdown-item" href="#">VÉ THEO HÃNG</a></li>
           </ul>
-        </li>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{route('home')}}">ĐIỂM ĐẾN PHỔ BIẾN</a>
+          <a class="nav-link active" aria-current="page" href="{{route('popular_destination')}}">ĐIỂM ĐẾN PHỔ BIẾN</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">KHUYẾN MÃI</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{route('home')}}">CHUYẾN BAY CỦA TÔI</a>
         </li>
         <li class="nav-item">
           @if(auth()->check())

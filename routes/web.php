@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\City;
+use App\Models\Slider;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +55,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
 Route::get('/booking/add-flight/{id}', 'HomeController@addFlight')->name('addFlight');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');
+Route::get('/popular-destination', function () {
+    return view('client.home.popular_destination', [
+        'cities' => City::get(),
+        'slider' => Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get(),
+    ]);
+})->name('popular_destination');
