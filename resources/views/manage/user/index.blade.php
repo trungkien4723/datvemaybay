@@ -13,7 +13,7 @@
     @endcan
 
     <h3>Danh sách người dùng</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
@@ -53,7 +53,7 @@
                 @can('delete articles')
                 <td>
                     <form action="{{route('users.destroy', $user->id)}}"  method="post">
-                        <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-link" type="submit" onclick="return confirm('Bạn có chắc là muốn xóa?')"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        
                     </form>    

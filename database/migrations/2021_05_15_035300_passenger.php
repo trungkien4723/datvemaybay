@@ -14,9 +14,13 @@ class Passenger extends Migration
     public function up()
     {
         Schema::create('passenger', function (Blueprint $table) {
-            $table->integer("booking_ID");
-            $table->string("name");
-            $table->integer("age");
+            $table->id();
+            $table->integer("user_ID")->nullable();
+            $table->string("first_name");
+            $table->string("last_name");
+            $table->tinyInteger('gender')->default('0');
+            $table->string("email");
+            $table->string("phone");
             $table->rememberToken();
             $table->timestamps();
         });

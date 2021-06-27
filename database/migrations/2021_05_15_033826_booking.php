@@ -17,12 +17,13 @@ class Booking extends Migration
             $table->id();
             $table->timestamp("booked_time")->useCurrent();
             $table->integer("flight_ID");
-            $table->integer("user_ID");
+            $table->integer("passenger_ID");
             $table->integer("adult");
             $table->integer("children");
             $table->integer("infant");
             $table->integer("seat_class_ID");
-            $table->string("status");
+            $table->integer("total_price");
+            $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

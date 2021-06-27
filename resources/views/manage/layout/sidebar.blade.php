@@ -14,6 +14,11 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{route('sliders.index')}}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi-sliders"></i> <span class="ms-1 d-none d-sm-inline">Quản lý Slider</span></a>
+                </li>
+
 
                 <li>
                     <a href="{{route('users.index')}}" class="nav-link px-0 align-middle">
@@ -30,6 +35,12 @@
 
 
                 <li>
+                    <a href="{{route('airports.index')}}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi bi-signpost-fill"></i> <span class="ms-1 d-none d-sm-inline">Sân bay</span></a>
+                </li>
+
+
+                <li>
                     <a href="{{route('aircrafts.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 fa fa-plane"></i> <span class="ms-1 d-none d-sm-inline">Máy bay</span></a>
                 </li>
@@ -42,27 +53,16 @@
 
 
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle">
+                    <a href="{{route('flights.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 bi-diagram-3-fill"></i> <span class="ms-1 d-none d-sm-inline">Các chuyến bay</span></a>
                 </li>
 
 
                 <li>
-                    <a href="#" class="nav-link px-0 align-middle">
+                    <a href="{{route('bookings.index')}}" class="nav-link px-0 align-middle">
                         <i class="fs-4 bi-bookmark-star-fill"></i> <span class="ms-1 d-none d-sm-inline">Đặt vé</span></a>
                 </li>
 
-
-                <li>
-                    <a href="#" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Thành phố</span></a>
-                </li>
-
-
-                <li>
-                    <a href="#" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-globe"></i> <span class="ms-1 d-none d-sm-inline">Khu vực</span></a>
-                </li>
                     
             <!--Drop down-->
                 <!-- <li>

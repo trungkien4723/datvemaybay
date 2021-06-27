@@ -21,8 +21,8 @@ return [
     'alpha_dash' => 'Chỉ được chứa ký tự chữ cái, số, dấu gạch chéo và dấu gạch chân.',
     'alpha_num' => 'Chỉ được chứa ký tự chữ và số.',
     'array' => 'Phải là một mảng.',
-    'before' => 'Phải trước ngày :date.',
-    'before_or_equal' => 'Phải trong hoặc trước ngày :date.',
+    'before' => ':attribute phải trước ngày :date.',
+    'before_or_equal' => ':attribute phải trong hoặc trước ngày :date.',
     'between' => [
         'numeric' => 'Phải ở trong khoảng :min và :max.',
         'file' => 'Phải ở trong khoảng :min và :max kilobytes.',
@@ -146,6 +146,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'arrive_time' => 'thời gian đến',
+        'start_airport_ID' => 'Điểm đi',
+        'arrive_airport_ID' => 'Điểm đến',
+        'date_from' => 'Ngày đi',
+        'date_to' => 'Ngày về',
+    ],
 
 ];

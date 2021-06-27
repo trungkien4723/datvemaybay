@@ -1,6 +1,6 @@
 @extends('manage.layout.app')
 
-@section('title', 'Edit airlines')
+@section('title', 'Edit aircrafts')
 
 @section('content')
 
@@ -13,7 +13,7 @@
 
 <div class="row justify-content-center">
     <div class="card">
-        <div class="card-header">Chỉnh sửa thông tin hãng hàng không</div>
+        <div class="card-header">Chỉnh sửa thông tin máy bay</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
                     <form method="POST" action="{{ route('aircrafts.update',$aircraft->id) }}"  enctype="multipart/form-data" >

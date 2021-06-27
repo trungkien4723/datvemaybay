@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{route('home')}}">LTMT5K10</a>
+    <a class="navbar-brand" href="{{route('home')}}"><img  width="70px" height="30px" src="{{asset('images/web/logo.png')}}" alt=""></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,7 +9,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">TRANG CHỦ</a>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#fff;">
             VÉ MÁY BAY
           </a>
@@ -17,12 +17,15 @@
             <li><a class="dropdown-item" href="#">VÉ NỘI ĐỊA</a></li>
             <li><a class="dropdown-item" href="#">VÉ THEO HÃNG</a></li>
           </ul>
-        </li>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{route('home')}}">ĐIỂM ĐẾN PHỔ BIẾN</a>
+          <a class="nav-link active" aria-current="page" href="{{route('popular_destination')}}">ĐIỂM ĐẾN PHỔ BIẾN</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">KHUYẾN MÃI</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{route('home')}}">CHUYẾN BAY CỦA TÔI</a>
         </li>
         <li class="nav-item">
           @if(auth()->check())
@@ -64,10 +67,10 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>-->
       </ul>
-      <form class="d-flex">
+      <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
         <button class="btn btn-warning" type="submit">Tìm</button>
-      </form>
+      </form> -->
     </div>
   </div>
 </nav>

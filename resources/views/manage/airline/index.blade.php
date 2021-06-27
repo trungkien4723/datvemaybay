@@ -13,19 +13,19 @@
     @endcan
 
     <h3>Danh sách hãng hàng không</h3>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center table-responsive">
     <table  class="table table-bordered">
         <tr>
             <th>STT</th>
             <th>Tên</th>
-            <th>Tên viết tắt</th>
+            <!-- <th>Tên viết tắt</th> -->
             <th>Logo</th>
         </tr>
         @foreach($airlines as $airline)
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$airline->name}}</td>
-                <td>{{$airline->short_name}}</td>
+                <!-- <td>{{$airline->short_name}}</td> -->
                 <td>
                     @if($airline->logo == NULL)
                         Trống
@@ -39,7 +39,7 @@
                 @can('delete articles')
                 <td>
                     <form action="{{route('airlines.destroy', $airline->id)}}"  method="post">
-                        <button class="btn btn-link" type="submit"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-link" type="submit" onclick="return confirm('Bạn có chắc là muốn xóa?')"><i class="fa fa-trash"></i></button>
                         @csrf
                         @method('DELETE')                        
                     </form>    

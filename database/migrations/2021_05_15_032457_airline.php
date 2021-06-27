@@ -16,8 +16,7 @@ class Airline extends Migration
         Schema::create('airline', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('short_name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,6 +1,6 @@
 @extends('manage.layout.app')
 
-@section('title', 'Create airlines')
+@section('title', 'Create aircrafts')
 
 @section('content')
 
@@ -16,7 +16,7 @@
 
     <div class="row justify-content-center">
     <div class="card">
-        <div class="card-header">Thêm hãng hàng không</div>
+        <div class="card-header">Thêm máy bay</div>
             <div class="form-group row">                
                 <div class="card-body justify-content-center">
                     <form method="POST" action="{{ route('aircrafts.store') }}"  enctype="multipart/form-data" >
