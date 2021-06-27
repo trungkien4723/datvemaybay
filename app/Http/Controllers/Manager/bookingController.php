@@ -148,9 +148,17 @@ class bookingController extends Controller
      * @param  \App\Models\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function edit(Booking $booking)
+    public function edit($id)
     {
-        //
+        $booking = $this->bookingModel->findOrFail($id);
+        $passenger = $this->passengerModel->findOrFail($booking->passenger_ID);
+        $flights = $this->flightModel->get();
+        $seatClasses = $this->seatClassModel->get();
+        return view('manage.booking.edit')
+        ->with(['booking'=> $booking,
+            'passenger' =>$passenger,
+            'flights' => $flights,
+            'seatClasses' => $seatClasses,]);
     }
 
     /**
@@ -160,9 +168,73 @@ class bookingController extends Controller
      * @param  \App\Models\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, $id)
     {
-        //
+        $booking = $this->bookingModel->findOrFail($id);
+        $passenger = $this->passengerModel->findOrFail($booking->passenger_ID);
+        $user = $this->userModel->where('email', '=', $request->email)->first();
+
+        $dataCreate = $request->all();
+
+        $dataCreate['user_ID'] = $user->id;
+
+        $passenger->update($dataCreate);
+
+
+        $flight = $this->flightModel->findOrFail($request->flight_ID);
+        $price = $flight->price;
+        if($request->seat_class_ID == 1){$price = $price * 5;}
+        else if($request->seat_class_ID == 2){$price = $price * 4;}
+        else if($request->seat_class_ID == 4){$price = $price * 2;}
+        $price = ($price * $request->adult) 
+        + (($price - ($price * 30 / 100)) * $request->children)
+        + (($price - ($price * 50 / 100)) * $request->infant);
+
+        if(now()->diffInDays($flight->start_time) < 2){
+            $price = $price * 5;
+        }
+        else if(now()->diffInDays($flight->start_time) < 10){
+            $price = $price * 3;
+        }
+        else if(now()->diffInDays($flight->start_time) < 30){
+            $price = $price * 2;
+        }
+
+        // $ticketData = session()->get('ticket');
+        // $dataCreate = array();
+        // foreach($ticketData as $item)
+        // {
+            $dataCreate = [
+                'booked_time' => now(),
+                'flight_ID' => $request->flight_ID,
+                'passenger_ID' => $passenger->id,        
+                'adult' => $request->adult,
+                'children' => $request->children,
+                'infant' => $request->infant,
+                'seat_class_ID' => $request->seat_class_ID,
+                'total_price' => $price,
+            ];
+         
+            $booking->update($dataCreate);
+        // }
+
+        // if($passenger){
+        //     // $flightIDs = array();
+        //     // foreach(session()->get('ticket') as $item)
+        //     // {
+        //     //     array_push($flightIDs,$item['flight_ID']);
+        //     // }
+        //     $flights = $this->flightModel->select('flight.*')->where('id', '=', $request->flight_ID)->get();
+        //     $ticketData[$request->flight_ID] = ['price' => $price];
+        //     $data = [
+        //         'flights' => $flights,
+        //         'booking' => $booking,
+        //         'passenger' => $passenger,
+        //         'ticket' => $ticketData,
+        //     ];
+        //     sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
+        // }
+        return redirect()->route('bookings.index')->with('message', 'Cập nhật thành công');
     }
 
     /**
@@ -171,9 +243,10 @@ class bookingController extends Controller
      * @param  \App\Models\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Booking $booking)
+    public function destroy($id)
     {
-        //
+        $booking=$this->bookingModel->destroy($id);
+        return redirect()->route('bookings.index')->with('message', 'Xóa thành công');
     }
 
     public function active($id)
