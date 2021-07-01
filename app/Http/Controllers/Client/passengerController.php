@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Flight;
 use Illuminate\Http\Request;
 use App\Jobs\sendMail;
+use Illuminate\Support\Str;
 
 class passengerController extends Controller
 {
@@ -67,9 +68,16 @@ class passengerController extends Controller
 
         $ticketData = session()->get('ticket');
         $dataCreate = array();
+        $bookingIDs = array();
         foreach($ticketData as $item)
         {
+            $key = "HNK".Str::random(6);
+            while($this->bookingModel->where('booking_key', $key)->exists()) {
+                $key = "HNK".Str::random(6);
+            }
+
             $dataCreate = [
+                'booking_key' => $key,
                 'booked_time' => now(),
                 'flight_ID' => $item['flight_ID'],
                 'passenger_ID' => $passenger->id,        
@@ -81,6 +89,7 @@ class passengerController extends Controller
             ];
          
             $booking = $this->bookingModel->create($dataCreate);
+            array_push($bookingIDs,$booking->id);
         }
 
         if($passenger){
@@ -89,7 +98,10 @@ class passengerController extends Controller
             {
                 array_push($flightIDs,$item['flight_ID']);
             }
-            $flights = $this->flightModel->select('flight.*')->whereIn('id', $flightIDs)->get();
+            $flights = $this->flightModel->select('flight.*', 'booking.*')
+            ->leftJoin('booking', 'booking.flight_ID', '=', 'flight.id')
+            ->whereIn('flight.id', $flightIDs)
+            ->whereIn('booking.id', $bookingIDs)->get();
             $data = [
                 'flights' => $flights,
                 'booking' => $booking,
