@@ -87,8 +87,9 @@ class homeController extends Controller
     public function edit($id)
     {
         $user = $this->userModel->with('roles')->findOrFail($id);
+        $slider = Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get();
 
-        return view('client.home.edit')->with('user', $user);
+        return view('client.home.edit')->with(['user' => $user, 'slider' => $slider]);
     }
 
     /**
