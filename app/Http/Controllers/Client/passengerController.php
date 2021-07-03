@@ -50,66 +50,97 @@ class passengerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $checkExist = $this->passengerModel->where('email', '=', $request->email)->first();
-        //$checkRelative = $checkExist->where('')->get;
-        if($checkExist == null){
-            $dataCreate = $request->all();
-            if(auth()->check())
-            {
-                $dataCreate['user_ID'] = auth()->user()->id;
-            }
-            $passenger = $this->passengerModel->create($dataCreate);
-        }
-        else
+    {     
+        for($i=0; $i < count($request->last_name); $i++)
         {
-            $passenger = $checkExist;
-        }
-
-        $ticketData = session()->get('ticket');
-        $dataCreate = array();
-        $bookingIDs = array();
-        foreach($ticketData as $item)
-        {
-            $key = "HNK".Str::random(6);
-            while($this->bookingModel->where('booking_key', $key)->exists()) {
-                $key = "HNK".Str::random(6);
+            //$checkRelative = $checkExist->where('')->get;
+            if($i == 0){
+                $checkExist = $this->passengerModel->where('email', '=', $request->input('email')[0])->first();
+                if($checkExist == null){
+                    $dataCreate = [
+                        'first_name' => $request->input('first_name')[$i],
+                        'last_name' => $request->input('last_name')[$i],
+                        'gender' => $request->input('gender')[$i],
+                        'email' => $request->input('email')[$i],
+                        'ID_number' => $request->input('ID_number')[$i],
+                        'phone' => $request->input('phone')[$i],
+                    ];
+                    if(auth()->check())
+                    {
+                        $dataCreate['user_ID'] = auth()->user()->id;
+                    }
+                    $passenger = $this->passengerModel->create($dataCreate);
+                }
+                else
+                {
+                    $passenger = $checkExist;
+                }
             }
-
-            $dataCreate = [
-                'booking_key' => $key,
-                'booked_time' => now(),
-                'flight_ID' => $item['flight_ID'],
-                'passenger_ID' => $passenger->id,        
-                'adult' => $request->adult,
-                'children' => $request->children,
-                'infant' => $request->infant,
-                'seat_class_ID' => $request->seatClass,
-                'total_price' => $item['price'],
-            ];
-         
-            $booking = $this->bookingModel->create($dataCreate);
-            array_push($bookingIDs,$booking->id);
-        }
-
-        if($passenger){
-            $flightIDs = array();
+            else{
+                $dataCreate = [
+                    'first_name' => $request->input('first_name')[$i],
+                    'last_name' => $request->input('last_name')[$i],
+                    'gender' => $request->input('gender')[$i],
+                ];
+                if($i < $request->adult){
+                    $dataCreate['ID_number'] = $request->input('ID_number')[$i];
+                    $dataCreate['phone'] = $request->input('phone')[$i];
+                }
+                if(auth()->check())
+                {
+                    $dataCreate['user_ID'] = auth()->user()->id;
+                }
+                $passenger = $this->passengerModel->create($dataCreate);
+            }
+            
+            $ticketData = session()->get('ticket');
+            $dataCreate = array();
+            $bookingIDs = array();
             foreach($ticketData as $item)
             {
-                array_push($flightIDs,$item['flight_ID']);
+                $key = "HNK".Str::random(6);
+                while($this->bookingModel->where('booking_key', $key)->exists()) {
+                    $key = "HNK".Str::random(6);
+                }
+
+                $dataCreate = [
+                    'booking_key' => $key,
+                    'booked_time' => now(),
+                    'flight_ID' => $item['flight_ID'],
+                    'passenger_ID' => $passenger->id,        
+                    'adult' => $request->adult,
+                    'children' => $request->children,
+                    'infant' => $request->infant,
+                    'seat_class_ID' => $request->seatClass,
+                    'total_price' => $item['price'],
+                ];
+            
+                $booking = $this->bookingModel->create($dataCreate);
+                array_push($bookingIDs,$booking->id);
             }
-            $flights = $this->flightModel->select('flight.*', 'booking.*')
-            ->leftJoin('booking', 'booking.flight_ID', '=', 'flight.id')
-            ->whereIn('flight.id', $flightIDs)
-            ->whereIn('booking.id', $bookingIDs)->get();
-            $data = [
-                'flights' => $flights,
-                'booking' => $booking,
-                'passenger' => $passenger,
-                'ticket' => $ticketData,
-            ];
-            sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
+
+            if($passenger){
+                $flightIDs = array();
+                foreach($ticketData as $item)
+                {
+                    array_push($flightIDs,$item['flight_ID']);
+                }
+                $flights = $this->flightModel->select('flight.*', 'booking.*')
+                ->leftJoin('booking', 'booking.flight_ID', '=', 'flight.id')
+                ->whereIn('flight.id', $flightIDs)
+                ->whereIn('booking.id', $bookingIDs)->get();
+                $data = [
+                    'flights' => $flights,
+                    'booking' => $booking,
+                    'passenger' => $passenger,
+                    'ticket' => $ticketData,
+                ];
+                if($i == 0){        
+                    sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
+                }
+            }
         }
+        
         
         session()->forget('ticket');
         return redirect()->route('home');

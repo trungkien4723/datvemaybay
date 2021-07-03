@@ -19,8 +19,9 @@ class Passenger extends Migration
             $table->string("first_name");
             $table->string("last_name");
             $table->tinyInteger('gender')->default('0');
-            $table->string("email");
-            $table->string("phone");
+            $table->string("email")->nullable();
+            $table->bigInteger('ID_number')->nullable();
+            $table->string("phone")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
