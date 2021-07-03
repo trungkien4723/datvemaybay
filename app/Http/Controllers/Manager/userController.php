@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
 use App\Traits\handleImageTrait;
 use App\Models\User;
@@ -70,6 +71,7 @@ class userController extends Controller
         $image = $request->file('image');
         $dataCreate = $request->all();
         $dataCreate['image'] = $this->saveImage($image, $this->path);
+        $dataCreate['password'] = Hash::make($request->password);
 
         $user = $this->userModel->create($dataCreate);
 
