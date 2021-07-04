@@ -13,6 +13,7 @@ use App\Models\Airport;
 use App\Models\Aircraft;
 use App\Models\Slider;
 use App\Models\Ticket;
+use App\Models\Booking;
 
 class HomeController extends Controller
 {
@@ -22,13 +23,14 @@ class HomeController extends Controller
     protected $airportModel;
     protected $aircraftModel;
     protected $flightModel;
+    protected $bookingModel;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Seat_class $seatClass, City $city, Airport $airport, Aircraft $aircraft, Flight $flight)
+    public function __construct(User $user, Seat_class $seatClass, City $city, Airport $airport, Aircraft $aircraft, Flight $flight, Booking $booking)
     {
         $this->userModel = $user;
         $this->seatClassModel = $seatClass;
@@ -36,6 +38,7 @@ class HomeController extends Controller
         $this->airportModel = $airport;
         $this->aircraftModel = $aircraft;
         $this->flightModel = $flight;
+        $this->bookingModel = $booking;
     }
 
     /**
@@ -227,4 +230,17 @@ class HomeController extends Controller
         ],200);
     }
     
+    public function showMyFlightForm()
+    {
+        $slider = Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get();
+        return view('client.my_flight.index')->with(['slider' => $slider,]);
+    }
+    public function showMyFlight(Request $request)
+    {
+        $bookingKey = $request->booking_key;
+        $slider = Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get();
+        $booking = $this->bookingModel->where('booking_key', '=', $bookingKey)->first();
+        $flight = $this->flightModel->where('id', '=', $booking->flight_ID)->first();
+        return view('client.my_flight.show')->with(['slider' => $slider, 'flight' => $flight, 'booking' => $booking]);
+    }
 }
