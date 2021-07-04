@@ -61,3 +61,5 @@ Route::get('/popular-destination', function () {
         'slider' => Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get(),
     ]);
 })->name('popular_destination');
+Route::get('/my-flight', 'HomeController@showMyflightForm')->name('show_my_flight_form');
+Route::get('/my-flight/show', 'HomeController@showMyflight')->name('show_my_flight');
