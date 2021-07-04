@@ -36,7 +36,7 @@ class BookingChart extends BaseChart
 
         foreach ($period as $date) {
             $listOfDates[] = $date->format('d-m-y');
-            array_push($bookings, Booking::whereDate('created_at', '=', $date)->count());
+            array_push($bookings, Booking::whereDate('booked_time', '=', $date)->count());
         }
 
         return Chartisan::build()

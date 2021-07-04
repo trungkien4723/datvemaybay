@@ -111,7 +111,7 @@
                             <div class="row">Điểm đến: {{session('flightInfo')['arriveCity']->name}}</div>
                         </div>
                         <div class="col-6">
-                            giá vé = {{number_format($item['price'])}} ({{$totalPassenger}} du khách)
+                            giá vé = {{number_format($item['total_price'])}} ({{$totalPassenger}} du khách)
                         </div>
                     </div>
                 @endforeach

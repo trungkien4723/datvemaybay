@@ -157,9 +157,6 @@ class HomeController extends Controller
         if($flightInfo['seatClass']->id == 1){$price = $price * 5;}
         else if($flightInfo['seatClass']->id == 2){$price = $price * 4;}
         else if($flightInfo['seatClass']->id == 4){$price = $price * 2;}
-        $price = ($price * $flightInfo['adult']) 
-        + (($price - ($price * 30 / 100)) * $flightInfo['children'])
-        + (($price - ($price * 50 / 100)) * $flightInfo['infant']);
 
         if(now()->diffInDays($flightInfo['startDate']) < 2){
             $price = $price * 5;
@@ -171,6 +168,10 @@ class HomeController extends Controller
             $price = $price * 2;
         }
 
+        $totalPrice = ($price * $flightInfo['adult']) 
+        + (($price - ($price * 30 / 100)) * $flightInfo['children'])
+        + (($price - ($price * 50 / 100)) * $flightInfo['infant']);
+
         $ticket = session()->get('ticket');
         $ticket[$id] = [
             'flight_ID' => $id,
@@ -180,6 +181,7 @@ class HomeController extends Controller
             'arrive_airport_ID' => $flight->arrive_airport_ID,
             'arrive_time' => $flight->arrive_time,
             'price' => $price,
+            'total_price' => $totalPrice,
         ];
 
         $flights = session()->get('flightInfo');

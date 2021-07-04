@@ -50,7 +50,8 @@ class passengerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {     
+    {    
+        $ad=0;$ch=0;$inf=0; 
         for($i=0; $i < count($request->last_name); $i++)
         {
             //$checkRelative = $checkExist->where('')->get;
@@ -107,16 +108,17 @@ class passengerController extends Controller
                     'booking_key' => $key,
                     'booked_time' => now(),
                     'flight_ID' => $item['flight_ID'],
-                    'passenger_ID' => $passenger->id,        
-                    'adult' => $request->adult,
-                    'children' => $request->children,
-                    'infant' => $request->infant,
+                    'passenger_ID' => $passenger->id,
                     'seat_class_ID' => $request->seatClass,
-                    'total_price' => $item['price'],
+                    'total_price' => 0,
                 ];
-            
+                if($ad < $request->adult){$dataCreate['total_price'] = $item['price'];}
+                else if($ch < $request->children){$dataCreate['total_price'] = $item['price'] - ($item['price']*30/100);}
+                else if($inf < $request->infant){$dataCreate['total_price'] = $item['price'] - ($item['price']*50/100);}
+                
                 $booking = $this->bookingModel->create($dataCreate);
                 array_push($bookingIDs,$booking->id);
+                
             }
 
             if($passenger){
@@ -133,12 +135,18 @@ class passengerController extends Controller
                     'flights' => $flights,
                     'booking' => $booking,
                     'passenger' => $passenger,
+                    'adult' => $request->adult,
+                    'children' => $request->children,
+                    'infant' => $request->infant,
                     'ticket' => $ticketData,
                 ];
                 if($i == 0){        
                     sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
                 }
             }
+            if($ad < $request->adult){$ad++;}
+            else if($ch < $request->children){$ch++;}
+            else if($inf < $request->infant){$inf++;}
         }
         
         
