@@ -11,4 +11,9 @@ class Seat_class extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function capacity()
+    {
+        return $this->hasOne("App\Models\Capacity", "seat_class_ID", "id");
+    }
 }

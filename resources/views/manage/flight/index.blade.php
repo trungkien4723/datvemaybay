@@ -28,9 +28,9 @@
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$flight->aircraft->id}}</td>
+                <td>{{$flight->startAirport->name}} ({{$flight->startAirport->city->name}})</td>
                 <td>{{date("d-m-Y H:i", strtotime($flight->start_time))}}</td>
-                <td>{{$flight->start_time}}</td>
-                <td>{{$flight->arriveAirport->name}}</td>
+                <td>{{$flight->arriveAirport->name}} ({{$flight->arriveAirport->city->name}})</td>
                 <td>{{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</td>
                 <td>{{$flight->price}}</td>
                 @can('edit articles')
