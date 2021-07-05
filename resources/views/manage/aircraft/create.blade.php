@@ -38,6 +38,22 @@
                                 @enderror
                             </div>
                         </div>
+
+                        @foreach($seatClasses as $item)
+                            <div class="form-group row">
+                                <label for="capacity_input[]" class="col-md-2 col-form-label text-md-right">{{ $item->name }}</label>
+
+                                <div class="col-md-4">
+                                    <input id="capacity_input[]" type="number" class="form-control @error('capacity_input[]') is-invalid @enderror" name="capacity_input[]" value="{{ old('capacity_input[]') ?? 0 }}" required autocomplete="capacity_input[]">
+
+                                    @error('capacity_input[]')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        @endforeach
                             
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

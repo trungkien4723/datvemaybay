@@ -14,6 +14,8 @@ use App\Models\Aircraft;
 use App\Models\Slider;
 use App\Models\Ticket;
 use App\Models\Booking;
+use App\Models\Booked_seat;
+use App\Models\Capacity;
 
 class HomeController extends Controller
 {
@@ -24,13 +26,15 @@ class HomeController extends Controller
     protected $aircraftModel;
     protected $flightModel;
     protected $bookingModel;
+    protected $bookedSeatModel;
+    protected $capacityModel;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(User $user, Seat_class $seatClass, City $city, Airport $airport, Aircraft $aircraft, Flight $flight, Booking $booking)
+    public function __construct(User $user, Seat_class $seatClass, City $city, Airport $airport, Aircraft $aircraft, Flight $flight, Booking $booking, Booked_seat $bookedSeat, Capacity $capacity)
     {
         $this->userModel = $user;
         $this->seatClassModel = $seatClass;
@@ -39,6 +43,8 @@ class HomeController extends Controller
         $this->aircraftModel = $aircraft;
         $this->flightModel = $flight;
         $this->bookingModel = $booking;
+        $this->bookedSeatModel = $bookedSeat;
+        $this->capacityModel = $capacity;
     }
 
     /**
@@ -121,7 +127,6 @@ class HomeController extends Controller
         ->where('arrive.city_ID', '=', $arriveCity->id)
         ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($startDate)))
         ->get();
-        
         $totalPassenger = $request->adult + $request->children + $request->infant;
         $flightInfo = [
             'startCity' => $startCity,
@@ -136,6 +141,7 @@ class HomeController extends Controller
         ];
 
         session()->put('flightInfo', $flightInfo);
+        $bookedSeats = $this->bookedSeatModel->get();
 
         return view('client.home.booking')->with([
             'slider' => $slider,            
