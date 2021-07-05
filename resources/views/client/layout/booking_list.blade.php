@@ -41,7 +41,7 @@
 
     <div class="justify-content-center container-fluid text-center">
         @foreach(session('flightInfo')['flights'] as $flight)
-            {{$totalbooked = App\Models\Booked_seat::where('flight_ID', '=', $flight->id)->where('seat_class_id', '=', session('flightInfo')['seatClass']->id)->sum('booked_seat')}}
+            @php $totalbooked = App\Models\Booked_seat::where('flight_ID', '=', $flight->id)->where('seat_class_id', '=', session('flightInfo')['seatClass']->id)->sum('booked_seat') @endphp
         @if($flight->aircraft->capacity->capacity > $totalbooked)    
         <div class="card my-1 mx-auto" id="find-flight" style="width: 80rem;">
             <div class="card-body">
