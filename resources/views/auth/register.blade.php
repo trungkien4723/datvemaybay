@@ -40,6 +40,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="ID_number" class="col-md-4 col-form-label text-md-right">{{ __('Số CMT/CCCD') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="ID_number" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number') is-invalid @enderror" name="ID_number" value="{{ old('ID_number') }}" required autocomplete="ID_number">
+
+                                @error('ID_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Giới tính') }}</label>
 
                             <div class="col-md-6">
@@ -88,7 +102,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Số điện thoại') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="tel" pattern="[0-9]{9,11}"class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                                <input id="phone" type="tel" pattern="^[0-9]{9}$|^[0-9]{11}$"class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">

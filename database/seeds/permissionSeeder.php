@@ -49,6 +49,7 @@ public function run()
     $superAdminUser = \App\Models\User::create([
         'name' => 'Example Super-Admin User',
         'email' => 'superadmin@example.com',
+        'ID_number' => rand(100000000000, 999999999999),
         'birthday' => '1991/1/1',
         'address' => 'test address',
         'phone' => '0987654321',
@@ -59,6 +60,7 @@ public function run()
     $adminUser = \App\Models\User::create([
         'name' => 'Example Admin User',
         'email' => 'admin@example.com',
+        'ID_number' => rand(100000000000, 999999999999),
         'birthday' => '1991/1/1',
         'address' => 'test address',
         'phone' => '0987654321',
@@ -69,6 +71,7 @@ public function run()
     $user = \App\Models\User::create([
     'name' => 'Example User',
     'email' => 'test@example.com',
+    'ID_number' => rand(100000000000, 999999999999),
     'birthday' => '1991/1/1',
     'address' => 'test address',
     'phone' => '0987654321',

@@ -15,6 +15,7 @@ class Passenger extends Model
         'last_name',
         'gender',
         'email',
+        'ID_number',
         'phone',
     ];
 

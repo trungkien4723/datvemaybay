@@ -8,9 +8,9 @@
         <h1>{{session('message')}} </h1>
     @endif
     
-    @can('create articles')
+    <!-- @can('create articles')
     <a class="btn btn-primary mb-4" href="{{route('bookings.create')}}"><i class="fs-4 bi-plus-circle"></i> <span class="ms-1 d-none d-sm-inline">Thêm vé đặt</span></a>
-    @endcan
+    @endcan -->
 
     <h3>Danh sách vé đặt</h3>
     <div class="row justify-content-center table-responsive">
@@ -30,7 +30,9 @@
                 <td>{{$booking->booking_key}}</td>
                 <td>{{$booking->flight_ID}}</td>
                 <td>
-                    {{$booking->adult}} người lớn, {{$booking->children}} trẻ em, {{$booking->infant}} em bé.
+                   <div>+Tên: {{$booking->passenger->first_name}} {{$booking->passenger->last_name}}</div>
+                   <div>{{$booking->passenger->email ? '+Email: '.$booking->passenger->email : ''}}</div>
+                   <div>{{$booking->passenger->phone ? '+Số điện thoại: '.$booking->passenger->phone : ''}}</div>
                 </td>
                 <td>{{$booking->seatClass->name}}</td>
                 <td>{{number_format($booking->total_price)}} VND</td>

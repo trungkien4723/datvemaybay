@@ -111,7 +111,7 @@
                             <div class="row">Điểm đến: {{session('flightInfo')['arriveCity']->name}}</div>
                         </div>
                         <div class="col-6">
-                            giá vé = {{number_format($item['price'])}} ({{$totalPassenger}} du khách)
+                            giá vé = {{number_format($item['total_price'])}} ({{$totalPassenger}} du khách)
                         </div>
                     </div>
                 @endforeach
@@ -140,32 +140,59 @@
         enctype="multipart/form-data">
             @csrf
         <div class="modal-body">
+        <!-- dien thong tin nguoi lon -->
+        @for($i=0; $i < session('flightInfo')['adult']; $i++)
+            <h5 class="mt-4">Người lớn {{$i+1}}</h5>
             <div class="row mb-2">
                 <div class="col-4">
-                    <label for="first_name" class="col-form-label text-md-right">{{ __('Họ') }}</label>
-                    <input id="first_name" type="text" class="form-control" name="first_name" required autocomplete="first_name" autofocus>
-                    @error('first_name')
+                    <label for="first_name[]" class="col-form-label text-md-right">{{ __('Họ') }}</label>
+                    <input id="first_name[]" type="text" class="form-control" name="first_name[]" required autocomplete="first_name[]" autofocus>
+                    @error('first_name[]')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                     @enderror
                 </div>
                 <div class="col-4">
-                    <label for="last_name" class="col-form-label text-md-right">{{ __('Tên') }}</label>
-                    <input id="last_name" type="text" class="form-control" name="last_name" required autocomplete="last_name" autofocus>
-                    @error('last_name')
+                    <label for="last_name[]" class="col-form-label text-md-right">{{ __('Tên') }}</label>
+                    <input id="last_name[]" type="text" class="form-control" name="last_name[]" required autocomplete="last_name[]" autofocus>
+                    @error('last_name[]')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                     @enderror
                 </div>
                 <div class="col-4">
-                    <label for="gender" class="col-form-label text-md-right">{{ __('Giới tính') }}</label>
-                    <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender">
+                    <label for="gender[]" class="col-form-label text-md-right">{{ __('Giới tính') }}</label>
+                    <select id="gender[]" class="form-control @error('gender[]') is-invalid @enderror" name="gender[]">
                         <option {{ (auth()->check()) && (auth()->user()->gender) == 0 ? 'selected' : ''  }} value="0">Nam</option>
                         <option {{ (auth()->check()) && (auth()->user()->gender) == 1 ? 'selected' : ''  }} value="1">Nữ</option>
                     </select>
-                    @error('gender')
+                    @error('gender[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+            </div>
+            @if($i == 0)
+            <div class="row mb-2">
+                <div class="col-12">
+                    <label for="email[]" class="col-form-label text-md-right">{{ __('E-Mail') }}</label>
+                    <input id="email[]" type="email[]" class="form-control @error('email[]') is-invalid @enderror" name="email[]" value="{{(auth()->user()->email ?? '')}}" required autocomplete="email[]">
+                    @error('email[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+            </div>
+            @endif
+            <div class="row mb-2">
+                <div class="col-12">
+                    <label for="phone[]" class="col-form-label text-md-right">{{ __('Số điện thoại') }}</label>
+                    <input id="phone[]" type="tel" pattern="[0-9]{9,11}"class="form-control" name="phone[]" value="{{(auth()->user()->phone ?? '')}}" required autocomplete="phone[]">
+                    @error('phone[]')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -174,26 +201,90 @@
             </div>
             <div class="row mb-2">
                 <div class="col-12">
-                    <label for="email" class="col-form-label text-md-right">{{ __('E-Mail') }}</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{(auth()->user()->email ?? '')}}" required autocomplete="email">
-                    @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                    <label for="ID_number[]" class="col-form-label text-md-right">{{ __('Số CMT/CCCD') }}</label>
+                    <input id="ID_number[]" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number[]') is-invalid @enderror" name="ID_number[]" value="{{ auth()->user()->ID_number ?? '' }}" required autocomplete="ID_number[]">
+                    @error('ID_number[]')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                     @enderror
                 </div>
             </div>
+        @endfor
+
+        <!-- dien thong tin tre em -->
+        @for($i=0; $i < session('flightInfo')['children']; $i++)
+            <h5 class="mt-4">Trẻ em {{$i+1}}</h5>
             <div class="row mb-2">
-                <div class="col-12">
-                    <label for="phone" class="col-form-label text-md-right">{{ __('Số điện thoại') }}</label>
-                    <input id="phone" type="tel" pattern="[0-9]{9,11}"class="form-control" name="phone" value="{{(auth()->user()->phone ?? '')}}" required autocomplete="phone">
-                    @error('phone')
+                <div class="col-4">
+                    <label for="first_name[]" class="col-form-label text-md-right">{{ __('Họ') }}</label>
+                    <input id="first_name[]" type="text" class="form-control" name="first_name[]" required autocomplete="first_name[]" autofocus>
+                    @error('first_name[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+                <div class="col-4">
+                    <label for="last_name[]" class="col-form-label text-md-right">{{ __('Tên') }}</label>
+                    <input id="last_name[]" type="text" class="form-control" name="last_name[]" required autocomplete="last_name[]" autofocus>
+                    @error('last_name[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+                <div class="col-4">
+                    <label for="gender[]" class="col-form-label text-md-right">{{ __('Giới tính') }}</label>
+                    <select id="gender[]" class="form-control @error('gender[]') is-invalid @enderror" name="gender[]">
+                        <option {{ (auth()->check()) && (auth()->user()->gender) == 0 ? 'selected' : ''  }} value="0">Nam</option>
+                        <option {{ (auth()->check()) && (auth()->user()->gender) == 1 ? 'selected' : ''  }} value="1">Nữ</option>
+                    </select>
+                    @error('gender[]')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                     @enderror
                 </div>
             </div>
+        @endfor
+
+        <!-- dien thong tin em be -->
+        @for($i=0; $i < session('flightInfo')['infant']; $i++)
+            <h5 class="mt-4">Em bé {{$i+1}}</h5>
+            <div class="row mb-2">
+                <div class="col-4">
+                    <label for="first_name[]" class="col-form-label text-md-right">{{ __('Họ') }}</label>
+                    <input id="first_name[]" type="text" class="form-control" name="first_name[]" required autocomplete="first_name[]" autofocus>
+                    @error('first_name[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+                <div class="col-4">
+                    <label for="last_name[]" class="col-form-label text-md-right">{{ __('Tên') }}</label>
+                    <input id="last_name[]" type="text" class="form-control" name="last_name[]" required autocomplete="last_name[]" autofocus>
+                    @error('last_name[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+                <div class="col-4">
+                    <label for="gender[]" class="col-form-label text-md-right">{{ __('Giới tính') }}</label>
+                    <select id="gender[]" class="form-control @error('gender[]') is-invalid @enderror" name="gender[]">
+                        <option {{ (auth()->check()) && (auth()->user()->gender) == 0 ? 'selected' : ''  }} value="0">Nam</option>
+                        <option {{ (auth()->check()) && (auth()->user()->gender) == 1 ? 'selected' : ''  }} value="1">Nữ</option>
+                    </select>
+                    @error('gender[]')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                    @enderror
+                </div>
+            </div>
+        @endfor
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" data-bs-target="#book_modal" data-bs-toggle="modal" data-bs-dismiss="modal">Quay lại</button>

@@ -17,9 +17,9 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
                <td>{{$data['passenger']->first_name . ' ' . $data['passenger']->last_name}}</td>
                <td>{{$data['passenger']->email}}</td>
                <td>{{$data['passenger']->phone}}</td>
-               <td>{{$data['booking']->adult}}</td>
-               <td>{{$data['booking']->children}}</td>
-               <td>{{$data['booking']->infant}}</td>
+               <td>{{$data['adult']}}</td>
+               <td>{{$data['children']}}</td>
+               <td>{{$data['infant']}}</td>
          </tr>
       </table>
    </div>
@@ -38,7 +38,7 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
         </tr>
          @php $total = 0; @endphp
          @foreach($data['ticket'] as $item)
-         @php $total += $item['price']; @endphp @endforeach
+         @php $total += $item['total_price']; @endphp @endforeach
             @foreach($data['flights'] as $flight)   
             <tr>
                   <td>{{$loop->iteration}}</td>
@@ -47,7 +47,7 @@ Xin chào <i>{{ $data['passenger']->last_name }}</i>,
                   <td>{{$data['booking']->booked_time}}</td>
                   <td>{{date("d-m-Y H:i", strtotime($flight->start_time))}} --> {{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</td>
                   <td>{{$flight->startAirport->name}} ( {{ $flight->startAirport->city->name }} ) --> {{$flight->arriveAirport->name}} ( {{ $flight->arriveAirport->city->name }} )</td>
-                  <td>{{number_format($item['price'])}}</td>
+                  <td>{{number_format($item['total_price'])}}</td>
             </tr>
             @endforeach
          

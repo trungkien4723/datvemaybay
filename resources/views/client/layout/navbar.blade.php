@@ -25,7 +25,7 @@
           <a class="nav-link active" aria-current="page" href="{{route('home')}}">KHUYẾN MÃI</a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{route('home')}}">CHUYẾN BAY CỦA TÔI</a>
+          <a class="nav-link active" aria-current="page" href="{{route('show_my_flight_form')}}">CHUYẾN BAY CỦA TÔI</a>
         </li>
         <li class="nav-item">
           @if(auth()->check())

@@ -22,6 +22,7 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'ID_number' => $faker->numerify('############'),
         'gender' => $faker->numberBetween(0,1),
         'birthday' => '1991/1/1',
         'address' => 'test address',
