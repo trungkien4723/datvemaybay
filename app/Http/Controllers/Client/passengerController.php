@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
 use App\Models\Booking;
+use App\Models\Booked_seat;
 use App\Models\Flight;
 use Illuminate\Http\Request;
 use App\Jobs\sendMail;
@@ -16,12 +17,14 @@ class passengerController extends Controller
     protected $passengerModel;
     protected $bookingModel;
     protected $flightModel;
+    protected $bookedSeatModel;
 
-    public function __construct(Passenger $passenger, Booking $booking, Flight $flight)
+    public function __construct(Passenger $passenger, Booking $booking, Flight $flight, Booked_seat $bookedSeat)
     {
         $this->passengerModel = $passenger;
         $this->bookingModel = $booking;
         $this->flightModel = $flight;
+        $this->bookedSeatModel = $bookedSeat;
     }
     /**
      * Display a listing of the resource.
@@ -148,7 +151,18 @@ class passengerController extends Controller
             else if($ch < $request->children){$ch++;}
             else if($inf < $request->infant){$inf++;}
         }
-        
+        $ticketData = session()->get('ticket');
+        foreach($ticketData as $item)
+        {
+            $flightInfo = session()->get('flightInfo');
+            $dataCreate = [
+                'flight_ID' => $item['flight_ID'],
+                'seat_class_ID' => $request->seatClass,
+                'booked_seat' => $flightInfo['adult'] + $flightInfo['children'] + $flightInfo['infant'],
+            ];
+            $bookedSeat = $this->bookedSeatModel->create($dataCreate);
+        }
+
         
         session()->forget('ticket');
         return redirect()->route('home');
