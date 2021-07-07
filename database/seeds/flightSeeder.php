@@ -31,6 +31,26 @@ class flightSeeder extends Seeder
             'arrive_time' => Carbon::parse('2021-09-30'),
             'price' => 500000,
         ]);
+
+        $testFlight3 = App\Models\Flight::create([
+            //'flight_code' => 'TEST000001',
+            'aircraft_ID' => 3,
+            'start_airport_ID' => 1,
+            'start_time' => Carbon::parse('2021-09-12'),
+            'arrive_airport_ID' => 2,
+            'arrive_time' => Carbon::parse('2021-09-12'),
+            'price' => 500000,
+        ]);
+
+        $testFlight4 = App\Models\Flight::create([
+            //'flight_code' => 'TEST000002',
+            'aircraft_ID' => 4,
+            'start_airport_ID' => 2,
+            'start_time' => Carbon::parse('2021-09-30'),
+            'arrive_airport_ID' => 1,
+            'arrive_time' => Carbon::parse('2021-09-30'),
+            'price' => 500000,
+        ]);
         factory(\App\Models\Flight::class,100)->create();
     }
 }

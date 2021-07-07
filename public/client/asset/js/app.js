@@ -28,7 +28,7 @@ if(checkboxDateTo)
 }
 
 
-$('.btn-number').click(function(e){
+$(document).on('click','.btn-number',function(e){
     e.preventDefault();
     
     fieldName = $(this).attr('data-field');
@@ -59,10 +59,10 @@ $('.btn-number').click(function(e){
         input.val(0);
     }
 });
-$('.input-number').focusin(function(){
+$(document).on('focusin','.input-number',function(){
    $(this).data('oldValue', $(this).val());
 });
-$('.input-number').change(function() {
+$(document).on('change','.input-number',function() {
     
     minValue =  parseInt($(this).attr('min'));
     maxValue =  parseInt($(this).attr('max'));
@@ -83,7 +83,7 @@ $('.input-number').change(function() {
     }
     
 
-    $('.stopPropagation-dropdown-menu').click(function(e) {
+    $(document).on('click','.stopPropagation-dropdown-menu',function(e) {
         e.stopPropagation();
     });
     
@@ -92,9 +92,9 @@ $('.input-number').change(function() {
 
 
 passengersCount();
-$('#adult').change(passengersCount);
-$('#children').change(passengersCount);
-$('#infant').change(passengersCount);
+$(document).on('change','#adult',passengersCount);
+$(document).on('change','#children',passengersCount);
+$(document).on('change','#infant',passengersCount);
 function passengersCount(){
     var adults = $('#adult').val();
     var childrens = $('#children').val();
