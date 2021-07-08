@@ -157,7 +157,7 @@ class HomeController extends Controller
         
         if(session()->get('ticket')){
             if(count(session()->get('ticket')) >= session()->get('maxChoose')){session()->forget('ticket');}
-        }
+        }//Xoa ve cu khi dat lai ve khac
         
         $flight = $this->flightModel->find($id);
 

@@ -1,8 +1,8 @@
 $(document).ready(function(){
  
 //checkbox khu hoi
-const checkboxDateTo = document.querySelector('.chk_date_to');
-const containerDateTo = document.querySelectorAll('.container_date_to');
+const checkboxDateTo = document.body.querySelector('.chk_date_to');
+const containerDateTo = document.body.querySelectorAll('.container_date_to');
 
 $(containerDateTo).css("display","none");
 
@@ -28,7 +28,7 @@ if(checkboxDateTo)
 }
 
 
-$(document).on('click','.btn-number',function(e){
+$('body').on('click','.btn-number',function(e){
     e.preventDefault();
     
     fieldName = $(this).attr('data-field');
@@ -59,10 +59,10 @@ $(document).on('click','.btn-number',function(e){
         input.val(0);
     }
 });
-$(document).on('focusin','.input-number',function(){
+$('body').on('focusin','.input-number',function(){
    $(this).data('oldValue', $(this).val());
 });
-$(document).on('change','.input-number',function() {
+$('body').on('change','.input-number',function() {
     
     minValue =  parseInt($(this).attr('min'));
     maxValue =  parseInt($(this).attr('max'));
@@ -72,23 +72,19 @@ $(document).on('change','.input-number',function() {
     if(valueCurrent >= minValue) {
         $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
     } else {
-        alert('Sorry, the minimum value was reached');
+        //alert('Sorry, the minimum value was reached');
         $(this).val($(this).data('oldValue'));
     }
     if(valueCurrent <= maxValue) {
         $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
     } else {
-        alert('Sorry, the maximum value was reached');
+        //alert('Sorry, the maximum value was reached');
         $(this).val($(this).data('oldValue'));
-    }
-    
-
-    $(document).on('click','.stopPropagation-dropdown-menu',function(e) {
+    } 
+});
+$('body').on('click','.stopPropagation-dropdown-menu',function(e) {
         e.stopPropagation();
     });
-    
-});
-
 
 
 passengersCount();
