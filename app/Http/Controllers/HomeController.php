@@ -248,7 +248,12 @@ class HomeController extends Controller
         $bookingKey = $request->booking_key;
         $slider = Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get();
         $booking = $this->bookingModel->where('booking_key', '=', $bookingKey)->first();
-        $flight = $this->flightModel->where('id', '=', $booking->flight_ID)->first();
-        return view('client.my_flight.show')->with(['slider' => $slider, 'flight' => $flight, 'booking' => $booking]);
+        if($booking){   
+            $flight = $this->flightModel->where('id', '=', $booking->flight_ID)->first();
+            return view('client.my_flight.show')->with(['slider' => $slider, 'flight' => $flight, 'booking' => $booking]);
+        }
+        else{
+            return redirect()->back()->with(['message' => 'Không tìm thấy mã vẽ đặt']);
+        }
     }
 }

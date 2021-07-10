@@ -15,6 +15,9 @@
                         {{ __('Xem chuyến bay') }}
             </button>
         </div>
+        @if(session('message'))
+        <p style="color:red;">{{session('message')}} </p>
+        @endif
     </div>
 </form>
 @endsection
