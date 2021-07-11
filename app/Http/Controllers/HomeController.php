@@ -157,7 +157,7 @@ class HomeController extends Controller
         
         if(session()->get('ticket')){
             if(count(session()->get('ticket')) >= session()->get('maxChoose')){session()->forget('ticket');}
-        }
+        }//Xoa ve cu khi dat lai ve khac
         
         $flight = $this->flightModel->find($id);
 
@@ -186,8 +186,10 @@ class HomeController extends Controller
             'flight_ID' => $id,
             'aircraft_ID' => $flight->aircraft_ID,
             'start_airport_ID' => $flight->start_airport_ID,
+            'start_city' => $flightInfo['startCity'],
             'start_time' => $flight->start_time,
             'arrive_airport_ID' => $flight->arrive_airport_ID,
+            'arrive_city' => $flightInfo['arriveCity'],
             'arrive_time' => $flight->arrive_time,
             'price' => $price,
             'total_price' => $totalPrice,
@@ -235,6 +237,49 @@ class HomeController extends Controller
             'component' => view('client.layout.booking_list')->with(['cities' => $cities, 'seatClasses' => $seatClasses,])->render(),
         ],200);
     }
+
+    public function changeFlight(Request $request)
+    {
+        $slider = Slider::orderBy('id','DESC')->where('status','1')->take(4)->get();
+        $cities = $this->cityModel->get();
+        $seatClasses = $this->seatClassModel->get();
+        $startCity = $this->cityModel->find($request->flight_from);
+        $arriveCity = $this->cityModel->find($request->flight_to);
+        $seatClass = $this->seatClassModel->find($request->seat_class);
+        $startDate = date("d-m-Y", strtotime($request->date_from));
+        $backDate = date("d-m-Y", strtotime($request->date_to));
+        session()->forget('ticket.' . $request->key);
+        
+        $flights = $this->flightModel
+        ->join('airport AS start', 'start.id', '=', 'flight.start_airport_ID')
+        ->join('airport AS arrive', 'arrive.id', '=', 'flight.arrive_airport_ID')
+        ->select('flight.*')
+        ->where('start.city_ID', '=', $startCity->id)
+        ->where('arrive.city_ID', '=', $arriveCity->id)
+        ->whereDate('flight.start_time', '=', date("Y-m-d", strtotime($startDate)))
+        ->get();
+        $totalPassenger = $request->adult + $request->children + $request->infant;
+        $flightInfo = [
+            'startCity' => $startCity,
+            'arriveCity' => $arriveCity,
+            'seatClass' => $seatClass,
+            'startDate' => $startDate,
+            'backDate' => $backDate,
+            'adult' => $request->adult,
+            'children' => $request->children,
+            'infant' => $request->infant,
+            'flights' => $flights,
+        ];
+
+        session()->put('flightInfo', $flightInfo);
+        $bookedSeats = $this->bookedSeatModel->get();
+
+        return view('client.home.booking')->with([
+            'slider' => $slider,            
+            'cities' => $cities,
+            'seatClasses' => $seatClasses,
+        ]);
+    }
     
     public function showMyFlightForm()
     {
@@ -246,7 +291,12 @@ class HomeController extends Controller
         $bookingKey = $request->booking_key;
         $slider = Slider::orderBy('id','DESC')->where('status','=',1)->take(4)->get();
         $booking = $this->bookingModel->where('booking_key', '=', $bookingKey)->first();
-        $flight = $this->flightModel->where('id', '=', $booking->flight_ID)->first();
-        return view('client.my_flight.show')->with(['slider' => $slider, 'flight' => $flight, 'booking' => $booking]);
+        if($booking){   
+            $flight = $this->flightModel->where('id', '=', $booking->flight_ID)->first();
+            return view('client.my_flight.show')->with(['slider' => $slider, 'flight' => $flight, 'booking' => $booking]);
+        }
+        else{
+            return redirect()->back()->with(['message' => 'Không tìm thấy mã vẽ đặt']);
+        }
     }
 }

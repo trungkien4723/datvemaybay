@@ -46,48 +46,6 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="adult" class="col-md-4 col-form-label text-md-right">{{ __('Số người lớn') }}</label>
-
-                                <div class="col-md-8">
-                                    <input id="adult" type="number" min="1" class="form-control @error('adult') is-invalid @enderror" name="adult" value="{{ old('adult')??$booking->adult }}" required autocomplete="adult" autofocus>
-
-                                    @error('adult')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="children" class="col-md-4 col-form-label text-md-right">{{ __('Số trẻ em') }}</label>
-
-                                <div class="col-md-8">
-                                    <input id="children" type="number" min="0" class="form-control @error('children') is-invalid @enderror" name="children" value="{{ old('children')??$booking->children }}" required autocomplete="children" autofocus>
-
-                                    @error('children')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="infant" class="col-md-4 col-form-label text-md-right">{{ __('Số em bé') }}</label>
-
-                                <div class="col-md-8">
-                                    <input id="infant" type="number" min="0" class="form-control @error('infant') is-invalid @enderror" name="infant" value="{{ old('infant')??$booking->infant }}" required autocomplete="infant" autofocus>
-
-                                    @error('infant')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
                                 <label for="seat_class_ID" class="col-md-4 col-form-label text-md-right">{{ __('Hạng ghế') }}</label>
 
                                 <div class="col-md-8">
@@ -157,7 +115,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
 
                                 <div class="col-md-8">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email')??$passenger->email }}" required autocomplete="email">
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email')??$passenger->email }}" autocomplete="email">
 
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -171,7 +129,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Số điện thoại') }}</label>
 
                                 <div class="col-md-8">
-                                    <input id="phone" type="tel" pattern="^[0-9]{9}$|^[0-9]{11}$"class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone')??$passenger->phone }}" required autocomplete="phone">
+                                    <input id="phone" type="tel" pattern="^[0-9]{9}$|^[0-9]{11}$"class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone')??$passenger->phone }}" autocomplete="phone">
 
                                     @error('phone')
                                         <span class="invalid-feedback" role="alert">
@@ -185,7 +143,7 @@
                                 <label for="ID_number" class="col-md-4 col-form-label text-md-right">{{ __('Số CMT/CCCD') }}</label>
 
                                 <div class="col-md-8">
-                                    <input id="ID_number" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number') is-invalid @enderror" name="ID_number" value="{{ old('ID_number')??$passenger->ID_number }}" required autocomplete="ID_number">
+                                    <input id="ID_number" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number') is-invalid @enderror" name="ID_number" value="{{ old('ID_number')??$passenger->ID_number }}" autocomplete="ID_number">
 
                                     @error('ID_number')
                                         <span class="invalid-feedback" role="alert">

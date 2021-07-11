@@ -54,7 +54,9 @@ class passengerController extends Controller
      */
     public function store(Request $request)
     {    
-        $ad=0;$ch=0;$inf=0; 
+        $ad=0;$ch=0;$inf=0;
+        $mailData = array();
+        $mailTo = 0;
         for($i=0; $i < count($request->last_name); $i++)
         {
             //$checkRelative = $checkExist->where('')->get;
@@ -79,6 +81,7 @@ class passengerController extends Controller
                 {
                     $passenger = $checkExist;
                 }
+                $mailTo = $passenger;
             }
             else{
                 $dataCreate = [
@@ -143,9 +146,7 @@ class passengerController extends Controller
                     'infant' => $request->infant,
                     'ticket' => $ticketData,
                 ];
-                if($i == 0){        
-                    sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
-                }
+                array_push($mailData, $data);
             }
             if($ad < $request->adult){$ad++;}
             else if($ch < $request->children){$ch++;}
@@ -162,6 +163,8 @@ class passengerController extends Controller
             ];
             $bookedSeat = $this->bookedSeatModel->create($dataCreate);
         }
+
+        sendMail::dispatch($mailData, $mailTo)->delay(now()->addMinute(1));
 
         
         session()->forget('ticket');
