@@ -52,11 +52,13 @@
 
     <div class="justify-content-center container-fluid text-center">
         @foreach(session('flightInfo')['flights'] as $flight)
-            @php $totalbooked = App\Models\Booked_seat::where('flight_ID', '=', $flight->id)->where('seat_class_id', '=', session('flightInfo')['seatClass']->id)->sum('booked_seat') @endphp
-        @if($flight->aircraft->capacity->capacity > $totalbooked)    
+            @php 
+                $totalbooked = App\Models\Booked_seat::where('flight_ID', '=', $flight->id)->where('seat_class_id', '=', session('flightInfo')['seatClass']->id)->sum('booked_seat');
+                $capacity = App\Models\Capacity::where('aircraft_ID', '=', $flight->aircraft_ID)->where('seat_class_ID', '=', session('flightInfo')['seatClass']->id)->first()
+            @endphp
+        @if($capacity->capacity >= ($totalbooked + $totalPassenger))    
         <div class="card my-1 mx-auto" id="find-flight" style="width: 80rem;">
             <div class="card-body">
-                       
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-4">
