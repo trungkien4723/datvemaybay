@@ -16,6 +16,17 @@
                                     @foreach(session('ticket') as $id => $item)
                                         <div>Mã chuyến bay: {{$item['flight_ID']}}</div>
                                         <div>Ngày khởi hành: {{ $item['start_time'] }}</div>
+                                        @if(session('maxChoose') == 2)
+                                            <a href="{{route('changeFlight', ['flight_from' => $item['start_city'], 
+                                                'flight_to' => $item['arrive_city'], 
+                                                'seat_class' => session('flightInfo')['seatClass']->id, 
+                                                'date_from' => $item['start_time'], 
+                                                'date_to' => $item['arrive_time'],
+                                                'adult' => session('flightInfo')['adult'],
+                                                'children' => session('flightInfo')['children'],
+                                                'infant' => session('flightInfo')['infant'],
+                                                'key' => $item['flight_ID']])}}" role="button" class="btn btn-warning">Thay đổi</a>
+                                        @endif
                                     @endforeach 
                                 @endif
                             </div>
@@ -313,5 +324,10 @@
         </div>
     </div>
     </div>
-    <!-- end modal Doi thong tin -->      
+    <!-- end modal Doi thong tin -->
+    <script>
+    $(document).ready(function() {
+       $('html, body').animate({scrollTop: $("#find-flight").offset().top},"slow");
+    })
+    </script>      
 
