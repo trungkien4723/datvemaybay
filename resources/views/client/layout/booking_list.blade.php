@@ -17,7 +17,8 @@
                                         <div>Mã chuyến bay: {{$item['flight_ID']}}</div>
                                         <div>Ngày khởi hành: {{ $item['start_time'] }}</div>
                                         @if(session('maxChoose') == 2)
-                                            <a href="{{route('changeFlight', ['flight_from' => $item['start_city'], 
+                                            @if(count(session('ticket')) >= session('maxChoose'))
+                                            <a href="#" data-url="{{route('changeFlight', ['flight_from' => $item['start_city'], 
                                                 'flight_to' => $item['arrive_city'], 
                                                 'seat_class' => session('flightInfo')['seatClass']->id, 
                                                 'date_from' => $item['start_time'], 
@@ -25,7 +26,8 @@
                                                 'adult' => session('flightInfo')['adult'],
                                                 'children' => session('flightInfo')['children'],
                                                 'infant' => session('flightInfo')['infant'],
-                                                'key' => $item['flight_ID']])}}" role="button" class="btn btn-warning">Thay đổi</a>
+                                                'key' => $item['flight_ID']])}}" role="button" class="btn btn-warning change_flight">Thay đổi</a>
+                                            @endif
                                         @endif
                                     @endforeach 
                                 @endif

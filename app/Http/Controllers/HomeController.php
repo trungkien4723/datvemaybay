@@ -270,15 +270,13 @@ class HomeController extends Controller
             'infant' => $request->infant,
             'flights' => $flights,
         ];
-
         session()->put('flightInfo', $flightInfo);
         $bookedSeats = $this->bookedSeatModel->get();
 
-        return view('client.home.booking')->with([
-            'slider' => $slider,            
-            'cities' => $cities,
-            'seatClasses' => $seatClasses,
-        ]);
+        return response()->json([
+            'code' => 200,
+            'component' => view('client.layout.booking_list')->with(['cities' => $cities, 'seatClasses' => $seatClasses,])->render(),
+        ],200);
     }
     
     public function showMyFlightForm()

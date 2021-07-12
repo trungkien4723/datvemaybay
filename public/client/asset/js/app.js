@@ -121,5 +121,25 @@ $(document).on('click','.add_flight',function(e){
 });
 
 
+$(document).on('click','.change_flight',function(e){
+    e.preventDefault();
+    let url = $(this).data('url');
+    $.ajax({
+        type:'GET',
+        url:url,
+        dataType:'json',
+        success:function(data){
+            console.log(data);
+            if(data.code === 200){
+                $('.booking_list').html(data.component);
+            }
+        },
+        error: function(xhr){
+            var err = xhr.responseText;
+            alert(err.error);
+        }
+    });
+});
+
 
 });
