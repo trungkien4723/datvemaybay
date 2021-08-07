@@ -33,20 +33,46 @@ class userController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {        
-        $users = $this->userModel->whereHas('roles', function($q){
-            $q->where('name','!=','super-admin')->where('name','!=','admin');
-        })->latest('id')->paginate(10);
-        return view('manage.user.index')->with('users', $users);
+        if($request->ajax())
+        {
+            $users = $this->userModel->searchUser($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.user.user_tbl')->with(['users' => $users,])->render(),
+            ],200);
+        }
+        else
+        {
+            $users = $this->userModel->whereHas('roles', function($q){
+                $q->where('name','!=','super-admin')->where('name','!=','admin');
+            })->latest('id')->paginate(10);
+
+            return view('manage.user.index')->with('users', $users);
+        }
+
     }
 
-    public function index_admin()
+    public function index_admin(Request $request)
     {
-        $users = $this->userModel->whereHas('roles', function($q){
-            $q->where('name','!=','super-admin')->where('name','!=','user');
-        })->latest('id')->paginate(10);
-        return view('manage.user.admin_index')->with('users', $users);
+        if($request->ajax())
+        {
+            $users = $this->userModel->searchAdmin($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.user.admin_tbl')->with(['users' => $users,])->render(),
+            ],200);
+        }
+        else
+        {
+            $users = $this->userModel->whereHas('roles', function($q){
+                $q->where('name','!=','super-admin')->where('name','!=','user');
+            })->latest('id')->paginate(10);
+            return view('manage.user.admin_index')->with('users', $users);
+        }
     }
 
     /**

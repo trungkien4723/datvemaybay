@@ -23,10 +23,22 @@ class airportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $airports = $this->airportModel->latest('id')->paginate(10);
-        return view('manage.airport.index')->with('airports', $airports);
+        if($request->ajax())
+        {
+            $airports = $this->airportModel->search($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.airport.airport_tbl')->with(['airports' => $airports,])->render(),
+            ],200);
+        }
+        else
+        {
+            $airports = $this->airportModel->latest('id')->paginate(10);
+            return view('manage.airport.index')->with('airports', $airports);
+        }
     }
 
     /**
