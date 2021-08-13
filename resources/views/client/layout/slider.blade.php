@@ -6,7 +6,7 @@
         <img src="{{asset('images/slider/'.$slide->image)}}"
             class="d-block w-100"
             alt="{{$slide->descr}}"
-            style="object-fit:cover; width:100%; height:300px;">
+            style="width:auto; height:400px !important;">
         </div>
     @endforeach
   </div>

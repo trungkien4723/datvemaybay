@@ -188,64 +188,28 @@ class bookingController extends Controller
 
         $dataCreate = $request->all();
 
-        $dataCreate['user_ID'] = $user->id;
+        if($user){$dataCreate['user_ID'] = $user->id;}
 
         $passenger->update($dataCreate);
 
 
         $flight = $this->flightModel->findOrFail($request->flight_ID);
-        $price = $flight->price;
-        if($request->seat_class_ID == 1){$price = $price * 5;}
-        else if($request->seat_class_ID == 2){$price = $price * 4;}
-        else if($request->seat_class_ID == 4){$price = $price * 2;}
-        $price = ($price * $request->adult) 
-        + (($price - ($price * 30 / 100)) * $request->children)
-        + (($price - ($price * 50 / 100)) * $request->infant);
+        $oldFlight = $this->flightModel->findOrFail($booking->flight_ID);
 
-        if(now()->diffInDays($flight->start_time) < 2){
-            $price = $price * 5;
-        }
-        else if(now()->diffInDays($flight->start_time) < 10){
-            $price = $price * 3;
-        }
-        else if(now()->diffInDays($flight->start_time) < 30){
-            $price = $price * 2;
-        }
+        $originalPrice = $flight->price;
+        $oldOriginalPrice = $oldFlight->price;
+        $bookedPrice = $booking->total_price;
+        $newPrice = ($originalPrice * ($bookedPrice * 100 / $oldOriginalPrice)) / 100;
 
-        // $ticketData = session()->get('ticket');
-        // $dataCreate = array();
-        // foreach($ticketData as $item)
-        // {
             $dataCreate = [
                 'booked_time' => now(),
                 'flight_ID' => $request->flight_ID,
-                'passenger_ID' => $passenger->id,        
-                'adult' => $request->adult,
-                'children' => $request->children,
-                'infant' => $request->infant,
+                'passenger_ID' => $passenger->id,
                 'seat_class_ID' => $request->seat_class_ID,
-                'total_price' => $price,
+                'total_price' => $newPrice,
             ];
          
-            $booking->update($dataCreate);
-        // }
-
-        // if($passenger){
-        //     // $flightIDs = array();
-        //     // foreach(session()->get('ticket') as $item)
-        //     // {
-        //     //     array_push($flightIDs,$item['flight_ID']);
-        //     // }
-        //     $flights = $this->flightModel->select('flight.*')->where('id', '=', $request->flight_ID)->get();
-        //     $ticketData[$request->flight_ID] = ['price' => $price];
-        //     $data = [
-        //         'flights' => $flights,
-        //         'booking' => $booking,
-        //         'passenger' => $passenger,
-        //         'ticket' => $ticketData,
-        //     ];
-        //     sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
-        // }
+        $booking->update($dataCreate);
         return redirect()->route('bookings.index')->with('message', 'Cập nhật thành công');
     }
 

@@ -54,6 +54,7 @@ Route::post('/changePassword','HomeController@changePassword')->name('changePass
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/booking', 'HomeController@showBookingPage')->name('booking');
 Route::get('/booking/add-flight/{id}', 'HomeController@addFlight')->name('addFlight');
+Route::get('/booking/change-flight','HomeController@changeFlight')->name('changeFlight');
 Route::redirect('/admin', 'admin/dashboard')->name('admin');
 Route::get('/popular-destination', function () {
     return view('client.popular_destination.index', [

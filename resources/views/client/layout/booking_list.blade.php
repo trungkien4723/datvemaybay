@@ -16,6 +16,19 @@
                                     @foreach(session('ticket') as $id => $item)
                                         <div>Mã chuyến bay: {{$item['flight_ID']}}</div>
                                         <div>Ngày khởi hành: {{ $item['start_time'] }}</div>
+                                        @if(session('maxChoose') == 2)
+                                            @if(count(session('ticket')) >= session('maxChoose'))
+                                            <a href="#" data-url="{{route('changeFlight', ['flight_from' => $item['start_city'], 
+                                                'flight_to' => $item['arrive_city'], 
+                                                'seat_class' => session('flightInfo')['seatClass']->id, 
+                                                'date_from' => $item['start_time'], 
+                                                'date_to' => $item['arrive_time'],
+                                                'adult' => session('flightInfo')['adult'],
+                                                'children' => session('flightInfo')['children'],
+                                                'infant' => session('flightInfo')['infant'],
+                                                'key' => $item['flight_ID']])}}" role="button" class="btn btn-warning change_flight">Thay đổi</a>
+                                            @endif
+                                        @endif
                                     @endforeach 
                                 @endif
                             </div>
@@ -39,11 +52,15 @@
         <hr class="my-5">
     </div>
 
-    <div class="justify-content-center container-fluid">
+    <div class="justify-content-center container-fluid text-center">
         @foreach(session('flightInfo')['flights'] as $flight)
-        <div class="card my-1" id="find-flight" style="width: 80rem;">
+            @php 
+                $totalbooked = App\Models\Booked_seat::where('flight_ID', '=', $flight->id)->where('seat_class_id', '=', session('flightInfo')['seatClass']->id)->sum('booked_seat');
+                $capacity = App\Models\Capacity::where('aircraft_ID', '=', $flight->aircraft_ID)->where('seat_class_ID', '=', session('flightInfo')['seatClass']->id)->first()
+            @endphp
+        @if($capacity->capacity >= ($totalbooked + $totalPassenger))    
+        <div class="card my-1 mx-auto" id="find-flight" style="width: 80rem;">
             <div class="card-body">
-                       
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-4">
@@ -79,6 +96,7 @@
             </div>
 
         </div>
+        @endif
         @endforeach
     </div>
 
@@ -107,8 +125,8 @@
                     </div>
                     <div class="row">
                         <div class="col-6"> 
-                            <div class="row">Điểm khởi hành: {{session('flightInfo')['startCity']->name}}</div>
-                            <div class="row">Điểm đến: {{session('flightInfo')['arriveCity']->name}}</div>
+                            <div class="row">Điểm khởi hành: {{$item['start_city']->name}}</div>
+                            <div class="row">Điểm đến: {{$item['arrive_city']->name}}</div>
                         </div>
                         <div class="col-6">
                             giá vé = {{number_format($item['total_price'])}} ({{$totalPassenger}} du khách)
@@ -310,5 +328,10 @@
         </div>
     </div>
     </div>
-    <!-- end modal Doi thong tin -->      
+    <!-- end modal Doi thong tin -->
+    <script>
+    $(document).ready(function() {
+       $('html, body').animate({scrollTop: $("#find-flight").offset().top},"slow");
+    })
+    </script>      
 

@@ -5,6 +5,7 @@
     <title>  @yield('title') </title>
     <!--CSS-->
     @include('manage.layout.style')
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </head>
 <body class="container-fluid" style="padding:0px; margin:0px">
     <div class="wrapper">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
 use App\Models\Booking;
+use App\Models\Booked_seat;
 use App\Models\Flight;
 use Illuminate\Http\Request;
 use App\Jobs\sendMail;
@@ -16,12 +17,14 @@ class passengerController extends Controller
     protected $passengerModel;
     protected $bookingModel;
     protected $flightModel;
+    protected $bookedSeatModel;
 
-    public function __construct(Passenger $passenger, Booking $booking, Flight $flight)
+    public function __construct(Passenger $passenger, Booking $booking, Flight $flight, Booked_seat $bookedSeat)
     {
         $this->passengerModel = $passenger;
         $this->bookingModel = $booking;
         $this->flightModel = $flight;
+        $this->bookedSeatModel = $bookedSeat;
     }
     /**
      * Display a listing of the resource.
@@ -51,7 +54,9 @@ class passengerController extends Controller
      */
     public function store(Request $request)
     {    
-        $ad=0;$ch=0;$inf=0; 
+        $ad=0;$ch=0;$inf=0;
+        $mailData = array();
+        $mailTo = 0;
         for($i=0; $i < count($request->last_name); $i++)
         {
             //$checkRelative = $checkExist->where('')->get;
@@ -76,6 +81,7 @@ class passengerController extends Controller
                 {
                     $passenger = $checkExist;
                 }
+                $mailTo = $passenger;
             }
             else{
                 $dataCreate = [
@@ -140,15 +146,26 @@ class passengerController extends Controller
                     'infant' => $request->infant,
                     'ticket' => $ticketData,
                 ];
-                if($i == 0){        
-                    sendMail::dispatch($data, $passenger)->delay(now()->addMinute(1));
-                }
+                array_push($mailData, $data);
             }
             if($ad < $request->adult){$ad++;}
             else if($ch < $request->children){$ch++;}
             else if($inf < $request->infant){$inf++;}
         }
-        
+        $ticketData = session()->get('ticket');
+        foreach($ticketData as $item)
+        {
+            $flightInfo = session()->get('flightInfo');
+            $dataCreate = [
+                'flight_ID' => $item['flight_ID'],
+                'seat_class_ID' => $request->seatClass,
+                'booked_seat' => $flightInfo['adult'] + $flightInfo['children'] + $flightInfo['infant'],
+            ];
+            $bookedSeat = $this->bookedSeatModel->create($dataCreate);
+        }
+
+        sendMail::dispatch($mailData, $mailTo)->delay(now()->addMinute(1));
+
         
         session()->forget('ticket');
         return redirect()->route('home');
