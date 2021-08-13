@@ -29,10 +29,22 @@ class aircraftController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $aircrafts = $this->aircraftModel->latest('id')->paginate(10);
-        return view('manage.aircraft.index')->with('aircrafts', $aircrafts);
+        if($request->ajax())
+        {
+            $aircrafts = $this->aircraftModel->search($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.aircraft.aircraft_tbl')->with(['aircrafts' => $aircrafts,])->render(),
+            ],200);
+        }
+        else
+        {
+            $aircrafts = $this->aircraftModel->latest('id')->paginate(10);
+            return view('manage.aircraft.index')->with('aircrafts', $aircrafts);
+        }
     }
 
     /**

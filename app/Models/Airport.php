@@ -22,4 +22,13 @@ class Airport extends Model
     {
         return $this->belongsToMany("App\Models\Flight");
     }
+
+    public function search($query)
+    {
+        return $this->whereHas('city', function($q) use ($query){
+            $q->where('name','like','%'.$query.'%');
+        })->orWhere(function($q) use ($query){
+            $q->where('name', 'like', '%'.$query.'%');
+        })->latest('id')->paginate(10);
+    }
 }

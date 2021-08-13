@@ -43,42 +43,30 @@ class User extends Authenticatable
     //     $this->attributes['password'] = Hash::make($value);
     // }
 
-
-    public function scopeWithRole($query, $role)
+    public function searchUser($query)
     {
-        $query->when($role,
-        fn($query, $q) => $query->whereHas('roles', fn($q) => $q->where('name', $role)));
+        return $this->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','admin');
+        })->where(function($q) use ($query){
+            $q->where('name', 'like', '%'.$query.'%')
+                    ->orWhere('email', 'like', '%'.$query.'%')
+                    ->orWhere('ID_number', 'like', '%'.$query.'%')
+                    ->orWhere('address', 'like', '%'.$query.'%')
+                    ->orWhere('phone', 'like', '%'.$query.'%');
+        })->latest('id')->paginate(10);
     }
 
-    public function scopeWithName($query,$name)
+    public function searchAdmin($query)
     {
-        $query->when($name,fn($q)=>$q->where('name','LIKE','%'.$name.'%'));
-    }
-
-
-    public function scopeWithEmail($query, $email)
-    {
-        $query->when($email,fn($q)=>$q->where('email','LIKE','%'.$email.'%'));
-    }
-
-    public function scopeWithAddress($query, $address)
-    {
-        $query->when($address,fn($q)=>$q->where('address','LIKE','%'.$address.'%'));
-    }
-
-    public function scopeWithPhone($query, $phone)
-    {
-        $query->when($phone,fn($q)=>$q->where('phone','LIKE','%'.$phone.'%'));
-    }
-
-    public function search(array $condition)
-    {
-        return $this->withName($condition['name'])
-                    ->withEmail($condition['email'])
-                    ->withRole($condition['role'])
-                    ->withAddress($condition['address'])
-                    ->latest('id')
-                    ->paginate(10);
+        return $this->whereHas('roles', function($q){
+            $q->where('name','!=','super-admin')->where('name','!=','user');
+        })->where(function($q) use ($query){
+            $q->where('name', 'like', '%'.$query.'%')
+                    ->orWhere('email', 'like', '%'.$query.'%')
+                    ->orWhere('ID_number', 'like', '%'.$query.'%')
+                    ->orWhere('address', 'like', '%'.$query.'%')
+                    ->orWhere('phone', 'like', '%'.$query.'%');
+        })->latest('id')->paginate(10);
     }
 
     public static function findOrFail($id)

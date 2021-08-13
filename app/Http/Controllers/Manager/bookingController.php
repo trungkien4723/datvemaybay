@@ -34,10 +34,22 @@ class bookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = $this->bookingModel->latest('id')->paginate(10);
-        return view('manage.booking.index')->with(['bookings' => $bookings]);
+        if($request->ajax())
+        {
+            $bookings = $this->bookingModel->search($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.booking.booking_tbl')->with(['bookings' => $bookings,])->render(),
+            ],200);
+        }
+        else
+        {
+            $bookings = $this->bookingModel->latest('id')->paginate(10);
+            return view('manage.booking.index')->with(['bookings' => $bookings]);
+        }
     }
 
     /**
