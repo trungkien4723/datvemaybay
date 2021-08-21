@@ -26,4 +26,13 @@ class Aircraft extends Model
     {
         return $this->hasOne("App\Models\Capacity", "aircraft_ID", "id");
     }
+
+    public function search($query)
+    {
+        return $this->whereHas('airline', function($q) use ($query){
+            $q->where('name','like','%'.$query.'%');
+        })->orWhere(function($q) use ($query){
+            $q->where('id', '=', $query);
+        })->latest('id')->paginate(10);
+    }
 }

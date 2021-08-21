@@ -35,4 +35,21 @@ class Booking extends Model
     {
         return $this->hasOne("App\Models\Passenger", "id", "passenger_ID");
     }
+
+    public function search($query)
+    {
+        return $this->where('booking_key', 'like', '%'.$query.'%')
+        ->orWhereHas('flight', function($q) use ($query){
+            $q->where('id', '=', $query);
+        })
+        ->orWhereHas('seatClass', function($q) use ($query){
+            $q->where('name', 'like', '%'.$query.'%');
+        })->orWhereHas('passenger', function($q) use ($query){
+            $q->where('first_name', 'like', '%'.$query.'%')
+            ->orWhere('last_name', 'like', '%'.$query.'%')
+            ->orWhere('email', 'like', '%'.$query.'%')
+            ->orWhere('ID_number', 'like', '%'.$query.'%')
+            ->orWhere('phone', 'like', '%'.$query.'%');
+        })->latest('id')->paginate(10);
+    }
 }

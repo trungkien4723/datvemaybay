@@ -31,4 +31,25 @@ class Flight extends Model
     {
         return $this->hasOne("App\Models\Aircraft", "id", "aircraft_ID");
     }
+
+    public function search($query)
+    {
+        return $this->whereHas('startAirPort', function($q) use ($query){
+            $q->where('name','like','%'.$query.'%')
+            ->orWhereHas('city', function($q) use ($query){
+                $q->where('name', 'like', '%'.$query.'%');
+            });
+        })
+        ->orWhereHas('arriveAirPort', function($q) use ($query){
+            $q->where('name','like','%'.$query.'%')
+            ->orWhereHas('city', function($q) use ($query){
+                $q->where('name', 'like', '%'.$query.'%');
+            });
+        })
+        ->orWhereHas('aircraft', function($q) use ($query){
+            $q->where('id','=',$query);
+        })
+        ->orWhereDate('start_time', '=', date("Y-m-d", strtotime($query)))
+        ->latest('id')->paginate(10);
+    }
 }

@@ -27,10 +27,22 @@ class airlineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $airlines = $this->airlineModel->latest('id')->paginate(10);
-        return view('manage.airline.index')->with('airlines', $airlines);
+        if($request->ajax())
+        {
+            $airlines = $this->airlineModel->search($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.airline.airline_tbl')->with(['airlines' => $airlines,])->render(),
+            ],200);
+        }
+        else
+        {
+            $airlines = $this->airlineModel->latest('id')->paginate(10);
+            return view('manage.airline.index')->with('airlines', $airlines);
+        }
     }
 
     /**

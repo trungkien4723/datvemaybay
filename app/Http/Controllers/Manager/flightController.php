@@ -27,10 +27,22 @@ class flightController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $flights = $this->flightModel->latest('id')->paginate(10);
-        return view('manage.flight.index')->with('flights', $flights);
+        if($request->ajax())
+        {
+            $flights = $this->flightModel->search($request->search);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.flight.flight_tbl')->with(['flights' => $flights,])->render(),
+            ],200);
+        }
+        else
+        {
+            $flights = $this->flightModel->latest('id')->paginate(10);
+            return view('manage.flight.index')->with('flights', $flights);
+        }
     }
 
     /**

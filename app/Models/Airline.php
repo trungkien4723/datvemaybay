@@ -18,4 +18,9 @@ class Airline extends Model
     {
         return $this->belongsToMany("App\Models\Aircraft");
     }
+
+    public function search($query)
+    {
+        return $this->where('name', 'like', '%'.$query.'%')->latest('id')->paginate(10);
+    }
 }
