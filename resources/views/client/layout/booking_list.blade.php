@@ -4,14 +4,14 @@
         <div class="row justify-content-center" style="padding: 2rem;">
             <div class="card" id="find-flight" style="width: 80rem;">
                 <div class="card-body">                
-                    <div class="col-md-12">
+                    <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-sm-6 col-xs-12">
                             @php $totalPassenger = session('flightInfo')['adult'] + session('flightInfo')['children'] + session('flightInfo')['infant'] @endphp
                                 <div class="my-2">Bay từ --> {{ session('flightInfo')['startCity']->name }} --> đến --> {{ session('flightInfo')['arriveCity']->name }}</div>
                                 <div class="my-2">Ngày {{ session('flightInfo')['startDate'] }} @if(session('flightInfo')['backDate'])>> Ngày {{ session('flightInfo')['backDate'] }}@endif | {{ $totalPassenger }} du khách | {{ session('flightInfo')['seatClass']->name }}</div>
                             </div>
-                            <div class="col-4" id="choosed_flight">
+                            <div class="col-lg-4 col-sm-4 col-xs-12" id="choosed_flight">
                                 @if(session('ticket'))
                                     @foreach(session('ticket') as $id => $item)
                                         <div>Mã chuyến bay: {{$item['flight_ID']}}</div>
@@ -59,19 +59,19 @@
                 $capacity = App\Models\Capacity::where('aircraft_ID', '=', $flight->aircraft_ID)->where('seat_class_ID', '=', session('flightInfo')['seatClass']->id)->first()
             @endphp
         @if($capacity->capacity >= ($totalbooked + $totalPassenger))    
-        <div class="card my-1 mx-auto" id="find-flight" style="width: 80rem;">
+        <div class="card my-1 mx-auto" id="find-flight">
             <div class="card-body">
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
                             <div>{{date("d-m-Y H:i", strtotime($flight->start_time))}}</div>
                             <div>Từ - {{$flight->startAirport->name}} ( {{ session('flightInfo')['startCity']->name }} ) </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
                             <div>{{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</div>
                             <div>Đến - {{$flight->arriveAirport->name}} ( {{ session('flightInfo')['arriveCity']->name }} ) </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-lg-2 col-sm-2 col-xs-12">
                            <div>Máy bay: {{$flight->aircraft_ID}}-{{$flight->aircraft->airline->name}}</div>
                            <div>mã chuyến bay: {{$flight->id}}</div>
                            @php
@@ -82,7 +82,7 @@
                            @endphp
                            <div>giá: {{number_format($price)}}</div>
                         </div>
-                        <div class="col-2 ">
+                        <div class="col-lg-2 col-sm-2 col-xs-12">
                             <a href="#"
                                 class="btn btn-warning btn-block text-center add_flight" 
                                 role="button"

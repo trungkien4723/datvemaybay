@@ -1,22 +1,22 @@
 
-<div class="card" id="find-flight" style="width: 50rem;">
+<div class="card" id="find-flight" style="max-width: 50rem;">
 <div class="card-header">Tìm chuyến bay</div>
     <div class="card-body">
     <form method="GET" action="{{route('booking')}}"  enctype="multipart/form-data" >
                 @csrf              
-            <div class="col-md-12">
+            <div class="col-12">
             <!--Địa điểm-->
                 <div class="row">
-                    <label for="flight_from" class="col-md-2 col-form-label ">{{ __('Bay từ') }}</label>
-                    <div class="col-md-3">
+                    <label for="flight_from" class="col-lg-2 col-sm-2 col-xs-12 col-form-label ">{{ __('Bay từ') }}</label>
+                    <div class="col-lg-3 col-sm-3 col-xs-12">
                         <select name="flight_from" class="form-control bootstrap-select ">
                             @foreach($cities as $item)
                                 <option value="{{$item->id}}" {{$item->id == 1 ? 'selected' : ''}}>{{$item->name}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <label for="flight_to" class="col-md-2 col-form-label ">{{ __('Đến') }}</label>
-                    <div class="col-md-3">
+                    <label for="flight_to" class="col-lg-2 col-sm-2 col-xs-12 col-form-label ">{{ __('Đến') }}</label>
+                    <div class="col-lg-3 col-sm-3 col-xs-12">
                         <select name="flight_to" class="form-control bootstrap-select ">
                             @foreach($cities as $item)
                                 <option value="{{$item->id}}" {{$item->id == 2 ? 'selected' : ''}}>{{$item->name}}</option>
@@ -27,8 +27,8 @@
 
             <!--Ngày-->
                 <div class="row">
-                    <label for="date_from" class="col-md-2 col-form-label ">{{ __('Ngày đi') }}</label>
-                    <div class="col-md-3">
+                    <label for="date_from" class="col-lg-2 col-sm-2 col-xs-12 col-form-label ">{{ __('Ngày đi') }}</label>
+                    <div class="col-lg-3 col-sm-3 col-xs-12">
                         <input name="date_from" id="date_from" type="date" class="form-control @error('date_from') is-invalid @enderror autofocus"/>
                         @error('date_from')
                             <span class="invalid-feedback" role="alert">
@@ -36,8 +36,8 @@
                             </span>
                         @enderror
                     </div>                    
-                    <label for="date_to" class="col-md-2 col-form-label container_date_to">{{ __('Ngày về') }}</label>
-                    <div class="col-md-3">
+                    <label for="date_to" class="col-lg-2 col-sm-2 col-xs-12 col-form-label container_date_to">{{ __('Ngày về') }}</label>
+                    <div class="col-lg-3 col-sm-3 col-xs-12">
                         <input name="date_to" id="date_to" type="date" class="form-control @error('date_to') is-invalid @enderror autofocus container_date_to"/>
                         @error('date_to')
                             <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                     </div>
 
                     
-                    <div class="form-check col-md-2">
+                    <div class="form-check col-lg-2 col-sm-2 col-xs-12">
                         <label class="form-check-label" for="check_date_back">{{__('Khứ hồi')}}</label>
                         <input name="check_date_back" class="chk_date_to form-check-input @error('date_to') is-invalid @enderror" type="checkbox" value="" id="flexCheckDefault">                            
                     </div>
@@ -55,8 +55,8 @@
 
             <!--Hạng ghế-->
                 <div class="row">
-                    <label for="seat_class" class="col-md-2 col-form-label ">{{ __('Hạng ghế') }}</label>
-                    <div class="col-md-6">
+                    <label for="seat_class" class="col-lg-2 col-sm-2 col-xs-12 col-form-label ">{{ __('Hạng ghế') }}</label>
+                    <div class="col-lg-6 col-sm-6 col-xs-12">
                         <select name="seat_class" class="form-control bootstrap-select ">
                             @foreach($seatClasses as $item)
                                 <option value="{{$item->id}}"{{$item->name == "Ghế hạng Phổ thông (Economy Class)" ? 'selected' : ''}}>{{$item->name}}</option>
@@ -67,16 +67,16 @@
 
             <!--Hành khách-->    
                 <div class="row">
-                    <label for="passengers" class="col-md-2 col-form-label ">{{ __('Hành khách') }}</label>
-                    <div class="col-md-6 dropdown">
+                    <label for="passengers" class="col-lg-2 col-sm-2 col-xs-12 col-form-label ">{{ __('Hành khách') }}</label>
+                    <div class="col-lg-6 col-sm-6 col-xs-12 dropdown">
                         <input readonly name="passengers" type="textbox" class="form-control" id="passenger_collapse" role="button" data-bs-toggle="dropdown" aria-expanded="false"/>
                         <div class="p-3 dropdown-menu stopPropagation-dropdown-menu" id="passengers_count">
                             <div class="row">
-                                <div class="form-floating col-md-6">
+                                <div class="form-floating col-6">
                                     <span>Người lớn</span>
                                     <label for="adult">(12 tuổi trở lên)</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="adult">
                                             <span class="bi bi-dash"></span>
@@ -92,11 +92,11 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-floating col-md-6">
+                                <div class="form-floating col-6">
                                     <span>Trẻ em</span>
                                     <label for="children">(từ 2-11 tuổi)</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="children">
                                             <span class="bi bi-dash"></span>
@@ -112,11 +112,11 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-floating col-md-6">
+                                <div class="form-floating col-6">
                                     <span>Em bé</span>
                                     <label for="infant">(dưới 2 tuổi)</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-6">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="infant">
                                             <span class="bi bi-dash"></span>
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                         <button type="submit" class="btn btn-primary">
                         {{ __('Tìm chuyến bay') }}
                         </button>
