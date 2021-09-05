@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8"/>
     <title>  @yield('title') </title>
     <!--CSS-->
@@ -21,8 +22,8 @@
                 <div class="container-fluid">
                     @yield('content')
                 </div>
-            </div>
         </div>
+    </div>
         @include('client.layout.footer')
     <!--JS-->
     @include('client.layout.js')
