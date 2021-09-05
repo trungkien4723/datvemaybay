@@ -16,7 +16,7 @@
     <div class="form-group my-3">
         Tìm kiếm <input type="text" class="form-control" id="search" name="search"></input>
     </div>
-    <div class="row justify-content-center table-responsive">
+    <div class="row table-responsive">
         @include('manage.airline.airline_tbl')
     </div>
 
