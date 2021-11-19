@@ -168,7 +168,7 @@ class passengerController extends Controller
 
         
         session()->forget('ticket');
-        return redirect()->route('home');
+        return redirect()->route('home')->with('message', 'Đặt vé thành công');
     }
 
     /**

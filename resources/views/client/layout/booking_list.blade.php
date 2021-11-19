@@ -209,7 +209,7 @@
             <div class="row mb-2">
                 <div class="col-12">
                     <label for="phone[]" class="col-form-label text-md-right">{{ __('Số điện thoại') }}</label>
-                    <input id="phone[]" type="tel" pattern="[0-9]{9,11}"class="form-control" name="phone[]" value="{{(auth()->user()->phone ?? '')}}" required autocomplete="phone[]">
+                    <input id="phone[]" type="tel" pattern="[0-9]{9,11}"class="form-control" name="phone[]" value="{{$i == 0 ? (auth()->user()->phone ?? '') : ''}}" required autocomplete="phone[]">
                     @error('phone[]')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -220,7 +220,7 @@
             <div class="row mb-2">
                 <div class="col-12">
                     <label for="ID_number[]" class="col-form-label text-md-right">{{ __('Số CMT/CCCD') }}</label>
-                    <input id="ID_number[]" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number[]') is-invalid @enderror" name="ID_number[]" value="{{ auth()->user()->ID_number ?? '' }}" required autocomplete="ID_number[]">
+                    <input id="ID_number[]" type="tel" pattern="^[0-9]{9}$|^[0-9]{12}$"class="form-control @error('ID_number[]') is-invalid @enderror" name="ID_number[]" value="{{$i == 0 ? (auth()->user()->ID_number ?? '') : '' }}" required autocomplete="ID_number[]">
                     @error('ID_number[]')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

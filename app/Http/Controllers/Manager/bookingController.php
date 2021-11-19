@@ -161,9 +161,9 @@ class bookingController extends Controller
      * @param  \App\Models\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function show(Booking $booking)
+    public function show()
     {
-        //
+        
     }
 
     /**
@@ -249,5 +249,18 @@ class bookingController extends Controller
         $booking = $this->bookingModel->findOrFail($id);
         $booking->update(['status'=>0]);
         return redirect()->route('bookings.index')->with('message', 'Tạm ngưng thành công');
+    }
+
+    public function Statistics(Request $request)
+    {
+        if($request->ajax())
+        {
+            $bookings = $this->bookingModel->whereBetween('booked_time', [$request->date_from, $request->date_to])->latest('id')->paginate(10);
+
+            return response()->json([
+                'code' => 200,
+                'component' => view('manage.dashboard.booking_tbl')->with(['bookings' => $bookings])->render(),
+            ],200);
+        }
     }
 }
