@@ -3,8 +3,12 @@
 @section('title', 'Home')
 
 @section('content')
-<a href="{{route('show_my_flight_form')}}">Quay lại</a>
 <div class="text-center my-5">
+@php
+    $today = date("Y-m-d");
+    $flight_date = date("d-m-Y H:i", strtotime($flight->start_time));
+@endphp
+@if($flight_date > $today)
 <table class="table table-bordered my-5">
         <tr>
             <th>Mã máy bay</th>
@@ -25,5 +29,11 @@
             </tr>
         
     </table>
+</div>
+@else
+    Mã đặt chỗ cho chuyến bay này đã được thực thi và không còn trên hệ thống!
+@endif
+<div class="justify-content-center">
+    <a href="{{route('show_my_flight_form')}}">Quay lại</a>
 </div>
 @endsection

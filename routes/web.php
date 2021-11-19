@@ -33,6 +33,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Manager', 'middleware'=>['auth','r
     Route::resource('bookings', 'bookingController');
     Route::get('bookings/active/{id}', 'bookingController@active')->name('active_booking');
     Route::get('bookings/unactive/{id}', 'bookingController@unActive')->name('unactive_booking');
+    Route::get('bookings/statistics', 'bookingController@Statistics')->name('booking_statistics');
     
 });
 

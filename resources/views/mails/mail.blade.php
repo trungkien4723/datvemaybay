@@ -61,7 +61,9 @@ Xin chào <i>{{ $data[0]['passenger']->last_name }}</i>,
 <h3>Thành tiền: {{number_format($total)}} VND</h3>
 <br>
 <br>
+Quý khách có thể sử dụng mã đặt chỗ để làm thủ tục tại sân bay.
 <br>
+Chúc quý khách có một chuyến đi thượng lộ bình an.
 <div>
    Trân thành cảm ơn.
 </div>
