@@ -26,7 +26,7 @@ $factory->define(User::class, function (Faker $faker) {
         'gender' => $faker->numberBetween(0,1),
         'birthday' => '1991/1/1',
         'address' => 'test address',
-        'phone' => $faker->numerify('03########'),
+        'phone' => $faker->numerify('#########'),
         'email_verified_at' => now(),
         'password' => Hash::make('12345678'),
         'remember_token' => Str::random(10),
