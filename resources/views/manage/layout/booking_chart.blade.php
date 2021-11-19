@@ -12,9 +12,6 @@
   </div>
   <div class="booking_chart"></div>
 </div>
-<div class="row text-center">
-  <div class="booking_table"><a href="{{route('booking_statistics', ['date_from' => '2021-30-10', 'date_to' => '2021-30-11'])}}" style="text-decoration:none;"><i class="bi bi-hand-thumbs-up"></i> - Đang kích hoạt</a></div>
-</div>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <!-- Charting library -->
@@ -36,6 +33,12 @@
             .colors()
             .datasets([{type:'line', fill:false, borderColor:'blue',}, ])
         });
+      }
+
+      function buildBookingTable()
+      {
+        var date_from = document.getElementById("date_from").value;
+        var date_to = document.getElementById("date_to").value;
 
         let table_url = '{{ route('booking_statistics') }}';
         $.ajax({
