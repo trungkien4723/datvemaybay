@@ -167,13 +167,13 @@ class HomeController extends Controller
         else if($flightInfo['seatClass']->id == 2){$price = $price * 4;}
         else if($flightInfo['seatClass']->id == 4){$price = $price * 2;}
 
-        if(now()->diffInDays($flightInfo['startDate']) < 2){
+        if(now()->diffInDays($flightInfo['startDate']) < 1){
             $price = $price * 5;
         }
-        else if(now()->diffInDays($flightInfo['startDate']) < 10){
+        else if(now()->diffInDays($flightInfo['startDate']) < 9){
             $price = $price * 3;
         }
-        else if(now()->diffInDays($flightInfo['startDate']) < 30){
+        else if(now()->diffInDays($flightInfo['startDate']) < 29){
             $price = $price * 2;
         }
 
