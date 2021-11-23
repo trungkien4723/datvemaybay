@@ -5,13 +5,14 @@
 @section('content')
 <div class="text-center my-5">
 @php
-    $today = date("Y-m-d");
+    $today = date("d-m-Y H:i");
     $flight_date = date("d-m-Y H:i", strtotime($flight->start_time));
 @endphp
-@if($flight_date > $today)
+@if($flight_date < $today)
 <table class="table table-bordered my-5">
         <tr>
             <th>Mã máy bay</th>
+            <th>Ngày đặt vé</th>
             <th>Điểm đi</th>
             <th>Thời gian khởi hành</th>
             <th>Điểm đến</th>
@@ -21,8 +22,9 @@
         
             <tr>
                 <td>{{$flight->aircraft->id}}</td>
+                <td>{{date("d-m-Y H:i", strtotime($booking->booked_time))}}</td>
+                <td>{{$flight->startAirport->name}}</td>
                 <td>{{date("d-m-Y H:i", strtotime($flight->start_time))}}</td>
-                <td>{{$flight->start_time}}</td>
                 <td>{{$flight->arriveAirport->name}}</td>
                 <td>{{date("d-m-Y H:i", strtotime($flight->arrive_time))}}</td>
                 <td>{{$booking->total_price}}</td>

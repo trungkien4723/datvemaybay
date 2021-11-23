@@ -109,8 +109,9 @@ class userController extends Controller
         {
             $user->syncRoles('user');
         } 
-
-        return redirect()->route('users.index')->with('message', 'Thêm thành công');
+        if($request->roles == 1 || $request->roles == 2){return redirect()->route('index-admin')->with('message', 'Thêm thành công');}
+        else{return redirect()->route('users.index')->with('message', 'Thêm thành công');}
+        
     }
 
     /**
@@ -163,7 +164,8 @@ class userController extends Controller
         {
             $user->syncRoles('user');
         }   
-        return redirect()->route('users.index')->with('message', 'Cập nhật thành công');
+        if($request->roles == 1 || $request->roles == 2){return redirect()->route('index-admin')->with('message', 'Cập nhật thành công');}
+        else{return redirect()->route('users.index')->with('message', 'Cập nhật thành công');}
     }
 
     /**
@@ -173,8 +175,10 @@ class userController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
+        $userRole = $this->userModel->findOrFail($id);
         $user=$this->userModel->destroy($id);
-        return redirect()->route('users.index')->with('message', 'Xóa thành công');
+        if($userRole->hasRole("admin") || $userRole->hasRole("super-admin")){return redirect()->route('index-admin')->with('message', 'Xóa thành công');}
+        else{return redirect()->route('users.index')->with('message', 'Xóa thành công');}
     }
 }
