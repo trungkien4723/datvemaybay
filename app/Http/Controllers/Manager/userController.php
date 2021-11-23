@@ -109,7 +109,7 @@ class userController extends Controller
         {
             $user->syncRoles('user');
         } 
-        if($request->roles == 1 || $request->roles == 2){return redirect()->route('index-admin')->with('message', 'Thêm thành công');}
+        if($user->hasRole("admin") || $user->hasRole("super-admin")){return redirect()->route('index-admin')->with('message', 'Thêm thành công');}
         else{return redirect()->route('users.index')->with('message', 'Thêm thành công');}
         
     }
